@@ -1,0 +1,722 @@
+/* General Card Styling */
+.package-card {
+  /* max-width: 450px; */
+  width: 100%;
+  /* border-radius: 1rem; */
+  overflow: hidden;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* ====== Header Section ====== */
+.header-section {
+  background-color: #00273e;
+  color: #ffffff;
+  padding: 50px 0px 100px 0px;
+}
+
+img.Logo {
+  width: auto;
+  max-width: 100%;
+  height: 100px;
+}
+
+.header-section p {
+  color: #2adf75;
+  font-size: 25px;
+}
+
+/* ====== Info Box ====== */
+.info-box {
+  background: #f8f9fa;
+  /* padding: 15px; */
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.info-box p {
+  margin-bottom: 0px;
+  font-size: 15px;
+  padding: 15px;
+}
+
+.d-grid .btn {
+  background: #09b366;
+  color: #ffffff;
+}
+
+p.note {
+  color: #bc5158;
+}
+
+.info-box p:nth-child(odd) {
+  background: #f2f2f2;
+}
+
+.info-box p:nth-child(even) {
+  background: #ffff;
+}
+
+/* ====== Responsive ====== */
+@media (max-width: 576px) {
+  .package-card {
+    max-width: 100%;
+    /* margin: 10px; */
+  }
+
+  .header-section h4 {
+    font-size: 19px;
+  }
+
+  .info-box p {
+    font-size: 20px;
+  }
+}
+
+/* ====== Card ====== */
+.custom-card {
+  border-radius: 10px;
+  max-width: 500px;
+  width: 100%;
+  background: #f2f2f2;
+  border: 1px solid #e0e0e0;
+}
+
+.icon-wrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f9f9f9;
+}
+
+.icon-wrapper img {
+  width: 80%;
+  height: auto;
+}
+
+.whatsapp-btn {
+  border-radius: 8px;
+  font-weight: 500;
+  background-color: #ffffff;
+}
+
+/* @media (max-width: 576px) {
+  .custom-card {
+    margin: 15px;
+  }
+} */
+
+/* WHY SHOULD YOU PICK US */
+.why-choose-us {
+  padding-top: 80px;
+  padding-bottom: 50px;
+}
+
+.why-choose-us h3 {
+  color: #000000;
+  font-weight: 700;
+}
+
+span.Pick-Us {
+  color: #03854a;
+}
+
+.feature-icon {
+  background: #de8035;
+  color: white;
+  border-radius: 50%;
+  border: 5px solid #ffb579;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 15px;
+}
+
+.why-choose-us p {
+  font-size: 20px;
+}
+
+/* ====== Testimonial Section ====== */
+.testimonial-card {
+  background-color: #fae7d5;
+  border-radius: 15px;
+  padding: 20px;
+  /* max-width: 700px; */
+  margin: auto;
+  /* box-shadow: 0px 4px 10px rgba(0,0,0,0.1); */
+}
+
+.testimonial-img {
+  width: 120px;
+  height: 270px;
+  border-radius: 45px 45px 5px 5px;
+  object-fit: cover;
+  margin-bottom: 10px;
+}
+
+.hashtag {
+  color: #09b366;
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.quote {
+  font-size: 16px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.play-btn {
+  background-color: black;
+  color: #12f28e;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.play-btn i {
+  margin-right: 6px;
+}
+
+.author {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.role {
+  font-size: 14px;
+}
+
+/* ====== Our Happy Travellers Can Vouch For Us ====== */
+.traveller-section {
+  background: linear-gradient(90deg, #fae7e1, #f8d2d1);
+  border-radius: 12px;
+  /* max-width: 700px; */
+  padding: 20px 20px 0px 20px;
+}
+
+.traveller-section h3 {
+  font-size: 28px;
+  color: #222;
+}
+
+.traveller-section .btn {
+  background: #09b468;
+  color: #ffff;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.phone-img {
+  max-width: 280px;
+}
+
+/* ====== Inclusions ====== */
+
+.inclusion-heading {
+  border-bottom: 2px solid #c0753b;
+  display: inline-block;
+  padding-bottom: 5px;
+  font-weight: 700;
+}
+
+.inclusion-box {
+  background: #f2f2f2;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  /* box-shadow: 0 1px 3px rgba(0,0,0,0.08); */
+  /* transition: all 0.3s ease; */
+}
+
+.Inclusion-right-sec img {
+  width: auto;
+  max-width: 100%;
+  height: 500px;
+}
+
+.inclusion-box .number {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.Inclusion-right-sec {
+  text-align: end;
+}
+
+@media (max-width: 576px) {
+  .Inclusion-right-sec {
+    text-align: center;
+  }
+}
+
+/* ====== Our Travel Partners ====== */
+/* .partners-section {
+  background: #f8f9fa;
+} */
+
+.partners-section {
+  margin-top: 50px;
+}
+
+.partners-sec {
+  background: #f2f2f2;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 30px;
+}
+
+.section-title {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+span.highlight {
+  color: #03854a;
+}
+
+/* Partner cards */
+.partner-card {
+  /* background: #fff;
+  border-radius: 12px; */
+  padding: 20px;
+}
+
+.partner-card img {
+  max-height: 80px;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 576px) {
+  .partners-section {
+    margin-top: 0px;
+  }
+}
+
+/* ====== Vacation Summary Section ====== */
+.vation-section {
+  padding-top: 50px;
+}
+
+.Vacation-title {
+  font-weight: 700;
+  border-bottom: 2px solid #c0753b;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* ====== Table Css ====== */
+
+.table-section {
+  padding-top: 20px;
+}
+
+.vacation-table {
+  border: 1px solid #dee2e6;
+}
+
+.vacation-table th {
+  background: #054b66;
+  color: #ffffff;
+  font-size: 17px;
+  padding: 15px;
+  border: 1px solid #207898;
+}
+
+.vacation-table td {
+  vertical-align: top;
+  padding: 15px;
+  font-size: 15px;
+}
+
+.date-row {
+  background-color: #fae7d5;
+  font-weight: 600;
+}
+
+/* ====== Customising trips, now at your fingertips ====== */
+.customising-section {
+  background: linear-gradient(90deg, #076193, #044468);
+  border-radius: 12px;
+  /* max-width: 700px; */
+  padding: 20px 20px 0px 20px;
+}
+
+.customising-section h3 {
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.customising-section .btn {
+  background: #11f08d;
+  color: #000000;
+  font-weight: 500;
+  border-radius: 8px;
+}
+
+.customisingphone-img {
+  max-width: 280px;
+}
+
+/* ====== Daywise Plan Section ====== */
+
+.daywise-heade {
+  background-color: #054b66;
+  margin-top: 50px;
+}
+
+span.badge {
+  background: #f5f5f5;
+  font-size: 15px;
+  color: #777777;
+  font-weight: 400;
+  padding: 10px 20px;
+  border-radius: 5px;
+}
+
+.transfer-box {
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #fafafa;
+  text-align: left;
+}
+
+h5.card-title.text-uppercase.w-100 {
+  font-weight: 700;
+}
+
+p.box-title {
+  color: #777777;
+  font-size: 15px;
+}
+
+p.box-detail {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.car-img {
+  width: 150px;
+  height: auto;
+  /* padding: 15px; */
+  object-fit: contain;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+}
+
+.card {
+  border-radius: 12px;
+}
+
+.card-info {
+  display: flex;
+  align-items: center;
+  margin-top: 15px;
+}
+
+@media (max-width: 576px) {
+  .card-info {
+    display: block;
+  }
+}
+
+/* 
+.card-body {
+  padding: 2rem;
+} */
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 0px;
+  background: #fff;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px dotted #999;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 12px;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 12px;
+}
+
+/* 
+.divider {
+  
+} */
+
+/* Hotel Card */
+.hotel-card {
+  overflow: hidden;
+}
+
+.hotel-card img {
+  object-fit: cover;
+}
+
+.inclusion-card-body {
+  padding: 10px;
+}
+
+.inclusions-box {
+  background-color: #fefaf5;
+  border: 1px solid #d1d1d1;
+}
+
+span.inclusion-badge {
+  background: #25945c;
+  padding: 10px;
+  color: #ffffff;
+  border-radius: 8px 0px;
+}
+
+.inclusions-box p {
+  font-size: 15px;
+}
+
+.inclusion-content {
+  padding: 10px 10px 0px 10px;
+}
+
+/* Activity Inclusion Box */
+.main-inclusion {
+  padding-top: 30px;
+}
+
+.activity-inclusion-box {
+  background-color: #eaf9f1;
+  overflow: hidden;
+}
+
+.inclusion-header {
+  background-color: #25945c;
+}
+
+.inclusion-body {
+  background-color: #e9faf1;
+  color: #2c9b5b;
+  font-weight: 500;
+}
+
+.inclusion-body i {
+  color: #499672;
+  font-size: 20px;
+}
+
+.inclusion-body p {
+  font-size: 20px;
+}
+
+/* Activity Exclusion Box */
+
+.activity-exclusion-box {
+  background-color: #eaf9f1;
+  overflow: hidden;
+}
+
+.exclusion-header {
+  background-color: #bc5058;
+}
+
+.exclusion-body {
+  background-color: #fae9eb;
+  color: #bc5058;
+  font-weight: 500;
+}
+
+.exclusion-body i {
+  color: #bc5058;
+  font-size: 20px;
+}
+
+.exclusion-body p {
+  font-size: 20px;
+}
+
+/* ====== Visa Section ====== */
+
+.visa-section {
+  padding-top: 30px;
+}
+
+.visa-title {
+  font-weight: 700;
+  border-bottom: 2px solid #c0753b;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+.visa-content {
+  background: #f2f2f2;
+  /* padding: 30px 0px 14px 0px; */
+  padding: 30px 0px 0px 0px;
+  border-radius: 10px;
+}
+
+.visa-content li {
+  font-size: 17px;
+}
+
+ul.warning {
+  font-size: 17px;
+  color: #8f742d;
+  background: #ece4d0;
+  margin-bottom: 0;
+  padding: 10px 13px 14px 13px;
+  border-radius: 0px 0px 10px 10px;
+}
+
+/* ====== Payment Policy Section ====== */
+
+.payment-section {
+  border-radius: 12px;
+}
+
+thead.payment-table-header th {
+  background: #fae7d5;
+  color: #7d4b26;
+  font-weight: 600;
+}
+
+.payment-section td {
+  background: #fefaf5;
+}
+
+/* table th, table td {
+  vertical-align: middle;
+} */
+
+/* .btn-success {
+  font-weight: bold;
+  border-radius: 12px;
+} */
+
+button.payment-btn {
+  background: #09b366;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+}
+
+/* h3 {
+  color: #000;
+} */
+
+/* small.text-warning {
+  font-size: 0.85rem;
+  font-weight: 500;
+} */
+
+small.includes-tcs {
+  color: #9e7f45;
+}
+
+/* ====== Important To Know Section ====== */
+
+h5.important-title {
+  color: #9e7f45;
+}
+
+.important-content {
+  background: #f2f2f2;
+  padding: 30px 10px 30px 0px;
+  border-radius: 10px;
+}
+
+.important-section ul {
+  margin-bottom: 0;
+}
+
+/* ====== Terms And Conditions Section ====== */
+
+.custom-table {
+  border-radius: 10px;
+  overflow: hidden;
+  /* box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); */
+  background: #fff;
+}
+
+/* .custom-table thead {
+  background-color: #fbe9e1;
+  color: #000;
+  font-weight: 600;
+} */
+
+.custom-table th {
+  background: #fae7d5;
+  color: #7d4b26;
+  font-weight: 600;
+}
+
+.custom-table td {
+  background: #fefaf5;
+}
+
+.custom-table th,
+td {
+  border-style: none;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 15px 20px;
+  vertical-align: middle;
+}
+
+/* .custom-table tbody tr:nth-child(even) {
+  background-color: #fff;
+}
+
+.custom-table tbody tr:nth-child(odd) {
+  background-color: #fff;
+} */
+
+/* Responsive text */
+@media (max-width: 768px) {
+
+  .custom-table th,
+  .custom-table td {
+    font-size: 14px;
+    padding: 12px 10px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .custom-table th,
+  .custom-table td {
+    font-size: 12px;
+    padding: 10px 8px;
+  }
+}

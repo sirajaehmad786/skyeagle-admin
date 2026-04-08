@@ -1,0 +1,139 @@
+.dataTables_wrapper  .bottom{
+    margin-top: 15px;
+}
+.select2-selection.is-invalid{
+  border-color: #f15776 !important;padding-right:calc(1.5em + .75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(.375em + 1.3875rem) center;background-size:calc(.75em + .375rem) calc(.75em + .375rem)
+}
+.select2-selection.is-valid{
+    border-color: #47ad77 !important;
+    padding-right:calc(1.5em + .75rem);background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23198754' d='M2.3 6.73.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right calc(.375em + 1.4875rem) center;background-size:calc(.75em + .375rem) calc(.75em + .375rem)
+}
+.ql-editor.is-invalid{border:1px solid #f15776; border-radius:0 0 2px 2px;}
+
+.pay-paid span{color: #47ad77;}
+.pay-due span{color: #f15776;}
+.select2-search.select2-search--inline .select2-search__field{width:85% !important}
+table.dataTable tbody td {
+    vertical-align: top !important;
+}
+.modal-dialog.modal-right{
+    justify-content: flex-start;
+}
+.table-bordered > :not(caption) > * {
+  border-width: 0;
+}
+.booking-disable-cls{
+  background-color: rgba(0,0,0,0.05) !important;
+}
+
+.datatable-sight-img {
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* .is-invalid{
+    border:1px solid #dc3545 !important;
+}
+
+.quill-wrapper.quill-error .ql-container{
+    border:1px solid #dc3545 !important;
+} */
+
+
+.document-preview{
+    display:flex;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.preview-item{
+    width:200px;
+    height:160px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    position:relative;
+    padding:10px;
+    background:#fff;
+}
+
+.preview-item img{
+    width:100%;
+    height:90px;
+    object-fit:cover;
+    border-radius:6px;
+}
+
+.file-box{
+    height:90px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f1f1f1;
+    border-radius:6px;
+    font-size:30px;
+}
+
+.file-name{
+    font-size:13px;
+    margin-top:6px;
+    word-break:break-all;
+}
+
+.remove-btn{
+    position:absolute;
+    top:5px;
+    right:5px;
+    border:none;
+    background:red;
+    color:#fff;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+    font-size:14px;
+    cursor:pointer;
+}
+
+/* Global: horizontal scroll for tables – single scroll on wrapper, no inner scroll */
+.table-responsive-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/*
+ * CRM list tables via initDataTable: only horizontal scrolling on the table strip.
+ * overflow-x:auto otherwise forces overflow-y to behave like auto, which shows a useless vertical bar.
+ * Scoped so role list (scrollY in inline DataTable) is unchanged.
+ */
+.table-responsive-scroll.dt-horizontal-scroll-only {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.table-responsive-scroll.dt-horizontal-scroll-only div.dataTables_scrollBody {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+}
+.table-responsive-scroll table.dataTable {
+    min-width: 1200px;
+}
+.table-responsive-scroll table.dataTable th,
+.table-responsive-scroll table.dataTable td {
+    white-space: nowrap;
+    vertical-align: middle !important;
+    padding: 0.5rem 0.75rem;
+}
+.table-responsive-scroll table.dataTable .btn-sm {
+    white-space: nowrap;
+}
+.table-responsive-scroll table.dataTable .cell-nowrap,
+.table-responsive-scroll table.dataTable .booking-cell-nowrap {
+    white-space: nowrap;
+}
+.table-responsive-scroll table.dataTable .journey-date-cell {
+    line-height: 1.4;
+}
+.table-responsive-scroll table.dataTable .journey-date-cell strong {
+    font-weight: 600;
+}
