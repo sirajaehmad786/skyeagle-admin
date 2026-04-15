@@ -42,3 +42,40 @@ $(document).on('change', '#city', function () {
         }
     })
 })
+
+// GLOBAL CANCEL CONFIRMATION
+
+window.initCancelConfirmation = function ({
+    formSelector = 'form',
+    cancelBtnSelector = '.btn-outline-secondary',
+    modalId = 'cancelModal'
+} = {}) {
+
+    let formChanged = false;
+
+    const form = document.querySelector(formSelector);
+    const cancelBtn = document.querySelector(cancelBtnSelector);
+
+    if (!form || !cancelBtn) return;
+
+    // Track changes
+    form.querySelectorAll('input, textarea, select').forEach(el => {
+        el.addEventListener('input', () => formChanged = true);
+        el.addEventListener('change', () => formChanged = true);
+    });
+
+    // Cancel click
+    cancelBtn.addEventListener('click', function (e) {
+        if (formChanged) {
+            e.preventDefault();
+            new bootstrap.Modal(document.getElementById(modalId)).show();
+        } else {
+            history.back();
+        }
+    });
+
+    // Reset (optional use)
+    window.resetFormChanged = function () {
+        formChanged = false;
+    };
+};

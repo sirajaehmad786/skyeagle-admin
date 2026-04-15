@@ -13,16 +13,13 @@ use App\Http\Controllers\Crm\Master\HotelController;
 use App\Http\Controllers\Crm\Master\SightSeeingController;
 use App\Http\Controllers\Crm\LeadController;
 use App\Http\Controllers\Crm\NotificationController;
+use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\PaymentController;
 use App\Http\Controllers\Crm\QuotationController;
 use App\Http\Controllers\Crm\SettingController;
 use App\Http\Controllers\RoutingController;
-use App\Models\Payment;
-use App\Models\Quotation;
-use App\Notifications\AdminTestNotification;
 use App\Notifications\SystemNotification;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
 
 require __DIR__.'/auth.php';
@@ -42,6 +39,10 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::resource("roles", RoleController::class);
     Route::resource("users", UserController::class);
 
+    //Package routes
+    Route::resource("package", PackageController::class);
+    Route::get('/cities/search', [PackageController::class, 'search'])->name('cities.search');
+    
     //Contact routes
     Route::resource("contact", ContactController::class);
     Route::POST("contact/import", [ContactController::class, 'import'])->name('contact.import');

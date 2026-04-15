@@ -64,6 +64,13 @@
                 </li>
             @endcan
             
+            <li class="side-nav-item">
+                <a href="{{ route('package.index') }}" class="side-nav-link">
+                    <i class="ri-archive-line"></i>
+                    <span> Package </span>
+                </a>
+            </li>
+
             @can('user-list')
                 <li class="side-nav-item {{ request()->routeIs('users.*') ? 'menuitem-active' : '' }}">
                     <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">

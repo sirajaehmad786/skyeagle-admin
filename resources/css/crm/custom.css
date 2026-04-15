@@ -137,3 +137,84 @@ table.dataTable tbody td {
 .table-responsive-scroll table.dataTable .journey-date-cell strong {
     font-weight: 600;
 }
+
+/* ================= INFO BOX ================= */
+.info-box {
+    background: #eef2f7;
+    padding: 14px 16px;
+    border-radius: 10px;
+    height: 100%;
+    border: 1px solid #d6dbe1;
+    border-left: 4px solid #0d6efd;
+    transition: all 0.2s ease-in-out;
+}
+
+.info-box:hover {
+    background: #e4e9f0;
+    border-color: #c8ced6;
+}
+
+.info-box label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 4px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.info-box p {
+    font-weight: 600;
+    margin: 0;
+    color: #1f2d3d;
+    font-size: 15px;
+}
+
+
+/* ================= CONTENT BOX ================= */
+/* (Description / Inclusion / Exclusion text) */
+.content-box {
+    background: #ffffff;
+    border: 1px solid #e3e6ea; /* restore border */
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.6;
+}
+
+.content-box.small {
+    font-size: 14px;
+}
+
+
+/* ================= CUSTOM CARD ================= */
+.custom-card {
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid transparent; /* important fix */
+    height: 100%;
+    background: #fff;
+}
+
+/* Inclusion */
+.custom-card.success {
+    border: 1px solid #28a745;
+    background: #f4fff7;
+}
+
+/* Exclusion */
+.custom-card.danger {
+    border: 1px solid #dc3545;
+    background: #fff5f5;
+}
+
+.custom-card h6 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#demoDropzone {
+    cursor: pointer;
+}
+
+#demoDropzone .dz-message {
+    pointer-events: all !important;
+}
