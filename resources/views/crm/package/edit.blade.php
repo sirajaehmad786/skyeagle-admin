@@ -85,7 +85,7 @@
                         <div class="mb-3">
                             <label class="form-label">Start Date <span class="text-danger">*</span></label>
                             <input type="text" id="start_date" name="start_date"
-                                class="form-control"
+                                class="form-control" autocomplete="off"
                                 value="{{ \Carbon\Carbon::parse($package->start_date)->format('d-m-Y') }}">
                         </div>
                     </div>
@@ -93,7 +93,7 @@
                         <div class="mb-3">
                             <label class="form-label">End Date <span class="text-danger">*</span></label>
                             <input type="text" id="end_date" name="end_date"
-                                class="form-control"
+                                class="form-control" autocomplete="off"
                                 value="{{ \Carbon\Carbon::parse($package->end_date)->format('d-m-Y') }}">
                         </div>
                     </div>

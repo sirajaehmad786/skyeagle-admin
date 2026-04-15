@@ -218,3 +218,64 @@ table.dataTable tbody td {
 #demoDropzone .dz-message {
     pointer-events: all !important;
 }
+
+.image-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    /* Aspect ratio fix karne ke liye */
+    aspect-ratio: 1 / 1; /* Isse square box banega, aap 4/3 bhi kar sakte hain */
+    width: 100%;
+}
+
+.package-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image ko box ke andar bina stretch kiye fit karega */
+    transition: transform 0.4s ease;
+    display: block;
+}
+
+.image-card:hover .package-img {
+    transform: scale(1.1);
+}
+
+/* Overlay & Button Styling */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.image-card:hover .overlay {
+    opacity: 1;
+}
+
+.view-btn {
+    background: #fff;
+    color: #000;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.view-btn:hover {
+    background: #0d6efd;
+    color: #fff;
+}

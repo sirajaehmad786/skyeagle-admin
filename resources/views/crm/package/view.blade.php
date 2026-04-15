@@ -136,6 +136,33 @@
                         {!! $package->description !!}
                     </div>
                 </div>
+                {{-- ================= PACKAGE IMAGES ================= --}}
+                @if($package->images && $package->images->count())
+                    <div class="mb-4">
+                        <h5 class="section-title mb-3">
+                            Package Gallery ({{ $package->images->count() }} Images)
+                        </h5>
+                        <div class="row g-3">
+                            @foreach($package->images as $image)
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="image-card">
+                                        <img src="{{ asset('storage/' . $image->image) }}" 
+                                            class="package-img"
+                                            alt="package-image">
+                                        
+                                        <div class="overlay">
+                                            <a href="{{ asset('storage/' . $image->image) }}" 
+                                            target="_blank" 
+                                            class="view-btn">
+                                                <i class="ri-eye-line"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
                 <div class="row g-4">
                     <div class="col-md-6">
                         <div class="custom-card success">

@@ -105,26 +105,20 @@ class PackageRepository extends BaseRepository
         if (!$request->removed_images) {
             return;
         }
-
         $images = json_decode($request->removed_images, true);
-
         if (!is_array($images)) {
             return;
         }
-
         foreach ($images as $img) {
-
-            // delete from storage
             if (Storage::disk('public')->exists($img['path'])) {
                 Storage::disk('public')->delete($img['path']);
             }
-
-            // delete from DB
             DB::table('package_images')
                 ->where('id', $img['id'])
                 ->delete();
         }
     }
+
     public function delete($id)
     {
         $package = Package::findOrFail($id);
