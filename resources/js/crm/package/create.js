@@ -15,9 +15,43 @@ document.addEventListener("DOMContentLoaded", function () {
             ],
         },
     });
+
+    const inclusionsQuill = new Quill("#inclusions-editor", {
+    theme: "snow",
+        modules: {
+            toolbar: [
+                [{ size: [] }],
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link"],
+            ],
+        },
+    });
+
+    const exclusionsQuill = new Quill("#exclusions-editor", {
+        theme: "snow",
+        modules: {
+            toolbar: [
+                [{ size: [] }],
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link"],
+            ],
+        },
+    });
     
     quill.on('text-change', function () {
         document.querySelector('#description').value = quill.root.innerHTML;
+    });
+
+    inclusionsQuill.on('text-change', function () {
+    document.querySelector('#inclusions').value = inclusionsQuill.root.innerHTML;
+    });
+
+    exclusionsQuill.on('text-change', function () {
+        document.querySelector('#exclusions').value = exclusionsQuill.root.innerHTML;
     });
 
     const startPicker = flatpickr("#start_date", {
@@ -83,6 +117,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     initAjaxFormValidation("#create_package", {
         package_name: { required: true },
+        short_title: { required: true },
+        category_id: { required: true },
         source_city_id: { required: true },
         destination_city_id: { required: true },
         price: { required: true },
@@ -90,17 +126,21 @@ document.addEventListener("DOMContentLoaded", function () {
         max_people: { required: true },
         start_date: { required: true },
         end_date: { required: true },
-        description: { required: true }
+        description: { required: true },
+        'faq_question[]': { required: true },
+        'faq_answer[]': { required: true }
     }, {}, {
 
         skipRequiredFor: [
-            "package_name", "source_city_id", "destination_city_id",
+            "package_name", "short_title", "source_city_id", "destination_city_id",
             "price", "min_people", "max_people",
             "start_date", "end_date", "description"
         ],
 
         beforeSubmit: function () {
             $('#description').val(quill.root.innerHTML);
+            $('#inclusions').val(inclusionsQuill.root.innerHTML);
+            $('#exclusions').val(exclusionsQuill.root.innerHTML);
             let dz = window.myDropzone;
             document.querySelectorAll('.dz-hidden-input').forEach(e => e.remove());
             if (dz && dz.files.length > 0) {
@@ -179,4 +219,41 @@ $('#source_city_id, #destination_city_id').on('change', function () {
     if (source && destination && source === destination) {
         $(this).val(null).trigger('change');
     }
+});
+
+
+// ================= FAQ Dynamic =================
+$(document).ready(function () {
+    $('#add-faq').on('click', function () {
+        let faqHtml = `
+            <div class="faq-item card mb-3 p-3 position-relative shadow-sm">
+                <button type="button" class="btn btn-danger btn-sm remove-faq-btn">
+                    <i class="ri-close-line"></i>
+                </button>
+                <div class="mb-2">
+                    <input type="text" name="faq_question[]" class="form-control" placeholder="Enter Question" required>
+                </div>
+                <div>
+                    <textarea name="faq_answer[]" class="form-control" placeholder="Enter Answer" rows="2" required></textarea>
+                </div>
+            </div>
+        `;
+        $('#faq-wrapper').append(faqHtml);
+    });
+
+    $(document).on('click', '.remove-faq-btn', function () {
+        let totalFaqs = $('.faq-item').length;
+        if (totalFaqs <= 1) {
+            showToastmessage("At least one FAQ is required", "error");
+            return;
+        }
+        $(this).closest('.faq-item').remove();
+    });
+});
+
+$(document).ready(function () {
+    $('#category_id').select2({
+        placeholder: "Select Category",        
+        width: '100%'
+    });
 });

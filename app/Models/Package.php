@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Package extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['package_name','slug','source_city_id','destination_city_id','price','min_people','max_people','start_date','end_date','video_url','description','inclusions','exclusions','status','created_by'];
+    protected $fillable = ['package_name','categories_id','short_title','slug','source_city_id','destination_city_id','price','min_people','max_people','start_date','end_date','video_url','description','inclusions','exclusions','status','created_by'];
     protected $dates = ['start_date', 'end_date'];
     
     protected static function boot()
@@ -30,6 +30,9 @@ class Package extends Model
         static::deleting(function ($package) {
             $package->images->each(function ($image) {
                 $image->delete();
+            });
+            $package->faqs->each(function ($faq) {
+                $faq->delete();
             });
         });
     }
@@ -61,9 +64,19 @@ class Package extends Model
             'text' => "{$days} Days / {$nights} Nights"
         ];
     }
-
+    
     public function images()
     {
         return $this->hasMany(PackageImage::class,'package_id');
+    }
+
+    public function faqs()
+    {
+        return $this->hasMany(PackageFaqs::class, 'package_id');
+    }
+    
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

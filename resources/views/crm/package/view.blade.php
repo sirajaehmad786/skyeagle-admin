@@ -44,6 +44,12 @@
                     </div>
                     <div class="col-md-4">
                         <div class="info-box">
+                            <label>Short Title</label>
+                            <p>{{ $package->short_title }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
                             <label>Min People</label>
                             <p>{{ $package->min_people }}</p>
                         </div>
@@ -180,6 +186,31 @@
                             </div>
                         </div>
                     </div>
+                    @if(!empty($package->faqs) && $package->faqs->count())
+                        <div class="mb-4 mt-4">
+                            <h5 class="section-title">Frequently Asked Questions</h5>
+                            <div class="accordion" id="faqAccordion">
+                                @foreach($package->faqs as $key => $faq)
+                                    <div class="accordion-item mb-2 border rounded">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse"
+                                                data-bs-target="#faq{{ $key }}">
+                                                {{ $faq->question ?? '-' }}
+                                            </button>
+                                        </h2>
+                                        <div id="faq{{ $key }}" 
+                                            class="accordion-collapse collapse"
+                                            data-bs-parent="#faqAccordion">
+                                            <div class="accordion-body">
+                                                {{ $faq->answer ?? '-' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

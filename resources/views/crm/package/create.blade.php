@@ -1,6 +1,7 @@
 @extends('crm.layouts.vertical', ['page_title' => 'Create Package', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
 @section('css')
     @vite([
+        'resources/css/crm/custom.css',
         'node_modules/dropzone/dist/dropzone.css',
         'node_modules/select2/dist/css/select2.min.css', 
         'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css', 
@@ -43,6 +44,19 @@
                         <form id="create_package" action="{{ route('package.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Category Name <span class="text-danger">*</span></label>
+                                        <select name="category_id" id="category_id" class="form-control select2">
+                                            <option value="">Select Category</option>
+                                            @foreach($categories as $category)
+                                                <option value="{{ $category->id }}">
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- Package Name -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
@@ -50,6 +64,15 @@
                                         <input type="text" name="package_name" class="form-control" placeholder="Package Name">
                                     </div>
                                 </div>
+
+                                <!-- Short Title -->
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Short Title <span class="text-danger">*</span></label>
+                                        <input type="text" name="short_title" class="form-control" placeholder="Short Title">
+                                    </div>
+                                </div>
+
                                 <!-- Source City -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
@@ -117,18 +140,17 @@
                                     <input type="hidden" name="description" id="description">
                                 </div>
                                 <!-- Inclusions -->
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Inclusions</label>
-                                        <textarea name="inclusions" class="form-control" rows="4"></textarea>
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Inclusions</label>
+                                    <div id="inclusions-editor" style="height:200px;"></div>
+                                    <input type="hidden" name="inclusions" id="inclusions">
                                 </div>
+
                                 <!-- Exclusions -->
-                                <div class="col-md-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Exclusions</label>
-                                        <textarea name="exclusions" class="form-control" rows="4"></textarea>
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Exclusions</label>
+                                    <div id="exclusions-editor" style="height:200px;"></div>
+                                    <input type="hidden" name="exclusions" id="exclusions">
                                 </div>
                                 <!-- Image Upload UI Only -->
                                 <div class="col-12">
@@ -166,6 +188,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">FAQs</label>
+                                    <div id="faq-wrapper">
+                                        <div class="faq-item card mb-3 p-3 position-relative shadow-sm">
+                                            <button type="button" class="btn btn-danger btn-sm remove-faq-btn">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                            <div class="mb-2">
+                                                <input type="text" name="faq_question[]" class="form-control" placeholder="Enter Question" required>
+                                            </div>
+                                            <div>
+                                                <textarea name="faq_answer[]" class="form-control" placeholder="Enter Answer" rows="2" required></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-primary mt-2" id="add-faq">
+                                        <i class="ri-add-line"></i> Add FAQ
+                                    </button>
                                 </div>
                             </div>
                             <div class="row">

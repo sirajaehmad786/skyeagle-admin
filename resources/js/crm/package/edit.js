@@ -6,10 +6,51 @@ document.addEventListener("DOMContentLoaded", function () {
     const quill = new Quill("#my-snow-editor", {
         theme: "snow",
     });
+   
+
+    const inclusionsQuill = new Quill("#inclusions-editor", {
+        theme: "snow",
+        modules: {
+            toolbar: [
+                [{ size: [] }],
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link"],
+            ],
+        },
+    });
+
+    const exclusionsQuill = new Quill("#exclusions-editor", {
+        theme: "snow",
+        modules: {
+            toolbar: [
+                [{ size: [] }],
+                ["bold", "italic", "underline", "strike"],
+                ["blockquote", "code-block"],
+                [{ list: "ordered" }, { list: "bullet" }],
+                ["link"],
+            ],
+        },
+    });
+
     const existingDescription = document.querySelector('#description').value;
     quill.root.innerHTML = existingDescription;
+    
+    const existingInclusions = document.querySelector('#inclusions').value;
+    inclusionsQuill.root.innerHTML = existingInclusions;
+
+    const existingExclusions = document.querySelector('#exclusions').value;
+    exclusionsQuill.root.innerHTML = existingExclusions;
     quill.on('text-change', function () {
         document.querySelector('#description').value = quill.root.innerHTML;
+    });
+    inclusionsQuill.on('text-change', function () {
+        document.querySelector('#inclusions').value = inclusionsQuill.root.innerHTML;
+    });
+
+    exclusionsQuill.on('text-change', function () {
+        document.querySelector('#exclusions').value = exclusionsQuill.root.innerHTML;
     });
 
     const startPicker = flatpickr("#start_date", {
@@ -121,6 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // VALIDATION
     initAjaxFormValidation("#edit_package", {
         package_name: { required: true },
+        category_id: { required: true },
         source_city_id: { required: true },
         destination_city_id: { required: true },
         price: { required: true },
@@ -137,6 +179,8 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
         beforeSubmit: function ($form) {
             document.querySelector('#description').value = quill.root.innerHTML;
+            document.querySelector('#inclusions').value = inclusionsQuill.root.innerHTML;
+            document.querySelector('#exclusions').value = exclusionsQuill.root.innerHTML;
             let input = document.getElementById('hiddenImagesInput');
             if (window.myDropzone && input) {
                 let dataTransfer = new DataTransfer();
@@ -148,6 +192,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 input.files = dataTransfer.files;
             }
+
             document.querySelector('.btn-save').classList.add('d-none');
             document.querySelector('.btn-loading').classList.remove('d-none');
         },
@@ -159,4 +204,55 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+});
+
+$(document).ready(function () {
+    $('#edit-faq').on('click', function () {
+        let faqHtml = `
+            <div class="faq-item card mb-3 p-3 position-relative shadow-sm">
+
+                <button type="button" class="btn btn-danger btn-sm remove-faq-btn">
+                    <i class="ri-close-line"></i>
+                </button>
+
+                <input type="hidden" name="faq_id[]" value="">
+
+                <div class="mb-2">
+                    <input type="text" name="faq_question[]" class="form-control" placeholder="Enter Question" required>
+                </div>
+
+                <div>
+                    <textarea name="faq_answer[]" class="form-control" rows="2" placeholder="Enter Answer" required></textarea>
+                </div>
+
+            </div>
+        `;
+        $('#faq-wrapper').append(faqHtml);
+    });
+
+    // REMOVE FAQ
+    $(document).on('click', '.remove-faq-btn', function () {
+        let totalFaqs = $('.faq-item').length;
+        if (totalFaqs <= 1) {
+            showToastmessage("At least one FAQ is required", "error");
+            return;
+        }
+        let faqItem = $(this).closest('.faq-item');
+        let faqId = faqItem.find('input[name="faq_id[]"]').val();
+
+        if (faqId) {
+            $('#faq-wrapper').append(`
+                <input type="hidden" name="deleted_faq_ids[]" value="${faqId}">
+            `);
+        }
+        faqItem.remove();
+    });
+
+});
+
+$(document).ready(function () {
+    $('#category_id').select2({
+        placeholder: "Select Category",
+        width: '100%'
+    });
 });

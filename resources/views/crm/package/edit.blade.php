@@ -35,9 +35,30 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
+                            <label class="form-label">Category Name <span class="text-danger">*</span></label>
+                            <select name="category_id" id="category_id" class="form-control select2">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}"
+                                        {{ $package->categories_id == $category->id ? 'selected' : '' }}>
+                                        {{ $category->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
                             <label class="form-label">Package Name <span class="text-danger">*</span></label>
                             <input type="text" name="package_name" class="form-control"
                                 value="{{ $package->package_name }}">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label class="form-label">Short Title<span class="text-danger">*</span></label>
+                            <input type="text" name="short_title" class="form-control"
+                                value="{{ $package->short_title }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -112,16 +133,21 @@
                                 value="{{ $package->description }}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <!-- Inclusions -->
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Inclusions</label>
-                            <textarea name="inclusions" class="form-control" rows="4">{{ $package->inclusions }}</textarea>
+                            <div id="inclusions-editor" style="height:200px;"></div>
+                            <input type="hidden" name="inclusions" id="inclusions" value="{{ $package->inclusions }}">
                         </div>
                     </div>
-                    <div class="col-md-4">
+
+                    <!-- Exclusions -->
+                    <div class="col-md-6">
                         <div class="mb-3">
                             <label class="form-label">Exclusions</label>
-                            <textarea name="exclusions" class="form-control" rows="4">{{ $package->exclusions }}</textarea>
+                            <div id="exclusions-editor" style="height:200px;"></div>
+                            <input type="hidden" name="exclusions" id="exclusions" value="{{ $package->exclusions }}">
                         </div>
                     </div>
                     <!-- Image Upload UI Only -->
@@ -163,6 +189,50 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">FAQs</label>
+                        <div id="faq-wrapper">
+                            @if(isset($faqs) && count($faqs) > 0)
+                                @foreach($faqs as $faq)
+                                    <div class="faq-item card mb-3 p-3 position-relative shadow-sm">
+                                        <button type="button" class="btn btn-danger btn-sm remove-faq-btn">
+                                            <i class="ri-close-line"></i>
+                                        </button>
+                                        <input type="hidden" name="faq_id[]" value="{{ $faq->id }}">
+                                        <div class="mb-2">
+                                            <input type="text" name="faq_question[]" 
+                                            class="form-control"
+                                            value="{{ $faq->question }}"
+                                            placeholder="Enter Question" required>
+                                        </div>
+                                        <div>
+                                            <textarea name="faq_answer[]" 
+                                            class="form-control"
+                                            rows="2"
+                                            placeholder="Enter Answer"
+                                            required>{{ $faq->answer }}</textarea>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <div class="faq-item card mb-3 p-3 position-relative shadow-sm">
+                                    <button type="button" class="btn btn-danger btn-sm remove-faq-btn">
+                                        <i class="ri-close-line"></i>
+                                    </button>
+                                    <input type="hidden" name="faq_id[]" value="">
+                                    <div class="mb-2">
+                                        <input type="text" name="faq_question[]" class="form-control" placeholder="Enter Question" required>
+                                    </div>
+                                    <div>
+                                        <textarea name="faq_answer[]" class="form-control" rows="2" placeholder="Enter Answer" required></textarea>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                        <button type="button" class="btn btn-sm btn-primary mt-2" id="edit-faq">
+                            <i class="ri-add-line"></i> Add FAQ
+                        </button>
                     </div>
                 </div>
                 <div class="text-end mt-3">

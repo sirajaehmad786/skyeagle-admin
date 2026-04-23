@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Package;
 use App\Repositories\PackageRepository;
 use Illuminate\Http\Request;
@@ -33,7 +34,8 @@ class PackageController extends Controller
      */
     public function create()
     {
-        return view('crm.package.create');
+        $categories = Category::all();
+        return view('crm.package.create', compact('categories'));
     }
 
     /**
@@ -72,8 +74,10 @@ class PackageController extends Controller
      */
     public function edit(string $id)
     {
+        $categories = Category::all();
         $package = $this->packageRepository->getById($id);
-        return view('crm.package.edit', compact('package'));
+        $faqs = $package->faqs;
+        return view('crm.package.edit', compact('package', 'faqs', 'categories'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\City;
 use App\Models\Package;
+use App\Models\PackageFaqs;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,7 @@ class PackageRepository extends BaseRepository
     {
         $data = $request->only([ 
             'package_name',
+            'short_title',
             'source_city_id',
             'destination_city_id',
             'price',
@@ -32,10 +34,30 @@ class PackageRepository extends BaseRepository
             'inclusions',
             'exclusions'
         ]);
+        $data['categories_id'] = $request->category_id;
         $data['start_date'] = convertDateFormat($request->start_date ?? null);
         $data['end_date']   = convertDateFormat($request->end_date ?? null);
         $data['created_by'] = Auth::id();
-        return $this->model->create($data);
+        $package = $this->model->create($data);
+        if ($request->faq_question && $request->faq_answer) {
+            $faqs = [];
+            foreach ($request->faq_question as $index => $question) {
+                if (!empty($question) && !empty($request->faq_answer[$index])) {
+                    $faqs[] = [
+                        'package_id' => $package->id,
+                        'question'   => $question,
+                        'answer'     => $request->faq_answer[$index],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+            }
+            if (!empty($faqs)) {
+                PackageFaqs::insert($faqs);
+            }
+        }
+        DB::commit();
+        return $package;
     }
 
     public function initData()
@@ -55,6 +77,7 @@ class PackageRepository extends BaseRepository
         $package = $this->model->findOrFail($id);
         $data = $request->only([ 
             'package_name',
+            'short_title',
             'source_city_id',
             'destination_city_id',
             'price',
@@ -67,9 +90,36 @@ class PackageRepository extends BaseRepository
             'start_date',
             'end_date'
         ]);
+        $data['categories_id'] = $request->category_id;
         $data['start_date'] = Carbon::createFromFormat('d-m-Y', $data['start_date'])->format('Y-m-d');
         $data['end_date'] = Carbon::createFromFormat('d-m-Y', $data['end_date'])->format('Y-m-d');
-        return $package->update($data);
+        $package->update($data);
+        $faqIds = $request->faq_id ?? [];
+        $questions = $request->faq_question ?? [];
+        $answers = $request->faq_answer ?? [];
+
+        if ($request->deleted_faq_ids) {
+            PackageFaqs::whereIn('id', $request->deleted_faq_ids)->delete();
+        }
+
+        foreach ($questions as $index => $question) {
+            if (empty($question) && empty($answers[$index])) {
+                continue;
+            }            
+            if (!empty($faqIds[$index])) {
+                PackageFaqs::where('id', $faqIds[$index])->update([
+                    'question' => $question,
+                    'answer' => $answers[$index],
+                ]);
+            } else {
+                PackageFaqs::create([
+                    'package_id' => $id,
+                    'question' => $question,
+                    'answer' => $answers[$index],
+                ]);
+            }
+        }
+        return true;
     }
 
     public function uploadPackageImages($request, $packageId)

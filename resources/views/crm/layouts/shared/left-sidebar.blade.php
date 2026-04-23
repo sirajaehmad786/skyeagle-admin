@@ -55,23 +55,30 @@
                 </li>
             @endcan
 
-            @can('role-list')
+            {{-- @can('role-list')
                 <li class="side-nav-item {{ request()->routeIs('roles.*') ? 'menuitem-active' : '' }}">
                     <a href="{{ route('roles.index') }}" class="side-nav-link">
                         <i class="ri-lock-line"></i>
                         <span> Role Permission </span>
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
+    
+            <li class="side-nav-item">
+                <a href="{{ route('category.index') }}" class="side-nav-link">
+                    <i class="ri-folder-2-line"></i>
+                    <span> Category </span>
+                </a>
+            </li>
             
             <li class="side-nav-item">
                 <a href="{{ route('package.index') }}" class="side-nav-link">
-                    <i class="ri-archive-line"></i>
+                    <i class="ri-briefcase-4-line"></i>
                     <span> Package </span>
                 </a>
             </li>
 
-            @can('user-list')
+            {{-- @can('user-list')
                 <li class="side-nav-item {{ request()->routeIs('users.*') ? 'menuitem-active' : '' }}">
                     <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
                         <i class="ri-shield-user-line"></i>
@@ -181,7 +188,7 @@
                     <span> Activities </span>
                 </a>
             </li>
-            @endcan
+            @endcan --}}
 
         </ul>
         <!--- End Sidemenu -->

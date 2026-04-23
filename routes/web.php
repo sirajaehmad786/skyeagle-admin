@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Crm\ActivityController;
 use App\Http\Controllers\Crm\BookingController;
+use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\ContactController;
 use App\Http\Controllers\Crm\DashboardController;
 use App\Http\Controllers\Crm\DocumentController;
@@ -42,6 +43,9 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     //Package routes
     Route::resource("package", PackageController::class);
     Route::get('/cities/search', [PackageController::class, 'search'])->name('cities.search');
+    
+    //Category routes
+    Route::resource("category", CategoryController::class);
     
     //Contact routes
     Route::resource("contact", ContactController::class);
