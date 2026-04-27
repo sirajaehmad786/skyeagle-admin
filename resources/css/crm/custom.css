@@ -137,3 +137,224 @@ table.dataTable tbody td {
 .table-responsive-scroll table.dataTable .journey-date-cell strong {
     font-weight: 600;
 }
+
+/* ================= INFO BOX ================= */
+.info-box {
+    background: #eef2f7;
+    padding: 14px 16px;
+    border-radius: 10px;
+    height: 100%;
+    border: 1px solid #d6dbe1;
+    border-left: 4px solid #0d6efd;
+    transition: all 0.2s ease-in-out;
+}
+
+.info-box:hover {
+    background: #e4e9f0;
+    border-color: #c8ced6;
+}
+
+.info-box label {
+    font-size: 12px;
+    color: #6c757d;
+    margin-bottom: 4px;
+    display: block;
+    text-transform: uppercase;
+}
+
+.info-box p {
+    font-weight: 600;
+    margin: 0;
+    color: #1f2d3d;
+    font-size: 15px;
+}
+
+
+/* ================= CONTENT BOX ================= */
+/* (Description / Inclusion / Exclusion text) */
+.content-box {
+    background: #ffffff;
+    border: 1px solid #e3e6ea; /* restore border */
+    padding: 15px;
+    border-radius: 8px;
+    line-height: 1.6;
+}
+
+.content-box.small {
+    font-size: 14px;
+}
+
+
+/* ================= CUSTOM CARD ================= */
+.custom-card {
+    border-radius: 10px;
+    padding: 15px;
+    border: 1px solid transparent; /* important fix */
+    height: 100%;
+    background: #fff;
+}
+
+/* Inclusion */
+.custom-card.success {
+    border: 1px solid #28a745;
+    background: #f4fff7;
+}
+
+/* Exclusion */
+.custom-card.danger {
+    border: 1px solid #dc3545;
+    background: #fff5f5;
+}
+
+.custom-card h6 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#demoDropzone {
+    cursor: pointer;
+}
+
+#demoDropzone .dz-message {
+    pointer-events: all !important;
+}
+
+.image-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    /* Aspect ratio fix karne ke liye */
+    aspect-ratio: 1 / 1; /* Isse square box banega, aap 4/3 bhi kar sakte hain */
+    width: 100%;
+}
+
+.package-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Image ko box ke andar bina stretch kiye fit karega */
+    transition: transform 0.4s ease;
+    display: block;
+}
+
+.image-card:hover .package-img {
+    transform: scale(1.1);
+}
+
+/* Overlay & Button Styling */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 12px;
+}
+
+.image-card:hover .overlay {
+    opacity: 1;
+}
+
+.view-btn {
+    background: #fff;
+    color: #000;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.view-btn:hover {
+    background: #0d6efd;
+    color: #fff;
+}
+
+/* faqs css */
+.faq-item {
+    border-radius: 10px;
+    background: #f8f9fa;
+}
+
+.remove-faq-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove-faq-btn i {
+    font-size: 14px;
+}
+
+
+
+/* Highlight Box */
+.highlight-item {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.highlight-item input {
+    width: 100%;
+    padding-right: 15px; /* extra space ki zarurat nahi ab */
+}
+
+
+/* Itinerary Card */
+.itinerary-item {
+    position: relative;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+/* Common Close Button */
+.remove-btn {
+    position: absolute;
+    top: -18px;   /* upar kitna le jana hai */
+    right: -26px; /* right side se bahar kitna lana hai */
+
+    background: #ff4d4f;
+    border: 2px solid #fff;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 10; /* important */
+}
+
+.remove-btn:hover {
+    background: #d9363e;
+}
+
+ /* Duplicate day highlight */
+.duplicate-day {
+    border: 2px solid #dc3545 !important;
+    background-color: #ffe6e6;
+}
