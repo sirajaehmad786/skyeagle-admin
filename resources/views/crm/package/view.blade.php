@@ -66,6 +66,18 @@
                             <p>{{ $package->duration['text'] ?? '-' }}</p>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <label>Start Date</label>
+                            <p>{{ $package->start_date }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="info-box">
+                            <label>End Date</label>
+                            <p>{{ $package->end_date }}</p>
+                        </div>
+                    </div>
                     <div class="col-md-6">
                         <div class="info-box">
                             <label>Source City</label>
@@ -162,6 +174,56 @@
                                             class="view-btn">
                                                 <i class="ri-eye-line"></i>
                                             </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                {{-- ================= HIGHLIGHTS ================= --}}
+                @if($package->highlights && $package->highlights->count())
+                    <div class="mb-4">
+                        <h5 class="section-title mb-3">Highlights</h5>
+
+                        <div class="row g-3">
+                            @foreach($package->highlights as $highlight)
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="custom-card info h-100">
+                                        <div class="d-flex align-items-start">
+                                            <div class="me-2">
+                                                <i class="ri-checkbox-circle-line text-success fs-18"></i>
+                                            </div>
+                                            <div>
+                                                <p class="mb-0">
+                                                    {{ $highlight->highlight }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+                {{-- ================= ITINERARY ================= --}}
+                @if($package->itineraries && $package->itineraries->count())
+                    <div class="mb-4">
+                        <h5 class="section-title mb-4">Day Wise Itinerary</h5>
+                        <div class="timeline">
+                            @foreach($package->itineraries->sortBy('day') as $item)
+                                <div class="timeline-item">                                    
+                                    <div class="timeline-badge">
+                                        Day {{ $item->day }}
+                                    </div>
+                                    <div class="timeline-content card shadow-sm border-0">
+                                        <div class="card-body">
+                                            <h6 class="fw-semibold text-primary mb-2">
+                                                {{ $item->title ?? 'No Title' }}
+                                            </h6>
+                                            <p class="mb-0 text-muted">
+                                                {{ $item->description ?? '-' }}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>

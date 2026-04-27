@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PackageRequest;
 use App\Models\Category;
 use App\Models\Package;
 use App\Repositories\PackageRepository;
@@ -83,7 +84,7 @@ class PackageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PackageRequest  $request, string $id)
     {
         $this->packageRepository->updatePackage($request,$id);
         $this->packageRepository->deleteRemovedImages($request);

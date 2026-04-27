@@ -63,7 +63,13 @@
                     </a>
                 </li>
             @endcan --}}
-    
+            <li class="side-nav-item">
+                <a href="#" class="side-nav-link">
+                    <i class="ri-folder-2-line"></i>
+                    <span> Media </span>
+                </a>
+            </li>
+
             <li class="side-nav-item">
                 <a href="{{ route('category.index') }}" class="side-nav-link">
                     <i class="ri-folder-2-line"></i>

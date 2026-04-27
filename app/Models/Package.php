@@ -34,6 +34,12 @@ class Package extends Model
             $package->faqs->each(function ($faq) {
                 $faq->delete();
             });
+            $package->highlights->each(function ($highlight) {
+                $highlight->delete();
+            });
+            $package->itineraries->each(function ($itinerary) {
+                $itinerary->delete();
+            });
         });
     }
 
@@ -78,5 +84,15 @@ class Package extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function highlights()
+    {
+        return $this->hasMany(PackageHighlight::class, 'package_id');
+    }
+
+    public function itineraries()
+    {
+        return $this->hasMany(PackageItinerary::class, 'package_id')->orderBy('day');
     }
 }

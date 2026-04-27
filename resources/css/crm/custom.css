@@ -302,3 +302,59 @@ table.dataTable tbody td {
 .remove-faq-btn i {
     font-size: 14px;
 }
+
+
+
+/* Highlight Box */
+.highlight-item {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.highlight-item input {
+    width: 100%;
+    padding-right: 15px; /* extra space ki zarurat nahi ab */
+}
+
+
+/* Itinerary Card */
+.itinerary-item {
+    position: relative;
+    border: 1px solid #eee;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+/* Common Close Button */
+.remove-btn {
+    position: absolute;
+    top: -18px;   /* upar kitna le jana hai */
+    right: -26px; /* right side se bahar kitna lana hai */
+
+    background: #ff4d4f;
+    border: 2px solid #fff;
+    color: #fff;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    font-size: 14px;
+    z-index: 10; /* important */
+}
+
+.remove-btn:hover {
+    background: #d9363e;
+}
+
+ /* Duplicate day highlight */
+.duplicate-day {
+    border: 2px solid #dc3545 !important;
+    background-color: #ffe6e6;
+}

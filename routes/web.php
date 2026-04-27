@@ -18,6 +18,7 @@ use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\PaymentController;
 use App\Http\Controllers\Crm\QuotationController;
 use App\Http\Controllers\Crm\SettingController;
+use App\Http\Controllers\MediaController;
 use App\Http\Controllers\RoutingController;
 use App\Notifications\SystemNotification;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,7 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     Route::resource("roles", RoleController::class);
     Route::resource("users", UserController::class);
-
+    
     //Package routes
     Route::resource("package", PackageController::class);
     Route::get('/cities/search', [PackageController::class, 'search'])->name('cities.search');

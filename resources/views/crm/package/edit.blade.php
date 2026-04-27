@@ -2,6 +2,7 @@
 
 @section('css')
 @vite([
+    'resources/css/custom.css',
     'node_modules/select2/dist/css/select2.min.css',
     'node_modules/flatpickr/dist/flatpickr.min.css',
     'node_modules/quill/dist/quill.snow.css',
@@ -148,6 +149,125 @@
                             <label class="form-label">Exclusions</label>
                             <div id="exclusions-editor" style="height:200px;"></div>
                             <input type="hidden" name="exclusions" id="exclusions" value="{{ $package->exclusions }}">
+                        </div>
+                    </div>
+                    <!-- ================= HIGHLIGHTS ================= -->
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">Highlights</h5>
+                                    <button type="button" class="btn btn-sm btn-primary" id="edit-highlight">
+                                        + Add Highlight
+                                    </button>
+                                </div>
+                                <div id="highlight-wrapper">
+                                    @if(isset($package->highlights) && $package->highlights->count())
+                                        @foreach($package->highlights as $index => $highlight)
+                                            <div class="highlight-item mb-3">
+                                                <input type="hidden" name="highlights[{{ $index }}][id]" value="{{ $highlight->id }}">
+                                                <label class="mb-1">Highlight</label>
+
+                                                <input type="text"
+                                                    name="highlights[{{ $index }}][highlight]"
+                                                    class="form-control"
+                                                    value="{{ $highlight->highlight }}"
+                                                    placeholder="Enter Highlight">
+
+
+                                                <button type="button" class="remove-btn remove-highlight">
+                                                    <i class="ri-close-line"></i>
+                                                </button>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="highlight-item mb-3">
+                                            <input type="hidden" name="highlights[0][id]">
+                                            <input type="text" name="highlights[0][highlight]" class="form-control" placeholder="Enter Highlight">
+                                            <button type="button" class="remove-btn remove-highlight">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ================= ITINERARY ================= -->
+                    <div class="col-md-12">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="mb-0">Itinerary (Day Wise)</h5>
+                                    <button type="button" class="btn btn-sm btn-primary" id="edit-itinerary">
+                                        + Add Day
+                                    </button>
+                                </div>
+                                <div id="itinerary-wrapper">
+                                    @if($package->itineraries->count())
+                                        @foreach($package->itineraries as $index => $item)
+                                            <div class="itinerary-item">
+                                                <input type="hidden"
+                                                    name="itinerary[{{ $index }}][id]"
+                                                    value="{{ $item->id }}">
+                                                <button type="button" class="remove-btn remove-itinerary">
+                                                    <i class="ri-close-line"></i>
+                                                </button>
+                                                <div class="row">
+                                                    <div class="col-md-2 mb-2">
+                                                        <input type="number"
+                                                            name="itinerary[{{ $index }}][day]"
+                                                            class="form-control day-input"
+                                                            value="{{ $item->day }}">
+                                                    </div>
+                                                    <div class="col-md-10 mb-2">
+                                                        <input type="text"
+                                                            name="itinerary[{{ $index }}][title]"
+                                                            class="form-control"
+                                                            value="{{ $item->title }}"
+                                                            placeholder="Title">
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <textarea
+                                                            name="itinerary[{{ $index }}][description]"
+                                                            class="form-control"
+                                                            rows="3"
+                                                            placeholder="Description">{{ $item->description }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    @else
+                                        <div class="itinerary-item">
+                                            <input type="hidden" name="itinerary[0][id]">
+                                            <button type="button" class="remove-btn remove-itinerary">
+                                                <i class="ri-close-line"></i>
+                                            </button>
+                                            <div class="row">
+                                                <div class="col-md-2 mb-2">
+                                                    <input type="number"
+                                                        name="itinerary[0][day]"
+                                                        class="form-control day-input"
+                                                        >
+                                                </div>
+                                                <div class="col-md-10 mb-2">
+                                                    <input type="text"
+                                                        name="itinerary[0][title]"
+                                                        class="form-control"
+                                                        placeholder="Title">
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <textarea
+                                                        name="itinerary[0][description]"
+                                                        class="form-control"
+                                                        rows="3"
+                                                        placeholder="Description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Image Upload UI Only -->

@@ -140,17 +140,72 @@
                                     <input type="hidden" name="description" id="description">
                                 </div>
                                 <!-- Inclusions -->
-                                <div class="mb-3">
-                                    <label class="form-label">Inclusions</label>
-                                    <div id="inclusions-editor" style="height:200px;"></div>
-                                    <input type="hidden" name="inclusions" id="inclusions">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Inclusions</label>
+                                        <div id="inclusions-editor" style="height:200px;"></div>
+                                        <input type="hidden" name="inclusions" id="inclusions">
+                                    </div>
                                 </div>
-
                                 <!-- Exclusions -->
-                                <div class="mb-3">
-                                    <label class="form-label">Exclusions</label>
-                                    <div id="exclusions-editor" style="height:200px;"></div>
-                                    <input type="hidden" name="exclusions" id="exclusions">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Exclusions</label>
+                                        <div id="exclusions-editor" style="height:200px;"></div>
+                                        <input type="hidden" name="exclusions" id="exclusions">
+                                    </div>
+                                </div>
+                                <!-- ================= HIGHLIGHTS ================= -->
+                                <div class="col-md-12">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="mb-0">Highlights</h5>
+                                                <button type="button" class="btn btn-sm btn-primary" id="add-highlight">
+                                                    + Add Highlight
+                                                </button>
+                                            </div>
+                                            <div id="highlight-wrapper">
+                                                <div class="highlight-item">
+                                                    <input type="text" name="highlights[]" class="form-control" placeholder="Enter Highlight">
+                                                    <button type="button" class="remove-btn remove-highlight">
+                                                        <i class="ri-close-line"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ================= ITINERARY ================= -->
+                                <div class="col-md-12">
+                                    <div class="card mb-3">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                <h5 class="mb-0">Itinerary (Day Wise)</h5>
+                                                <button type="button" class="btn btn-sm btn-primary" id="add-itinerary">
+                                                    + Add Day
+                                                </button>
+                                            </div>
+                                            <div id="itinerary-wrapper">
+                                                <div class="itinerary-item">
+                                                    <button type="button" class="remove-btn remove-itinerary">
+                                                        <i class="ri-close-line"></i>
+                                                    </button>
+                                                    <div class="row">
+                                                        <div class="col-md-2 mb-2">
+                                                            <input type="number" name="itinerary[0][day]" class="form-control" value="1" placeholder="Day" min="1">
+                                                        </div>
+                                                        <div class="col-md-10 mb-2">
+                                                            <input type="text" name="itinerary[0][title]" class="form-control" placeholder="Title">
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <textarea name="itinerary[0][description]" class="form-control" rows="3" placeholder="Description"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <!-- Image Upload UI Only -->
                                 <div class="col-12">

@@ -138,6 +138,26 @@ document.addEventListener("DOMContentLoaded", function () {
         ],
 
         beforeSubmit: function () {
+            let daysMap = {};
+            let hasDuplicate = false;
+            $('.day-input').removeClass('duplicate-day');
+            $('.day-input').each(function () {
+                let val = $(this).val();
+                if (!val) return;
+                val = parseInt(val);
+                if (daysMap[val]) {
+                    hasDuplicate = true;
+                    $(this).addClass('duplicate-day');
+                    daysMap[val].addClass('duplicate-day');
+                } else {
+                    daysMap[val] = $(this);
+                }
+            });
+            if (hasDuplicate) {
+                showToastmessage("Duplicate day not allowed", "error");
+                $('.duplicate-day').first().focus();
+                return false;
+            }
             $('#description').val(quill.root.innerHTML);
             $('#inclusions').val(inclusionsQuill.root.innerHTML);
             $('#exclusions').val(exclusionsQuill.root.innerHTML);
@@ -256,4 +276,78 @@ $(document).ready(function () {
         placeholder: "Select Category",        
         width: '100%'
     });
+});
+
+// ================= Highlights =================
+$(document).ready(function () {
+    $('#add-highlight').click(function () {
+        let html = `
+            <div class="highlight-item">
+                <input type="text" name="highlights[]" class="form-control" placeholder="Enter Highlight">
+                <button type="button" class="remove-btn remove-highlight">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        `;
+        $('#highlight-wrapper').append(html);
+    });
+
+    $(document).on('click', '.remove-highlight', function () {
+        if ($('.highlight-item').length <= 1) {
+            showToastmessage("At least one highlight required", "error");
+            return;
+        }
+        $(this).closest('.highlight-item').remove();
+    });
+});
+
+// ================= Itinerary =================
+$(document).ready(function () {
+    let itineraryIndex = 1;
+    $('#add-itinerary').click(function () {
+        let html = `
+            <div class="itinerary-item">
+                <button type="button" class="remove-btn remove-itinerary">
+                    <i class="ri-close-line"></i>
+                </button>
+                <div class="row">
+                    <div class="col-md-2 mb-2">
+                        <input type="number"
+                        name="itinerary[${itineraryIndex}][day]"
+                        class="form-control day-input"
+                        placeholder="Day"
+                        min="1">
+                    </div>
+                    <div class="col-md-10 mb-2">
+                        <input type="text" name="itinerary[${itineraryIndex}][title]" class="form-control" placeholder="Title">
+                    </div>
+                    <div class="col-md-12">
+                        <textarea name="itinerary[${itineraryIndex}][description]" class="form-control" rows="3" placeholder="Description"></textarea>
+                    </div>
+                </div>
+            </div>
+        `;
+        $('#itinerary-wrapper').append(html);
+        itineraryIndex++;
+    });
+
+    $(document).on('click', '.remove-itinerary', function () {
+        if ($('.itinerary-item').length <= 1) {
+            showToastmessage("At least one day required", "error");
+            return;
+        }
+        $(this).closest('.itinerary-item').remove();
+        $('#itinerary-wrapper .itinerary-item').each(function (index) {
+            $(this).find('input, textarea').each(function () {
+                let name = $(this).attr('name');
+                name = name.replace(/itinerary\[\d+\]/, `itinerary[${index}]`);
+                $(this).attr('name', name);
+            });
+        });
+        itineraryIndex = $('#itinerary-wrapper .itinerary-item').length;
+    });
+});
+
+$(document).on('input', '.day-input', function () {
+    $(this).removeClass('duplicate-day');
 });
