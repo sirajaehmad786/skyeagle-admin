@@ -82,10 +82,7 @@
                         <div class="info-box">
                             <label>Source City</label>
                             <p>
-                                {{ $package->sourceCity->name ?? '-' }}
-                                @if (!empty($package->sourceCity?->country_code))
-                                    ({{ $package->sourceCity->country_code }})
-                                @endif
+                                {{ $package->source_city ?? '-' }}
                             </p>
                         </div>
                     </div>
@@ -93,10 +90,7 @@
                         <div class="info-box">
                             <label>Destination City</label>
                             <p>
-                                {{ $package->destinationCity->name ?? '-' }}
-                                @if (!empty($package->destinationCity?->country_code))
-                                    ({{ $package->destinationCity->country_code }})
-                                @endif
+                                {{ $package->destination_city ?? '-' }}
                             </p>
                         </div>
                     </div>

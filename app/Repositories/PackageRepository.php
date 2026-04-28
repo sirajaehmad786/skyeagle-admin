@@ -25,9 +25,10 @@ class PackageRepository extends BaseRepository
     {
         $data = $request->only([ 
             'package_name',
+            'booking_type',
             'short_title',
-            'source_city_id',
-            'destination_city_id',
+            'source_city',
+            'destination_city',
             'price',
             'min_people',
             'max_people',
@@ -105,14 +106,14 @@ class PackageRepository extends BaseRepository
 
     public function initData()
     {
-        $packageList = Package::query()->with(['sourceCity', 'destinationCity'])
+        $packageList = Package::query()
         ->where('status',1)->select('*')->latest();
         return $packageList;
     }
 
     public function getById($id)
     {
-        return $this->model->with(['sourceCity', 'destinationCity','images','highlights','itineraries'])->findOrFail($id);
+        return $this->model->with(['images','highlights','itineraries'])->findOrFail($id);
     }
 
     public function updatePackage($request, $id)
@@ -121,8 +122,8 @@ class PackageRepository extends BaseRepository
         $data = $request->only([ 
             'package_name',
             'short_title',
-            'source_city_id',
-            'destination_city_id',
+            'source_city',
+            'destination_city',
             'price',
             'min_people',
             'max_people',
@@ -131,7 +132,8 @@ class PackageRepository extends BaseRepository
             'inclusions',
             'exclusions',
             'start_date',
-            'end_date'
+            'end_date',
+            'booking_type'
         ]);
         $data['categories_id'] = $request->category_id;
         $package->update($data);

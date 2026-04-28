@@ -1,4 +1,4 @@
-@extends('crm.layouts.vertical', ['page_title' => 'Package', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
+@extends('crm.layouts.vertical', ['page_title' => 'Media', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
 @section('css')
     @vite(['node_modules/daterangepicker/daterangepicker.css', 'node_modules/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.css', 'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css', 'node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css', 'node_modules/flatpickr/dist/flatpickr.min.css'])
     @vite(['node_modules/select2/dist/css/select2.min.css', 'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css', 'node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css', 'node_modules/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css', 'node_modules/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css', 'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css', 'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css'])
@@ -21,10 +21,10 @@
                             Add Package
                         </a>
                     </div>
-                    <h4 class="m-0 pt-3">Package</h4>
+                    <h4 class="m-0 pt-3">Media</h4>
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
-                        <li class="breadcrumb-item active">Package</li>
+                        <li class="breadcrumb-item active">Media</li>
                     </ol>
                 </div>
             </div>
@@ -41,15 +41,9 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12">
                                 <div class="table-responsive-scroll">
-                                    <x-table id="package-table">
+                                    <x-table id="media-table">
                                         <tr>
-                                            <th>Booking Type</th>
                                             <th>Package Name</th>
-                                            <th>Slug</th>
-                                            <th>Package Code</th>
-                                            <th>Source City</th>
-                                            <th>Destination City</th>
-                                            <th>Price</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -66,11 +60,11 @@
 
 @section('script')
 <script>
-    const ajaxUrl = "{{ route('package.index') }}";
+    let ajaxUrl = "{{ route('media.index') }}";
 </script>
     @vite([
         'resources/js/pages/demo.datatable-init.js', 
         'resources/js/pages/demo.form-advanced.js', 
-        'resources/js/crm/package/index.js',
+        'resources/js/crm/media/index.js',
         ])
 @endsection

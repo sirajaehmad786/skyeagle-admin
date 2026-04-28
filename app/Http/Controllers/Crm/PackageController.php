@@ -132,6 +132,15 @@ class PackageController extends Controller
                     });
                 }
             })
+            ->addColumn('booking_type', function ($row) {
+                if ($row->booking_type == 'Domestic') {
+                    return '<span class="badge bg-success">Domestic</span>';
+                } elseif ($row->booking_type == 'International') {
+                    return '<span class="badge bg-primary">International</span>';
+                } else {
+                    return '<span class="badge bg-secondary">-</span>';
+                }
+            })
             ->addColumn('package_name', function ($row) {
                 return '<div class="w-100px">' . $row->package_name . '</div>';
             })
@@ -141,11 +150,11 @@ class PackageController extends Controller
             ->addColumn('package_code', function ($row) {
                 return '<div class="w-150px">' . ($row->package_code ?? '-') . '</div>';
             })
-            ->addColumn('source_city_id', function ($row) {
-                return '<div class="w-150px">' . ($row->sourceCity->name ?? '-') . '</div>';
+            ->addColumn('source_city', function ($row) {
+                return '<div class="w-150px">' . ($row->source_city ?? '-') . '</div>';
             })
-            ->addColumn('destination_city_id', function ($row) {
-                return '<div class="w-150px">' . ($row->destinationCity->name ?? '-') . '</div>';
+            ->addColumn('destination_city', function ($row) {
+                return '<div class="w-150px">' . ($row->destination_city ?? '-') . '</div>';
             })
             ->addColumn('price', function ($row) {
                 return '<div class="w-150px">' . ($row->price ?? '-') . '</div>';
@@ -157,11 +166,12 @@ class PackageController extends Controller
                 return view('crm.package.action', compact('row'))->render();
             })
             ->rawColumns([
+                'booking_type',
                 'package_name',
                 'slug',
                 'package_code',
-                'source_city_id',
-                'destination_city_id',
+                'source_city',
+                'destination_city',
                 'price',
                 'created_at',
                 'action'

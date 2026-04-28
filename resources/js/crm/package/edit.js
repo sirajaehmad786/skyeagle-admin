@@ -76,34 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    initCityDropdown('#source_city_id', 'Select Source City');
-    initCityDropdown('#destination_city_id', 'Select Destination City');
-    function initCityDropdown(selector, placeholder) {
-        $(selector).select2({
-            placeholder: placeholder,
-            width: '100%',
-            ajax: {
-                url: '/cities/search',
-                dataType: 'json',
-                delay: 300,
-                data: function (params) {
-                    return { search: params.term };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.data.map(city => ({
-                            id: city.id,
-                            text: `${city.name} (${city.country_code})`
-                        }))
-                    };
-                }
-            }
-        });
-    }
-
-    $('#source_city_id').trigger('change');
-    $('#destination_city_id').trigger('change');
-
     Dropzone.autoDiscover = false;
     if (Dropzone.instances.length > 0) {
         Dropzone.instances.forEach(dz => dz.destroy());
@@ -126,26 +98,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
             init: function () {
                 let dz = this;
+                function getCurrentFileCount() {
+                    return dz.files.filter(f => f.status !== "canceled").length;
+                }
                 let existingImages = document.getElementById('existingImages');
                 if (existingImages && existingImages.value) {
                     let images = JSON.parse(existingImages.value);
                     images.forEach(function (img) {
-                        let file = {
+                        let mockFile = {
                             name: img.image.split('/').pop(),
                             size: 12345,
-                            accepted: true
+                            accepted: true,
+                            status: Dropzone.SUCCESS
                         };
-                        dz.emit("addedfile", file);
-                        dz.emit("thumbnail", file, `/storage/${img.image}`);
-                        dz.emit("complete", file);
-                        file.previewElement.classList.add('dz-success', 'dz-complete');
-                        file._imageId = img.id;
-                        file._imagePath = img.image;
+                        dz.emit("addedfile", mockFile);
+                        dz.emit("thumbnail", mockFile, `/storage/${img.image}`);
+                        dz.emit("complete", mockFile);
+                        mockFile.previewElement.classList.add('dz-success', 'dz-complete');
+                        dz.files.push(mockFile);
+                        mockFile._imageId = img.id;
+                        mockFile._imagePath = img.image;
                     });
                 }
+
                 dz.on("addedfile", function (file) {
+                    if (getCurrentFileCount() > 10) {
+                        dz.removeFile(file);
+                        showToastmessage("Maximum 10 images allowed", "error");
+                        return;
+                    }
                     console.log("File added:", file.name);
                 });
+
                 dz.on("removedfile", function (file) {
                     if (file._imageId) {
                         removedImages.push({
@@ -156,6 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
                     console.log("Removed:", removedImages);
                 });
+
                 dz.on("maxfilesexceeded", function (file) {
                     dz.removeFile(file);
                     showToastmessage("Maximum 10 images allowed", "error");
@@ -164,12 +149,61 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         window.myDropzone = myDropzone;
     }
+
+        // PASTE SUPPORT (EDIT SAFE)
+        (function () {
+            const pasteArea = document.getElementById("pasteArea");
+            if (!pasteArea) return;
+            pasteArea.addEventListener("click", function () {
+                pasteArea.focus();
+            });
+            pasteArea.addEventListener("paste", function (event) {
+                const dz = window.myDropzone;
+                if (!dz) return;
+                const clipboardData = event.clipboardData || window.clipboardData;
+                if (!clipboardData) return;
+                const items = clipboardData.items;
+                if (!items) return;
+                function getCurrentFileCount() {
+                    return dz.files.filter(f => f.status !== "canceled").length;
+                }
+                let handled = false;
+                for (let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    if (item.type && item.type.indexOf("image") !== -1) {
+                        handled = true;
+                        event.preventDefault();
+                        let file = item.getAsFile();
+                        if (!file) continue;
+                        if (getCurrentFileCount() >= dz.options.maxFiles) {
+                            showToastmessage("Maximum 10 images allowed", "error");
+                            return;
+                        }
+                        let newFile = new File(
+                            [file],
+                            "pasted-image-" + Date.now() + ".png",
+                            { type: file.type }
+                        );
+                        dz.addFile(newFile);
+                    }
+                }
+
+                // block text paste completely
+                if (!handled) {
+                    event.preventDefault();
+                } else {
+                    showToastmessage("Image pasted successfully", "success");
+                }
+            });
+
+        })();
     // VALIDATION
     initAjaxFormValidation("#edit_package", {
         package_name: { required: true },
+        booking_type: { required: true },
         category_id: { required: true },
-        source_city_id: { required: true },
-        destination_city_id: { required: true },
+        source_city: { required: true },
+        destination_city: { required: true },
         price: { required: true },
         min_people: { required: true },
         max_people: { required: true },
@@ -178,9 +212,9 @@ document.addEventListener("DOMContentLoaded", function () {
         description: { required: true }
     }, {}, {
         skipRequiredFor: [
-            "package_name", "source_city_id", "destination_city_id",
+            "package_name", "booking_type", "source_city", "destination_city",
             "price", "min_people", "max_people",
-            "start_date", "end_date", "description"
+            "start_date", "end_date", "description","booking_type"
         ],
         beforeSubmit: function ($form) {
             let daysMap = {};
@@ -202,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 $('.duplicate-day').first().focus();
                 return false;
             }
-            return true;
+            
             document.querySelector('#description').value = quill.root.innerHTML;
             document.querySelector('#inclusions').value = inclusionsQuill.root.innerHTML;
             document.querySelector('#exclusions').value = exclusionsQuill.root.innerHTML;
@@ -217,7 +251,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 input.files = dataTransfer.files;
             }
-
             document.querySelector('.btn-save').classList.add('d-none');
             document.querySelector('.btn-loading').classList.remove('d-none');
         },

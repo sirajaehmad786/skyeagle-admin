@@ -3,11 +3,12 @@ import { confirmDelete } from '../common/form-handler.js';
 
 $(function () {
     const columns = [
+        { data: 'booking_type', name: 'booking_type' },
         { data: 'package_name', name: 'package_name' },
         { data: 'slug', name: 'slug' },
         { data: 'package_code', name: 'package_code' },
-        { data: 'source_city_id', name: 'source_city_id' },
-        { data: 'destination_city_id', name: 'destination_city_id' },
+        { data: 'source_city', name: 'source_city' },
+        { data: 'destination_city', name: 'destination_city' },
         { data: 'price', name: 'price' },
         { data: 'created_at', name: 'created_at' },
         { data: 'action', orderable: false,  },

@@ -56,6 +56,20 @@
                         </div>
                     </div>
                     <div class="col-md-4">
+                    <div class="mb-3">
+                        <label class="form-label">Booking Type <span class="text-danger">*</span></label>
+                        <select name="booking_type" class="form-control">
+                            <option value="">Select Booking Type</option>
+                            @foreach(config('constant.booking_type') as $booking_type)
+                                <option value="{{ $booking_type }}"
+                                    {{ $package->booking_type == $booking_type ? 'selected' : '' }}>
+                                    {{ $booking_type }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                    <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Short Title<span class="text-danger">*</span></label>
                             <input type="text" name="short_title" class="form-control"
@@ -65,21 +79,15 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Source City <span class="text-danger">*</span></label>
-                            <select name="source_city_id" id="source_city_id" class="form-control">
-                                <option value="{{ $package->sourceCity->id }}" selected>
-                                    {{ $package->sourceCity->name }} ({{ $package->sourceCity->country_code }})
-                                </option>
-                            </select>
+                            <input type="text" name="source_city" class="form-control"
+                                value="{{ $package->source_city }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                            <select name="destination_city_id" id="destination_city_id" class="form-control">
-                                <option value="{{ $package->destinationCity->id }}" selected>
-                                    {{ $package->destinationCity->name }} ({{ $package->destinationCity->country_code }})
-                                </option>
-                            </select>
+                            <input type="text" name="destination_city" class="form-control"
+                                value="{{ $package->destination_city }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -306,6 +314,19 @@
                                             <i class="ri-close-line"></i>
                                         </a>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <h5 class="mb-3">Paste Image Here (Ctrl + V)</h5>
+                                <div id="pasteArea"
+                                    style="border:2px dashed #ccc; padding:25px; border-radius:10px; min-height:100px; outline:none; cursor:text;">
+                                    <span style="color:#999;">
+                                        Click here and press <b>Ctrl + V</b> to paste image
+                                    </span>
                                 </div>
                             </div>
                         </div>
