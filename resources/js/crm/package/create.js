@@ -115,12 +115,29 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         window.myDropzone = myDropzone;
     }
+    document.addEventListener('paste', function (event) {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (let i = 0; i < items.length; i++) {
+            let item = items[i];
+            if (item.type.indexOf('image') !== -1) {
+                let file = item.getAsFile();
+                let dz = window.myDropzone;
+                if (!dz) return;
+                if (dz.files.length >= dz.options.maxFiles) {
+                    showToastmessage("Maximum 10 images allowed", "error");
+                    return;
+                }
+                dz.addFile(file);
+            }
+        }
+    });
     initAjaxFormValidation("#create_package", {
         package_name: { required: true },
+        booking_type: { required: true },
         short_title: { required: true },
         category_id: { required: true },
-        source_city_id: { required: true },
-        destination_city_id: { required: true },
+        source_city: { required: true },
+        destination_city: { required: true },
         price: { required: true },
         min_people: { required: true },
         max_people: { required: true },
@@ -132,9 +149,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }, {}, {
 
         skipRequiredFor: [
-            "package_name", "short_title", "source_city_id", "destination_city_id",
+            "package_name", "short_title", "source_city", "destination_city",
             "price", "min_people", "max_people",
-            "start_date", "end_date", "description"
+            "start_date", "end_date", "description","category_id"
         ],
 
         beforeSubmit: function () {
@@ -193,54 +210,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
-
-$(document).ready(function () {
-    initCityDropdown('#source_city_id', 'Select Source City', '#destination_city_id');
-    initCityDropdown('#destination_city_id', 'Select Destination City', '#source_city_id');
-});
-
-function initCityDropdown(selector, placeholder, excludeSelector = null) {
-    $(selector).select2({
-        placeholder: placeholder,
-        width: '100%',
-        ajax: {
-            url: '/cities/search',
-            type: 'GET',
-            dataType: 'json',
-            delay: 300,
-            data: function (params) {
-                return {
-                    search: params.term
-                };
-            },
-            processResults: function (data) {
-                let excludeId = excludeSelector ? $(excludeSelector).val() : null;
-                return {
-                    results: data.data
-                    .filter(city => city.id != excludeId)
-                    .map(function (city) {
-                        return {
-                            id: city.id,
-                            text: `${city.name} (${city.country_code})`
-                        };
-                    })
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 1
-    });
-}
-
-$('#source_city_id, #destination_city_id').on('change', function () {
-    let source = $('#source_city_id').val();
-    let destination = $('#destination_city_id').val();
-    if (source && destination && source === destination) {
-        $(this).val(null).trigger('change');
-    }
-});
-
 
 // ================= FAQ Dynamic =================
 $(document).ready(function () {

@@ -358,3 +358,12 @@ table.dataTable tbody td {
     border: 2px solid #dc3545 !important;
     background-color: #ffe6e6;
 }
+
+/* Image paste */
+
+#file-previews img {
+    width: 80px !important;
+    height: 80px !important;
+    object-fit: cover;
+    border-radius: 6px;
+}

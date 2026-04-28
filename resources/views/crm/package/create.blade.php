@@ -64,7 +64,18 @@
                                         <input type="text" name="package_name" class="form-control" placeholder="Package Name">
                                     </div>
                                 </div>
-
+                                <!-- Booking Type -->
+                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Booking Type <span class="text-danger">*</span></label>
+                                        <select name="booking_type" class="form-control">
+                                            <option value="">Select Booking Type</option>
+                                            @foreach(config('constant.booking_type') as $booking_type)
+                                                <option value="{{ $booking_type }}">{{ $booking_type }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <!-- Short Title -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
@@ -77,14 +88,14 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Source City <span class="text-danger">*</span></label>
-                                        <select name="source_city_id" id="source_city_id" class="form-control" placeholder="Select Source City"></select>
+                                        <input type="text" name="source_city" class="form-control" placeholder="Source City">
                                     </div>
                                 </div>
                                 <!-- Destination City -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                                        <select name="destination_city_id" id="destination_city_id" class="form-control" placeholder="Select Destination City"></select>
+                                        <input type="text" name="destination_city" class="form-control" placeholder="Destination City">
                                     </div>
                                 </div>
                                 <!-- Price -->
@@ -240,6 +251,19 @@
                                                         <i class="ri-close-line"></i>
                                                     </a>
                                                 </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body text-center">
+                                            <h5 class="mb-3">Paste Image Here (Ctrl + V)</h5>
+                                            <div id="pasteArea"
+                                                style="border:2px dashed #ccc; padding:25px; border-radius:10px; min-height:100px; outline:none; cursor:text;">
+                                                <span style="color:#999;">
+                                                    Click here and press <b>Ctrl + V</b> to paste image
+                                                </span>
                                             </div>
                                         </div>
                                     </div>

@@ -183,5 +183,12 @@ return [
         'Single',
         'Multiple'
     ],
-    'lead_code_prefix' => 'SET'
+    'lead_code_prefix' => 'SET',
+
+
+    //skyeagle trip
+    'booking_type' => [
+        'Domestic',
+        'International'
+    ],
 ];
