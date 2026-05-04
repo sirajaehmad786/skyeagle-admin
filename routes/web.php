@@ -6,6 +6,7 @@ use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\ContactController;
 use App\Http\Controllers\Crm\DashboardController;
 use App\Http\Controllers\Crm\DocumentController;
+use App\Http\Controllers\Crm\EnquiryController;
 use App\Http\Controllers\Crm\ProfileController;
 use App\Http\Controllers\Crm\RoleController;
 use App\Http\Controllers\Crm\UserController;
@@ -13,12 +14,12 @@ use App\Http\Controllers\Crm\LocationController;
 use App\Http\Controllers\Crm\Master\HotelController;
 use App\Http\Controllers\Crm\Master\SightSeeingController;
 use App\Http\Controllers\Crm\LeadController;
+use App\Http\Controllers\Crm\MediaController;
 use App\Http\Controllers\Crm\NotificationController;
 use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\PaymentController;
 use App\Http\Controllers\Crm\QuotationController;
 use App\Http\Controllers\Crm\SettingController;
-use App\Http\Controllers\MediaController;
 use App\Http\Controllers\RoutingController;
 use App\Notifications\SystemNotification;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,18 @@ require __DIR__.'/auth.php';
 Route::get('pdf-test/{lead_id}/{quotation_id}/{test}',[QuotationController::class, 'exportPdf']);
 
 Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function () {
+
+    //Media routes
+    Route::resource("media", MediaController::class);
+
+    //Package routes
+    Route::resource("package", PackageController::class);
+    
+    //Category routes
+    Route::resource("category", CategoryController::class);
+
+    //Enquiry routes
+    Route::resource("enquiry", EnquiryController::class);
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboard/data', [DashboardController::class, 'data'])->name('dashboard.data');
@@ -40,13 +53,7 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     Route::resource("roles", RoleController::class);
     Route::resource("users", UserController::class);
-    
-    //Package routes
-    Route::resource("package", PackageController::class);
-    Route::get('/cities/search', [PackageController::class, 'search'])->name('cities.search');
-    
-    //Category routes
-    Route::resource("category", CategoryController::class);
+
     
     //Contact routes
     Route::resource("contact", ContactController::class);

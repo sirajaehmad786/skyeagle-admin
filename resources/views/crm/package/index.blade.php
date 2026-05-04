@@ -10,13 +10,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
+                        {{-- <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
                             data-bs-toggle="modal" data-bs-target="#filter_package_modal">
                             <i class="ri-filter-2-fill"></i>
                             <span id="filterIndicator"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
                             </span>
-                        </button>
+                        </button> --}}
                        <a href="{{ route('package.create') }}" class="btn btn-primary btn-sm me-1">
                             Add Package
                         </a>
@@ -45,7 +45,6 @@
                                         <tr>
                                             <th>Booking Type</th>
                                             <th>Package Name</th>
-                                            <th>Slug</th>
                                             <th>Package Code</th>
                                             <th>Source City</th>
                                             <th>Destination City</th>
@@ -62,6 +61,7 @@
             </div><!-- end col-->
         </div>
     </div>
+    @include('crm.package.model');
 @endsection
 
 @section('script')

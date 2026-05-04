@@ -10,15 +10,15 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
+                        {{-- <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
                             data-bs-toggle="modal" data-bs-target="#filter_package_modal">
                             <i class="ri-filter-2-fill"></i>
                             <span id="filterIndicator"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
                             </span>
-                        </button>
-                       <a href="{{ route('package.create') }}" class="btn btn-primary btn-sm me-1">
-                            Add Package
+                        </button> --}}
+                       <a href="{{ route('media.create') }}" class="btn btn-primary btn-sm me-1">
+                            Add Media
                         </a>
                     </div>
                     <h4 class="m-0 pt-3">Media</h4>
@@ -35,7 +35,7 @@
                     <div class="card-body">               
                     <div class="d-flex justify-content-end align-items-center mb-3">
                         <div style="max-width: 300px; width: 100%;">
-                            <input type="text" id="commonSearch" class="form-control" placeholder="Search...">
+                            <input type="text" id="mediaSearch" class="form-control" placeholder="Search...">
                         </div>
                     </div>         
                         <div class="row">
@@ -43,8 +43,12 @@
                                 <div class="table-responsive-scroll">
                                     <x-table id="media-table">
                                         <tr>
-                                            <th>Package Name</th>
-                                            <th>Created At</th>
+                                            <th>Module</th>
+                                            <th>Section</th>
+                                            <th>Title</th>
+                                            <th>SubTitle</th>
+                                            <th>Status</th>
+                                            <th>CreatedAt</th>
                                             <th>Action</th>
                                         </tr>
                                     </x-table>
