@@ -270,24 +270,5 @@ class PackageRepository extends BaseRepository
     {
         $package = Package::findOrFail($id);
         return $package->delete();
-    }
-
-    public function getCities()
-    {
-        return DB::table('cities')
-            ->where('flag', 1)
-            ->orderBy('name', 'asc')
-            ->get(['id', 'name']);
-    }
-
-    public function searchCities($search = null)
-    {
-        return $this->cityModel
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'LIKE', "%{$search}%");
-            })
-            ->orderBy('name')
-            ->limit(20)
-            ->get(['id', 'name','country_code']);
-    }
+    }     
 }

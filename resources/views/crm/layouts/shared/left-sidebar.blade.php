@@ -64,7 +64,7 @@
                 </li>
             @endcan --}}
             <li class="side-nav-item">
-                <a href="#" class="side-nav-link">
+                <a href="{{ route('media.index') }}" class="side-nav-link">
                     <i class="ri-folder-2-line"></i>
                     <span> Media </span>
                 </a>
@@ -84,6 +84,12 @@
                 </a>
             </li>
 
+            <li class="side-nav-item">
+                <a href="{{ route('enquiry.index') }}" class="side-nav-link">
+                    <i class="ri-customer-service-line"></i>
+                    <span> Enquiry </span>
+                </a>
+            </li>
             {{-- @can('user-list')
                 <li class="side-nav-item {{ request()->routeIs('users.*') ? 'menuitem-active' : '' }}">
                     <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">

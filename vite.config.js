@@ -214,6 +214,18 @@ export default defineConfig({
 
                 //Booking Document
                 'resources/js/crm/bookingDocument/create.js',
+
+
+                //skyeagle website
+                //package
+                'resources/js/crm/package/create.js',
+                'resources/js/crm/package/edit.js',
+                'resources/js/crm/package/index.js',
+
+                //media
+                'resources/js/crm/media/index.js',
+                'resources/js/crm/media/create.js',
+                'resources/js/crm/media/edit.js',
             ],
             refresh: true,
         }),

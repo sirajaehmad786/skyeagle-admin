@@ -191,4 +191,24 @@ return [
         'Domestic',
         'International'
     ],
+
+    'module' => [
+        'Home',
+        'Footer',
+        'Ads' ,
+        'Header',
+        'Tour Package'
+    ],
+
+    'section' => [
+        'Slider',
+        'Banner',
+        'Sidebar',
+        'Popup',
+    ],
+
+    'status'=>[
+        'Active',
+        'Inactive'
+    ]
 ];

@@ -5,12 +5,11 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageRequest;
 use App\Models\Category;
-use App\Models\Package;
 use App\Repositories\PackageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
-
+use Illuminate\Support\Str;
 class PackageController extends Controller
 {
     protected $packageRepository;
@@ -123,12 +122,8 @@ class PackageController extends Controller
                         ->orWhereRaw('LOWER(slug) LIKE ?', ["%{$search}%"])
                         ->orWhereRaw('LOWER(package_code) LIKE ?', ["%{$search}%"])
                         ->orWhereRaw('CAST(price AS CHAR) LIKE ?', ["%{$search}%"])
-                        ->orWhereHas('sourceCity', function ($q2) use ($search) {
-                            $q2->whereRaw('LOWER(name) LIKE ?', ["%{$search}%"]);
-                        })
-                        ->orWhereHas('destinationCity', function ($q3) use ($search) {
-                            $q3->whereRaw('LOWER(name) LIKE ?', ["%{$search}%"]);
-                        });
+                        ->orWhereRaw('LOWER(source_city) LIKE ?', ["%{$search}%"])
+                        ->orWhereRaw('LOWER(destination_city) LIKE ?', ["%{$search}%"]);
                     });
                 }
             })
@@ -142,10 +137,15 @@ class PackageController extends Controller
                 }
             })
             ->addColumn('package_name', function ($row) {
-                return '<div class="w-100px">' . $row->package_name . '</div>';
-            })
-            ->addColumn('slug', function ($row) {
-                return '<div class="w-100px">' . ($row->slug ?? '-') . '</div>';
+                $fullName = $row->package_name ?? '-';
+                $shortName = Str::limit($fullName, 50, '...');
+                return '
+                    <div class="w-150px message-cell" 
+                        data-full="'.e($fullName).'" 
+                        style="cursor:pointer;">
+                        '.$shortName.'
+                    </div>
+                ';
             })
             ->addColumn('package_code', function ($row) {
                 return '<div class="w-150px">' . ($row->package_code ?? '-') . '</div>';
@@ -183,9 +183,8 @@ class PackageController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $cities = $this->packageRepository->searchCities($search);
         return response()->json([
-            'data' => $cities
+            'data' => $search
         ]);
     }
 }

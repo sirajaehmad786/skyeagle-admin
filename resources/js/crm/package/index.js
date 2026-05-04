@@ -5,7 +5,6 @@ $(function () {
     const columns = [
         { data: 'booking_type', name: 'booking_type' },
         { data: 'package_name', name: 'package_name' },
-        { data: 'slug', name: 'slug' },
         { data: 'package_code', name: 'package_code' },
         { data: 'source_city', name: 'source_city' },
         { data: 'destination_city', name: 'destination_city' },
@@ -36,5 +35,11 @@ $(function () {
             const table = $('#package-table').DataTable();
             confirmDelete(url,table);
         }
+    });
+
+    $(document).on('click', '.message-cell', function () {
+        let fullMessage = $(this).data('full');
+        $('#messageModal .modal-body').text(fullMessage);
+        $('#messageModal').modal('show');
     });
 });
