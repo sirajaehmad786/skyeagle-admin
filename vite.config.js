@@ -217,6 +217,12 @@ export default defineConfig({
 
 
                 //skyeagle website
+
+                //category
+                'resources/js/crm/category/create.js',
+                'resources/js/crm/category/edit.js',
+                'resources/js/crm/category/index.js',
+
                 //package
                 'resources/js/crm/package/create.js',
                 'resources/js/crm/package/edit.js',
