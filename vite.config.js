@@ -27,7 +27,7 @@ export default defineConfig({
                 'node_modules/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css',
                 'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css',
                 'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css',
-
+                'node_modules/dropzone/dist/dropzone.css',
 
 
                 // My css
@@ -228,6 +228,10 @@ export default defineConfig({
                 'resources/js/crm/package/edit.js',
                 'resources/js/crm/package/index.js',
 
+                //enquiry
+                'resources/js/crm/enquiry/index.js',
+
+                
                 //media
                 'resources/js/crm/media/index.js',
                 'resources/js/crm/media/create.js',

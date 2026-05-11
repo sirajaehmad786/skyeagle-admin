@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }, {}, {
 
         skipRequiredFor: [
-            "package_name", "short_title", "source_city", "destination_city",
+            "package_name","booking_type", "short_title", "source_city", "destination_city",
             "price", "min_people", "max_people",
             "start_date", "end_date", "description","category_id"
         ],

@@ -2,10 +2,21 @@
 
 @section('css')
 @vite([
-    'resources/css/custom.css',
-    'node_modules/select2/dist/css/select2.min.css',
-    'node_modules/flatpickr/dist/flatpickr.min.css',
-    'node_modules/quill/dist/quill.snow.css',
+        'resources/css/crm/custom.css',
+        'node_modules/dropzone/dist/dropzone.css',
+        'node_modules/select2/dist/css/select2.min.css', 
+        'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css', 
+        'node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css', 
+        'node_modules/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css', 
+        'node_modules/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css', 
+        'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css', 
+        'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css',
+        'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css',
+        'node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css',
+        'node_modules/flatpickr/dist/flatpickr.min.css',
+        'node_modules/quill/dist/quill.core.css',
+        'node_modules/quill/dist/quill.snow.css',
+        'node_modules/quill/dist/quill.bubble.css',
 ])
 @endsection
 

@@ -1,5 +1,6 @@
 @extends('crm.layouts.vertical', ['page_title' => 'Create Package', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
-@section('css')
+
+@section('css') 
     @vite([
         'resources/css/crm/custom.css',
         'node_modules/dropzone/dist/dropzone.css',
@@ -310,8 +311,7 @@
 @endsection
 
 @section('script')
-    @vite(['
-        resources/js/pages/demo.datatable-init.js', 
+    @vite([
         'resources/js/pages/demo.form-advanced.js',
         'resources/js/crm/package/create.js',
         'resources/js/crm/common/common.js',

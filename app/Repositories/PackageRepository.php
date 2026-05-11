@@ -236,7 +236,7 @@ class PackageRepository extends BaseRepository
                 continue;
             }
             $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $path = $file->store('packages', 'public');
+            $path = $file->storeAs('packages', $fileName, 'public');
             DB::table('package_images')->insert([
                 'package_id' => $packageId,
                 'image' => $path,
