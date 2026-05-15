@@ -8,6 +8,9 @@
 </head>
 
 <body class="authentication-bg position-relative">
+    <div id="login-flash-data" class="d-none" hidden
+        data-payload='@json(["success" => session("success"), "error" => session("error"), "errors" => $errors->all()])'
+        aria-hidden="true"></div>
     <div class="position-absolute start-0 end-0 start-0 bottom-0 w-100 h-100">
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" width="100%" height="100%" preserveAspectRatio="none" viewBox="0 0 1920 1028">
             <g mask="url(&quot;#SvgjsMask1166&quot;)" fill="none">
@@ -193,21 +196,6 @@
                                 <h4 class="text-dark-50 text-center pb-0 fw-bold">Sign In</h4>
                             </div>
                             
-                            @if (session('success'))
-                                <div class="alert alert-success d-flex align-items-center" role="alert">
-                                    <span class="badge bg-success me-2">Success</span>
-                                    <div>{{ session('success') }}</div>
-                                </div>
-                            @endif
-
-                            @if (session('error'))
-                                <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                    <span class="badge bg-danger me-2">Error</span>
-                                    <div>{{ session('error') }}</div>
-                                </div>
-                            @endif
-
-
                             <form method="POST" action="{{ route('login') }}">
                                 
                                 @csrf
@@ -261,8 +249,8 @@
             </script> © <a href="https://skyeagletrip.com/" target="_blank">Sky Eagle<a>
         </span>
     </footer>
-    @vite(['resources/js/app.js'])
-    
+    @vite(['resources/js/app.js', 'resources/js/auth/login.js'])
+
 </body>
 
 </html>

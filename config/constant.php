@@ -12,6 +12,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Admin panel access (users.role_id)
+    |--------------------------------------------------------------------------
+    | role_ids: DB role id => label — add new roles in sequence when created.
+    | allowed_login_role_ids: only these role_ids may log in to this admin app.
+    */
+    'admin_access' => [
+        'role_ids' => [
+            'super_admin' => 1,
+            // 'manager'     => 2,
+            // 'staff'       => 3,
+        ],
+        'allowed_login_role_ids' => [
+            1, // super_admin
+        ],
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Contact Status (use config('constant.contact_status') or ContactStatus::*)
     |--------------------------------------------------------------------------
     */

@@ -7,14 +7,13 @@ use App\Models\Package;
 use App\Models\PackageFaqs;
 use App\Models\PackageHighlight;
 use App\Models\PackageItinerary;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PackageRepository extends BaseRepository
 {
-    protected $cityModel;
+    protected City $cityModel;
     public function __construct(Package $package, City $city)
     {
         parent::__construct($package);

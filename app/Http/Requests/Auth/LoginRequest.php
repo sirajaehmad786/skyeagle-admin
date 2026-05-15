@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Support\AdminAccess;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -46,6 +47,21 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        $user = Auth::user();
+
+        if (! AdminAccess::userMayAccessPanel($user)) {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            $message = $user && $user->status !== AdminAccess::activeStatus()
+                ? __('auth.account_inactive')
+                : __('auth.admin_panel_only');
+
+            throw ValidationException::withMessages([
+                'email' => $message,
             ]);
         }
 

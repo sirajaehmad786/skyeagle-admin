@@ -8,8 +8,8 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
-test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+test('only super admin may authenticate to the admin panel', function () {
+    $user = User::factory()->superAdmin()->create();
 
     $response = $this->post('/login', [
         'email' => $user->email,
@@ -20,8 +20,30 @@ test('users can authenticate using the login screen', function () {
     $response->assertRedirect(route('dashboard', absolute: false));
 });
 
+test('non super admin cannot authenticate to the admin panel', function () {
+    $user = User::factory()->staffRole()->create();
+
+    $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertGuest();
+});
+
+test('inactive super admin cannot authenticate', function () {
+    $user = User::factory()->superAdmin()->inactive()->create();
+
+    $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertGuest();
+});
+
 test('users can not authenticate with invalid password', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->superAdmin()->create();
 
     $this->post('/login', [
         'email' => $user->email,
@@ -32,7 +54,7 @@ test('users can not authenticate with invalid password', function () {
 });
 
 test('users can logout', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->superAdmin()->create();
 
     $response = $this->actingAs($user)->post('/logout');
 
