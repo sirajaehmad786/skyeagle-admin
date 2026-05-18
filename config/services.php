@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'geoapify' => [
+        'api_key' => env('GEOAPIFY_API_KEY'),
+        // false only on local/WAMP when PHP has no CA bundle; always true on live servers
+        'verify_ssl' => env('GEOAPIFY_VERIFY_SSL', env('APP_ENV', 'production') !== 'local'),
+    ],
+
 ];

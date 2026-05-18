@@ -89,14 +89,14 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Source City <span class="text-danger">*</span></label>
-                                        <input type="text" name="source_city" class="form-control" placeholder="Source City">
+                                        <input type="text" name="source_city" id="source_city" class="form-control city-autocomplete" placeholder="Type city name (e.g. Ahmedabad)" autocomplete="off" data-city-search-url="{{ route('cities.geoapify.search') }}">
                                     </div>
                                 </div>
                                 <!-- Destination City -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                                        <input type="text" name="destination_city" class="form-control" placeholder="Destination City">
+                                        <input type="text" name="destination_city" id="destination_city" class="form-control city-autocomplete" placeholder="Type city name (e.g. Mumbai)" autocomplete="off" data-city-search-url="{{ route('cities.geoapify.search') }}">
                                     </div>
                                 </div>
                                 <!-- Price -->
@@ -311,6 +311,9 @@
 @endsection
 
 @section('script')
+    <script>
+        window.packageCitySearchUrl = @json(route('cities.geoapify.search'));
+    </script>
     @vite([
         'resources/js/pages/demo.form-advanced.js',
         'resources/js/crm/package/create.js',
