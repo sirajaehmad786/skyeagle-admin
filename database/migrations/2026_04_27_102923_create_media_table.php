@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('file_type')->nullable(); // image, video
             $table->string('module');  // home, footer, ads, header, tour_page
             $table->string('section');  // slider, banner, sidebar, popup
-            $table->foreignId('module_id')->nullable()->constrained('modules')->onDelete('set null');
             $table->string('title')->nullable();
             $table->string('sub_title')->nullable();
             $table->string('button_text')->nullable();
