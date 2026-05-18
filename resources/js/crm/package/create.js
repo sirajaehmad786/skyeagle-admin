@@ -1,8 +1,12 @@
 import Quill from "quill/dist/quill.min.js";
 import { initAjaxFormValidation } from '../common/form-handler.js';
 import Dropzone from "dropzone";
+import { initCityAutocomplete } from '../common/city-autocomplete.js';
 
 document.addEventListener("DOMContentLoaded", function () {
+    initCityAutocomplete({
+        searchUrl: window.packageCitySearchUrl,
+    });
     const quill = new Quill("#my-snow-editor", {
         theme: "snow",
         modules: {

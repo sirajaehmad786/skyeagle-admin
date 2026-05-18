@@ -90,15 +90,17 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Source City <span class="text-danger">*</span></label>
-                            <input type="text" name="source_city" class="form-control"
-                                value="{{ $package->source_city }}">
+                            <input type="text" name="source_city" id="source_city" class="form-control city-autocomplete"
+                                value="{{ $package->source_city }}" placeholder="Type city name" autocomplete="off"
+                                data-city-search-url="{{ route('cities.geoapify.search') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                            <input type="text" name="destination_city" class="form-control"
-                                value="{{ $package->destination_city }}">
+                            <input type="text" name="destination_city" id="destination_city" class="form-control city-autocomplete"
+                                value="{{ $package->destination_city }}" placeholder="Type city name" autocomplete="off"
+                                data-city-search-url="{{ route('cities.geoapify.search') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -403,6 +405,9 @@
 </div>
 @endsection
 @section('script')
+    <script>
+        window.packageCitySearchUrl = @json(route('cities.geoapify.search'));
+    </script>
     @vite([
         'resources/js/pages/demo.form-advanced.js',
         'resources/js/crm/package/edit.js',
