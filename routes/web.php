@@ -4,6 +4,7 @@ use App\Http\Controllers\Crm\ActivityController;
 use App\Http\Controllers\Crm\BookingController;
 use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\ContactController;
+use App\Http\Controllers\Crm\CustomerReviewController;
 use App\Http\Controllers\Crm\DashboardController;
 use App\Http\Controllers\Crm\DocumentController;
 use App\Http\Controllers\Crm\EnquiryController;
@@ -43,6 +44,10 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     //Enquiry routes
     Route::resource("enquiry", EnquiryController::class);
+    
+    //CustomerReview
+    Route::resource('customer-review', CustomerReviewController::class);
+    
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('dashboard/data', [DashboardController::class, 'data'])->name('dashboard.data');
