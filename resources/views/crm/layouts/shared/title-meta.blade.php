@@ -5,5 +5,5 @@
 <meta content="Coderthemes" name="author" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!-- App favicon -->
-<link rel="shortcut icon" href="/images/favicon.ico">
+<link rel="shortcut icon" href="{{ asset('/images/favicon.ico') }}">
 <meta name="csrf-token" content="{{ csrf_token() }}">

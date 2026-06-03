@@ -185,8 +185,8 @@
                     <div class="card">
                         <!-- Logo -->
                         <div class="card-header py-6 text-center" style="background-color:#d9d9de">
-                            <a href="{{ route('any', 'index') }}ml">
-                                <span><img src="/images/logo.png" alt="logo" height="60"></span>
+                            <a href="{{ route('login') }}">
+                                <span><img src="{{ asset('/images/logo.png') }}" alt="logo" height="60"></span>
                             </a>
                         </div>
 
