@@ -218,6 +218,9 @@ export default defineConfig({
 
                 //skyeagle website
 
+                // login
+                'resources/js/auth/login.js',
+
                 //category
                 'resources/js/crm/category/create.js',
                 'resources/js/crm/category/edit.js',
