@@ -45,6 +45,37 @@
                         <form id="create_package" action="{{ route('package.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
+                                <!-- Package Type -->
+                                    <div class="col-md-4">
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                Package Type <span class="text-danger">*</span>
+                                            </label>
+                                            <div class="d-flex gap-4 mt-2">
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                        type="radio"
+                                                        name="package_type"
+                                                        id="tour"
+                                                        value="tour"
+                                                        checked>
+                                                    <label class="form-check-label" for="tour">
+                                                        Tour
+                                                    </label>
+                                                </div>
+                                                <div class="form-check">
+                                                    <input class="form-check-input"
+                                                        type="radio"
+                                                        name="package_type"
+                                                        id="attraction"
+                                                        value="attraction">
+                                                    <label class="form-check-label" for="attraction">
+                                                        Attraction
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Category Name <span class="text-danger">*</span></label>
@@ -89,14 +120,14 @@
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Source City <span class="text-danger">*</span></label>
-                                        <input type="text" name="source_city" class="form-control" placeholder="Source City">
+                                        <input type="text" name="source_city" id="source_city" class="form-control city-autocomplete" placeholder="Type city name (e.g. Ahmedabad)" autocomplete="off" data-city-search-url="{{ route('cities.geoapify.search') }}">
                                     </div>
                                 </div>
                                 <!-- Destination City -->
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                                        <input type="text" name="destination_city" class="form-control" placeholder="Destination City">
+                                        <input type="text" name="destination_city" id="destination_city" class="form-control city-autocomplete" placeholder="Type city name (e.g. Mumbai)" autocomplete="off" data-city-search-url="{{ route('cities.geoapify.search') }}">
                                     </div>
                                 </div>
                                 <!-- Price -->
@@ -143,6 +174,46 @@
                                     <div class="mb-3">
                                         <label class="form-label">Video URL</label>
                                         <input type="text" name="video_url" class="form-control" placeholder="(e.g. https://youtube.com/watch?v=xxxx)">
+                                    </div>
+                                </div>
+                                <!-- Package Flags -->
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label d-block">
+                                            Package Settings
+                                        </label>
+                                        <div class="d-flex flex-wrap gap-4">
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    id="is_featured"
+                                                    name="is_featured"
+                                                    value="1">
+                                                <label class="form-check-label" for="is_featured">
+                                                    Featured Package
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    id="is_popular"
+                                                    name="is_popular"
+                                                    value="1">
+                                                <label class="form-check-label" for="is_popular">
+                                                    Popular Package
+                                                </label>
+                                            </div>
+                                            <div class="form-check">
+                                                <input type="checkbox"
+                                                    class="form-check-input"
+                                                    id="is_trending"
+                                                    name="is_trending"
+                                                    value="1">
+                                                <label class="form-check-label" for="is_trending">
+                                                    Trending Package
+                                                </label>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- Description -->
@@ -311,6 +382,9 @@
 @endsection
 
 @section('script')
+    <script>
+        window.packageCitySearchUrl = @json(route('cities.geoapify.search'));
+    </script>
     @vite([
         'resources/js/pages/demo.form-advanced.js',
         'resources/js/crm/package/create.js',

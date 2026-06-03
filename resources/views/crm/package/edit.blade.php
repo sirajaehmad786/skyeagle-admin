@@ -47,6 +47,37 @@
                 <div class="row">
                     <div class="col-md-4">
                         <div class="mb-3">
+                            <label class="form-label">
+                                Package Type <span class="text-danger">*</span>
+                            </label>
+                            <div class="d-flex gap-4 mt-2">
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                        type="radio"
+                                        name="package_type"
+                                        id="tour"
+                                        value="tour"
+                                        {{ $package->package_type == 'tour' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tour">
+                                        Tour
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                        type="radio"
+                                        name="package_type"
+                                        id="attraction"
+                                        value="attraction"
+                                        {{ $package->package_type == 'attraction' ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="attraction">
+                                        Attraction
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
                             <label class="form-label">Category Name <span class="text-danger">*</span></label>
                             <select name="category_id" id="category_id" class="form-control select2">
                                 <option value="">Select Category</option>
@@ -90,15 +121,17 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Source City <span class="text-danger">*</span></label>
-                            <input type="text" name="source_city" class="form-control"
-                                value="{{ $package->source_city }}">
+                            <input type="text" name="source_city" id="source_city" class="form-control city-autocomplete"
+                                value="{{ $package->source_city }}" placeholder="Type city name" autocomplete="off"
+                                data-city-search-url="{{ route('cities.geoapify.search') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Destination City <span class="text-danger">*</span></label>
-                            <input type="text" name="destination_city" class="form-control"
-                                value="{{ $package->destination_city }}">
+                            <input type="text" name="destination_city" id="destination_city" class="form-control city-autocomplete"
+                                value="{{ $package->destination_city }}" placeholder="Type city name" autocomplete="off"
+                                data-city-search-url="{{ route('cities.geoapify.search') }}">
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -143,6 +176,48 @@
                             <label class="form-label">Video URL</label>
                             <input type="text" name="video_url" class="form-control"
                                 value="{{ $package->video_url }}">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="mb-3">
+                            <label class="form-label d-block">
+                                Package Settings
+                            </label>
+                            <div class="d-flex flex-wrap gap-4">
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                        class="form-check-input"
+                                        id="is_featured"
+                                        name="is_featured"
+                                        value="1"
+                                        {{ $package->is_featured ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_featured">
+                                        Featured Package
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                        class="form-check-input"
+                                        id="is_popular"
+                                        name="is_popular"
+                                        value="1"
+                                        {{ $package->is_popular ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_popular">
+                                        Popular Package
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox"
+                                        class="form-check-input"
+                                        id="is_trending"
+                                        name="is_trending"
+                                        value="1"
+                                        {{ $package->is_trending ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="is_trending">
+                                        Trending Package
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>                    
                     <div class="col-md-12">
@@ -403,6 +478,9 @@
 </div>
 @endsection
 @section('script')
+    <script>
+        window.packageCitySearchUrl = @json(route('cities.geoapify.search'));
+    </script>
     @vite([
         'resources/js/pages/demo.form-advanced.js',
         'resources/js/crm/package/edit.js',

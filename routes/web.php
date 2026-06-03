@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
+
 Route::get('pdf-test/{lead_id}/{quotation_id}/{test}',[QuotationController::class, 'exportPdf']);
 
 Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function () {
@@ -50,6 +51,7 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::POST('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::POST('profile/update-password', [ProfileController::class, 'updatePassword'])->name('profile.update.password');
     Route::get('/get-city-details/{id}', [LocationController::class, 'getCityDetails'])->name('city.details');
+    Route::get('/cities/geoapify-search', [LocationController::class, 'searchGeoapifyCities'])->name('cities.geoapify.search');
 
     Route::resource("roles", RoleController::class);
     Route::resource("users", UserController::class);
