@@ -239,6 +239,7 @@ export default defineConfig({
                 'resources/js/crm/media/index.js',
                 'resources/js/crm/media/create.js',
                 'resources/js/crm/media/edit.js',
+                
             ],
             refresh: true,
         }),
