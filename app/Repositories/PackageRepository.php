@@ -25,6 +25,7 @@ class PackageRepository extends BaseRepository
         $data = $request->only([ 
             'package_name',
             'booking_type',
+            'package_type',
             'short_title',
             'source_city',
             'destination_city',
@@ -40,6 +41,9 @@ class PackageRepository extends BaseRepository
         $data['start_date'] = convertDateFormat($request->start_date ?? null);
         $data['end_date']   = convertDateFormat($request->end_date ?? null);
         $data['created_by'] = Auth::id();
+        $data['is_featured'] = $request->has('is_featured') ? 1 : 0;
+        $data['is_popular'] = $request->has('is_popular') ? 1 : 0;
+        $data['is_trending'] = $request->has('is_trending') ? 1 : 0;
         $package = $this->model->create($data);
         if ($request->faq_question && $request->faq_answer) {
             $faqs = [];
@@ -120,6 +124,7 @@ class PackageRepository extends BaseRepository
         $package = $this->model->findOrFail($id);
         $data = $request->only([ 
             'package_name',
+            'package_type',
             'short_title',
             'source_city',
             'destination_city',
@@ -135,6 +140,9 @@ class PackageRepository extends BaseRepository
             'booking_type'
         ]);
         $data['categories_id'] = $request->category_id;
+        $data['is_featured'] = $request->has('is_featured') ? 1 : 0;
+        $data['is_popular'] = $request->has('is_popular') ? 1 : 0;
+        $data['is_trending'] = $request->has('is_trending') ? 1 : 0;
         $package->update($data);
         $faqIds = $request->faq_id ?? [];
         $questions = $request->faq_question ?? [];
