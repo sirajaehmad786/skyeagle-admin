@@ -203,6 +203,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // VALIDATION
     initAjaxFormValidation("#edit_package", {
         package_name: { required: true },
+        package_type: { required: true },
         booking_type: { required: true },
         category_id: { required: true },
         source_city: { required: true },
@@ -215,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         description: { required: true }
     }, {}, {
         skipRequiredFor: [
-            "package_name", "booking_type", "source_city", "destination_city",
+            "package_name", "package_type", "booking_type", "source_city", "destination_city",
             "price", "min_people", "max_people",
             "start_date", "end_date", "description","booking_type"
         ],
