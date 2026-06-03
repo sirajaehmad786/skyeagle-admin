@@ -1,7 +1,40 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
-export default defineConfig({
+/**
+ * Vite `base` must match the public URL path (e.g. /admin/ in production).
+ * Uses VITE_BASE when set, otherwise derives from APP_URL pathname.
+ */
+function resolveViteBase(env) {
+    const explicit = (env.VITE_BASE || '').trim();
+    if (explicit !== '') {
+        return explicit.endsWith('/') ? explicit : `${explicit}/`;
+    }
+
+    const appUrl = (env.APP_URL || '').trim();
+    if (appUrl === '') {
+        return null;
+    }
+
+    try {
+        const pathname = new URL(appUrl).pathname.replace(/\/$/, '');
+        if (pathname && pathname !== '/') {
+            // Must include /build/ so icon fonts resolve to /admin/build/assets/...
+            return `${pathname}/build/`;
+        }
+    } catch {
+        // invalid APP_URL
+    }
+
+    return null;
+}
+
+export default defineConfig(({ mode }) => {
+    const env = loadEnv(mode, process.cwd(), '');
+    const base = resolveViteBase(env);
+
+    return {
+    ...(base ? { base } : {}),
     plugins: [
         laravel({
             input: [
@@ -252,4 +285,5 @@ export default defineConfig({
             $: "jQuery",
         },
     },
+    };
 });
