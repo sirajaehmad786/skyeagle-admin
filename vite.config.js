@@ -272,6 +272,10 @@ export default defineConfig(({ mode }) => {
                 'resources/js/crm/media/index.js',
                 'resources/js/crm/media/create.js',
                 'resources/js/crm/media/edit.js',
+
+                //CustomerReview
+                'resources/js/crm/customerReview/index.js',
+                'resources/js/crm/customerReview/create.js',
                 
             ],
             refresh: true,

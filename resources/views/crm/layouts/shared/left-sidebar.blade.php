@@ -54,15 +54,7 @@
                     </a>
                 </li>
             @endcan
-
-            {{-- @can('role-list')
-                <li class="side-nav-item {{ request()->routeIs('roles.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('roles.index') }}" class="side-nav-link">
-                        <i class="ri-lock-line"></i>
-                        <span> Role Permission </span>
-                    </a>
-                </li>
-            @endcan --}}
+          
             <li class="side-nav-item">
                 <a href="{{ route('media.index') }}" class="side-nav-link">
                     <i class="ri-folder-2-line"></i>
@@ -90,117 +82,14 @@
                     <span> Enquiry </span>
                 </a>
             </li>
-            {{-- @can('user-list')
-                <li class="side-nav-item {{ request()->routeIs('users.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('users.index') }}" class="side-nav-link {{ request()->routeIs('users.*') ? 'active' : '' }}">
-                        <i class="ri-shield-user-line"></i>
-                        <span> User Management </span>
-                    </a>
-                </li>
-            @endcan
 
-            @can('contact-manage')
-                <li class="side-nav-item {{ request()->routeIs('contact.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('contact.index') }}" class="side-nav-link">
-                        <i class="ri-user-line"></i>
-                        <span> Contacts </span>
-                    </a>
-                </li>
-            @endcan
-
-            @can('lead-list')
-                <li class="side-nav-item {{ request()->routeIs('leads.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('leads.index') }}" class="side-nav-link">
-                        <i class="ri-team-line"></i>
-                        <span> Leads </span>
-                    </a>
-                </li>
-            @endcan
-
-            @can('quotation-list')
-                <li class="side-nav-item {{ request()->routeIs('quotations.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('quotations.index') }}" class="side-nav-link">
-                        <i class="ri-file-list-3-line"></i>
-                        <span> Quotations </span>
-                    </a>
-                </li>
-            @endcan
-            @can('booking-list')
-            <li class="side-nav-item {{ request()->routeIs('bookings.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('bookings.index') }}" class="side-nav-link">
-                    <i class="ri-calendar-check-line"></i>
-                    <span> Booking </span>
+            <li class="side-nav-item">
+                <a href="{{ route('customer-review.index') }}" class="side-nav-link">
+                    <i class="ri-feedback-line"></i>
+                    <span> Testimonials & Reviews </span>
                 </a>
             </li>
-            @endcan
-
-            @can('payment-list')
-                <li class="side-nav-item {{ request()->routeIs('payments.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('payments.index') }}" class="side-nav-link">
-                        <i class="ri-bank-card-line"></i>
-                        <span> Payment </span>
-                    </a>
-                </li>
-            @endcan
-            
-
-            @can('payment-list')
-                <li class="side-nav-item">
-                    <a href="{{ route('notifications.index') }}" class="side-nav-link">
-                        <i class="ri-notification-3-line"></i>
-                        <span> Notification </span>
-                    </a>
-                </li>
-            @endcan
-
-            @if(auth()->user()->can('hotel-list') || auth()->user()->can('sightseeing-list'))
-                <li class="side-nav-title">Master Modules</li>
-            @endcan
-            @can('hotel-list')
-
-                <li class="side-nav-item {{ request()->routeIs('hotels.*') ? 'menuitem-active' : '' }}">
-                    <a href="{{ route('hotels.index') }}" class="side-nav-link">
-                        <i class="ri-hotel-line"></i>
-                        <span> Hotels </span>
-                    </a>
-                </li>
-            @endcan
-
-            @can('sightseeing-list')
-            <li class="side-nav-item {{ request()->routeIs('sightseeings.*') ? 'menuitem-active' : '' }}">
-                <a href="{{ route('sightseeings.index')}}" class="side-nav-link">
-                    <i class="ri-landscape-line"></i>
-                    <span> Sightseeing </span>
-                </a>
-            </li>
-            @endcan
-            
-            @can('settings-manage')
-            <li class="side-nav-item {{ request()->routeIs('settings.*') ? 'menuitem-active' : '' }}">
-                <a href="{{ route('settings.index')}}" class="side-nav-link"> 
-                    <i class="ri-file-list-3-line"></i>
-                    <span> Settings </span>
-                </a>
-            </li>
-            @endcan
-
-            @can('document-list')
-            <li class="side-nav-item {{ request()->routeIs('documents.*') ? 'menuitem-active' : '' }}">
-                <a href="{{ route('documents.index')}}" class="side-nav-link"> 
-                    <i class="ri-file-upload-line"></i>
-                    <span> Documents </span>
-                </a>
-            </li>
-            @endcan
-            
-            @can('activity-list')
-            <li class="side-nav-item {{ request()->routeIs('activities.*') ? 'menuitem-active' : '' }}">
-                <a href="{{ route('activities.index')}}" class="side-nav-link"> 
-                    <i class="ri-calendar-event-line"></i>
-                    <span> Activities </span>
-                </a>
-            </li>
-            @endcan --}}
+           
 
         </ul>
         <!--- End Sidemenu -->
