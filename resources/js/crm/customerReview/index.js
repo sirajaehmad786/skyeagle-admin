@@ -4,8 +4,8 @@ import { confirmDelete } from '../common/form-handler.js';
 $(function () {
 
     const columns = [
-        { data: 'reviewer_name', name: 'name' },
-        { data: 'review_title', name: 'review' },
+        { data: 'reviewer_name', name: 'reviewer_name' },
+        { data: 'reviewer_location', name: 'location' },
         { data: 'rating', name: 'rating' },
         { data: 'created_at', name: 'created_at' },
         { data: 'action', orderable: false, searchable: false },

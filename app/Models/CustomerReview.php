@@ -15,14 +15,9 @@ class CustomerReview extends Model
         'review_title',
         'review_description',
         'reviewer_name',
-        'reviewer_email',
-        'reviewer_phone',
-        'reviewer_designation',
-        'reviewer_company',
         'reviewer_location',
         'reviewer_image',
         'rating',
         'sort_order',
-        'slug'
     ];
 }

@@ -32,7 +32,16 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#uploadPreviewTemplate")
             ?.innerHTML.trim();
 
-    if (document.querySelector("#demoDropzone")) {
+    if (Dropzone.instances.length > 0) {
+        Dropzone.instances.forEach((dz) => dz.destroy());
+    }
+
+    const dropzoneElement = document.querySelector("#demoDropzone");
+    const hiddenInputContainer = document.getElementById(
+        "reviewer-image-input-container"
+    );
+
+    if (dropzoneElement) {
         reviewDropzone = new Dropzone("#demoDropzone", {
             url: "#",
             autoProcessQueue: false,
@@ -42,21 +51,33 @@ document.addEventListener("DOMContentLoaded", function () {
             previewsContainer: "#file-previews",
             previewTemplate: previewTemplate,
             addRemoveLinks: false,
+            hiddenInputContainer: hiddenInputContainer || dropzoneElement,
 
             init: function () {
-                this.on("addedfile", function (file) {
-                    if (this.files.length > 1) {
-                        this.removeFile(this.files[0]);
+                const dz = this;
+
+                dz.on("addedfile", function () {
+                    if (dz.files.length > 1) {
+                        dz.removeFile(dz.files[0]);
+                    }
+                    dropzoneElement.classList.add("dz-started");
+                });
+
+                dz.on("removedfile", function () {
+                    if (dz.files.length === 0) {
+                        dropzoneElement.classList.remove("dz-started");
                     }
                 });
-                this.on("maxfilesexceeded", function (file) {
-                    this.removeAllFiles();
-                    this.addFile(file);
+
+                dz.on("maxfilesexceeded", function (file) {
+                    dz.removeAllFiles();
+                    dz.addFile(file);
                 });
-                this.on("error", function (file, message) {
+
+                dz.on("error", function (file, message) {
                     console.log(message);
                 });
-            }
+            },
         });
     }
 
@@ -66,54 +87,64 @@ document.addEventListener("DOMContentLoaded", function () {
         "#create_customer-review",
         {
             review_description: {
-                required: true
+                required: true,
             },
             reviewer_name: {
-                required: true
-            }
+                required: true,
+            },
+            reviewer_location: {
+                required: true,
+            },
+            rating: {
+                required: true,
+            },
         },
         {},
         {
             skipRequiredFor: [
                 "review_description",
-                "reviewer_name"
+                "reviewer_name",
+                "reviewer_location",
+                "rating",
             ],
             beforeSubmit: function () {
                 $("#review_description").val(
                     reviewDescriptionEditor.root.innerHTML
                 );
-                let dz = window.reviewDropzone;
-                document
-                    .querySelectorAll(".dz-hidden-input")
-                    .forEach(el => el.remove());
+
+                const form = document.getElementById("create_customer-review");
+                const dz = window.reviewDropzone;
+
+                form.querySelectorAll(".dz-hidden-input").forEach((el) => el.remove());
+
                 if (dz && dz.files.length > 0) {
-                    const input =
-                        document.createElement("input");
+                    const input = document.createElement("input");
                     input.type = "file";
                     input.name = "reviewer_image";
-                    input.classList.add(
-                        "dz-hidden-input"
-                    );
+                    input.classList.add("dz-hidden-input");
+                    input.style.display = "none";
+
                     const dt = new DataTransfer();
                     dt.items.add(dz.files[0]);
                     input.files = dt.files;
-                    document
-                        .getElementById(
-                            "create_customer-review"
-                        )
-                        .appendChild(input);
+
+                    (hiddenInputContainer || form).appendChild(input);
                 }
-                $(".btn-save").addClass("d-none");
-                $(".btn-loading").removeClass("d-none");
             },
             onSuccess: function (res) {
-                window.location.href =res.redirect_url;
+                $(".btn-save").removeClass("d-none").show().prop("disabled", false);
+                $(".btn-loading").addClass("d-none").hide();
+
+                if (res.redirect_url) {
+                    window.location.href = res.redirect_url;
+                }
             },
             onError: function (res) {
-                $(".btn-save").removeClass("d-none");
-                $(".btn-loading").addClass("d-none");
-                showToastmessage(res.message,"error");
-            }
+                $(".btn-save").removeClass("d-none").show().prop("disabled", false);
+                $(".btn-loading").addClass("d-none").hide();
+                showToastmessage(res.message, "error");
+            },
         }
     );
 });
+    

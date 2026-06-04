@@ -86,7 +86,7 @@
             <li class="side-nav-item">
                 <a href="{{ route('customer-review.index') }}" class="side-nav-link">
                     <i class="ri-feedback-line"></i>
-                    <span> Testimonials & Reviews </span>
+                    <span> Customer Reviews</span>
                 </a>
             </li>
            

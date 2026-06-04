@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\CustomerReview;
-use Illuminate\Support\Str;
 
 class CustomerReviewRepository extends BaseRepository
 {
@@ -15,17 +14,12 @@ class CustomerReviewRepository extends BaseRepository
     public function saveCustomerReview($request)
     {
         $data = [
-            'review_title'         => $request->review_title,
-            'review_description'   => $request->review_description,
-            'reviewer_name'        => $request->reviewer_name,
-            'reviewer_email'       => $request->reviewer_email,
-            'reviewer_phone'       => $request->reviewer_phone,
-            'reviewer_designation' => $request->reviewer_designation,
-            'reviewer_company'     => $request->reviewer_company,
-            'reviewer_location'    => $request->reviewer_location,
-            'rating'               => $request->rating ?? 5,
-            'sort_order'           => $request->sort_order ?? 1,
-            'slug'                 => $request->slug ?: Str::slug($request->reviewer_name),
+            'review_title'       => $request->review_title,
+            'review_description' => $request->review_description,
+            'reviewer_name'      => $request->reviewer_name,
+            'reviewer_location'  => $request->reviewer_location,
+            'rating'             => $request->rating ?? 5,
+            'sort_order'         => $request->sort_order ?? 1,
         ];
         if ($request->hasFile('reviewer_image')) {
             $image = $request->file('reviewer_image');
