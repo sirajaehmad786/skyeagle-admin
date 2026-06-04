@@ -276,6 +276,9 @@ export default defineConfig(({ mode }) => {
                 //CustomerReview
                 'resources/js/crm/customerReview/index.js',
                 'resources/js/crm/customerReview/create.js',
+
+                //Subscriber Newsletter
+                'resources/js/crm/subscriber-newsletter/index.js',
                 
             ],
             refresh: true,

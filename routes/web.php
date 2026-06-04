@@ -16,13 +16,13 @@ use App\Http\Controllers\Crm\Master\HotelController;
 use App\Http\Controllers\Crm\Master\SightSeeingController;
 use App\Http\Controllers\Crm\LeadController;
 use App\Http\Controllers\Crm\MediaController;
+use App\Http\Controllers\Crm\NewsletterSubscriberController;
 use App\Http\Controllers\Crm\NotificationController;
 use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\PaymentController;
 use App\Http\Controllers\Crm\QuotationController;
 use App\Http\Controllers\Crm\SettingController;
 use App\Http\Controllers\RoutingController;
-use App\Notifications\SystemNotification;
 use Illuminate\Support\Facades\Route;
 
 
@@ -47,6 +47,9 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     
     //CustomerReview
     Route::resource('customer-review', CustomerReviewController::class);
+
+    //Subscriber routes
+    Route::resource('newsletter-subscribers', NewsletterSubscriberController::class);
     
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -72,11 +75,6 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     Route::post('/notifications/read/{id}', [NotificationController::class, 'readSingle'])->name('notifications.read.single');
 
-    // ✅ TEST NOTIFICATION ROUTE
-    Route::get('test-notification', function () {
-        auth()->user()->notify(new SystemNotification());
-        return 'Notification added';
-    })->name('test.notification');
 
     Route::get('notifications/read-all', [NotificationController::class, 'readAll'])->name('notifications.read.all');
     
