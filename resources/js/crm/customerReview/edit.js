@@ -4,6 +4,16 @@ import Dropzone from "dropzone";
 
 Dropzone.autoDiscover = false;
 
+function setReviewFormSubmitting(isSubmitting) {
+    if (isSubmitting) {
+        $(".btn-save").hide();
+        $(".btn-loading").show();
+    } else {
+        $(".btn-save").show().prop("disabled", false);
+        $(".btn-loading").hide();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const reviewDescriptionEditor = new Quill(
         "#review-description-editor",
@@ -83,13 +93,21 @@ document.addEventListener("DOMContentLoaded", function () {
             },
             reviewer_name: {
                 required: true
+            },
+            reviewer_location: {
+                required: true
+            },
+            rating: {
+                required: true
             }
         },
         {},
         {
             skipRequiredFor: [
                 "review_description",
-                "reviewer_name"
+                "reviewer_name",
+                "reviewer_location",
+                "rating"
             ],
             beforeSubmit: function () {
                 $("#review_description").val(
@@ -115,18 +133,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     input.files =dt.files;
                     document.getElementById("edit_customer-review").appendChild(input);
                 }
-                $(".btn-save").addClass("d-none");
-                $(".btn-loading")
-                    .removeClass("d-none");
             },
             onSuccess: function (res) {
-                showToastmessage(res.message,"success");
-                window.location.href = res.redirect_url;
+                setReviewFormSubmitting(false);
+
+                if (res.redirect_url) {
+                    window.location.href = res.redirect_url;
+                }
             },
             onError: function (res) {
-                $(".btn-save").removeClass("d-none");
-                $(".btn-loading").addClass("d-none");
-                showToastmessage(res.message,"error");
+                setReviewFormSubmitting(false);
+                showToastmessage(res.message, "error");
             }
         }
     );

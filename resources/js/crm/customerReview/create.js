@@ -4,6 +4,16 @@ import Dropzone from "dropzone";
 
 Dropzone.autoDiscover = false;
 
+function setReviewFormSubmitting(isSubmitting) {
+    if (isSubmitting) {
+        $(".btn-save").hide();
+        $(".btn-loading").show();
+    } else {
+        $(".btn-save").show().prop("disabled", false);
+        $(".btn-loading").hide();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const reviewDescriptionEditor = new Quill(
@@ -130,16 +140,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             },
             onSuccess: function (res) {
-                $(".btn-save").removeClass("d-none").show().prop("disabled", false);
-                $(".btn-loading").addClass("d-none").hide();
+                setReviewFormSubmitting(false);
 
                 if (res.redirect_url) {
                     window.location.href = res.redirect_url;
                 }
             },
             onError: function (res) {
-                $(".btn-save").removeClass("d-none").show().prop("disabled", false);
-                $(".btn-loading").addClass("d-none").hide();
+                setReviewFormSubmitting(false);
                 showToastmessage(res.message, "error");
             },
         }

@@ -32,23 +32,6 @@
                             @csrf
                             @method('PUT')
                             <div class="row">
-
-                                <!-- Review Description -->
-                               <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">
-                                            Review Description <span class="text-danger">*</span>
-                                        </label>
-                                        <div id="review-description-editor" style="height:250px;">
-                                        {!! $review->review_description !!}
-                                        </div>
-                                        <input type="hidden"
-                                            name="review_description"
-                                            id="review_description"
-                                            value="{{ $review->review_description }}">
-                                    </div>
-                                </div>
-
                                 <!-- Review Title -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -61,8 +44,10 @@
                                 <!-- Rating -->
                                 <div class="col-md-3">
                                     <div class="mb-3">
-                                        <label class="form-label">Rating</label>
-                                        <select name="rating" class="form-select">
+                                        <label class="form-label">
+                                            Rating <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="rating" class="form-select" required>
                                         <option value="">Select Rating</option>
                                         <option value="5"
                                             {{ $review->rating == 5 ? 'selected' : '' }}>
@@ -96,8 +81,7 @@
                                             placeholder="1, 2, 3" min="0">
                                     </div>
                                 </div>
-                                <hr class="my-3">
-                                <h5 class="mb-3">Reviewer Information</h5>
+
                                 <!-- Reviewer Name -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
@@ -109,50 +93,33 @@
                                     </div>
                                 </div>
 
-                                <!-- Designation -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Designation</label>
-                                        <input type="text" name="reviewer_designation" class="form-control"
-                                            placeholder="CEO, Manager, Traveler etc." value="{{ $review->reviewer_designation }}">
-                                    </div>
-                                </div>
-
-                                <!-- Company -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Company</label>
-                                        <input type="text" name="reviewer_company" class="form-control"
-                                            placeholder="Company Name" value="{{ $review->reviewer_company }}">
-                                    </div>
-                                </div>
-
                                 <!-- Location -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Location</label>
+                                        <label class="form-label">
+                                            Location <span class="text-danger">*</span>
+                                        </label>
                                         <input type="text" name="reviewer_location" class="form-control"
-                                            placeholder="Ahmedabad, Gujarat" value="{{ $review->reviewer_location }}">
+                                            placeholder="Ahmedabad, Gujarat" value="{{ $review->reviewer_location }}" required>
                                     </div>
                                 </div>
 
-                                <!-- Email -->
-                                <div class="col-md-6">
+                                <!-- Review Description -->
+                               <div class="col-md-12">
                                     <div class="mb-3">
-                                        <label class="form-label">Email</label>
-                                        <input type="email" name="reviewer_email" class="form-control"
-                                            placeholder="example@email.com" value="{{ $review->reviewer_email }}">
+                                        <label class="form-label">
+                                            Review Description <span class="text-danger">*</span>
+                                        </label>
+                                        <div id="review-description-editor" style="height:250px;">
+                                        {!! $review->review_description !!}
+                                        </div>
+                                        <input type="hidden"
+                                            name="review_description"
+                                            id="review_description"
+                                            value="{{ $review->review_description }}">
                                     </div>
                                 </div>
 
-                                <!-- Phone -->
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Phone Number</label>
-                                        <input type="text" name="reviewer_phone" class="form-control"
-                                            placeholder="+91 9876543210" value="{{ $review->reviewer_phone }}">
-                                    </div>
-                                </div>
                                 <!-- Reviewer Image -->
                                 <div class="col-12">
                                     <div class="card">
@@ -186,6 +153,7 @@
                                             </div>
 
                                             <div id="file-previews" class="mt-3"></div>
+                                            <div id="reviewer-image-input-container" class="d-none"></div>
 
                                         </div>
                                     </div>
@@ -225,19 +193,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- Slug -->
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Slug</label>
-                                        <input type="text" name="slug" class="form-control"
-                                            placeholder="auto-generated-slug" value="{{ $review->slug }}">
-                                    </div>
-                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="mb-3 float-end ">
-                                        <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                        <a href="{{ route('customer-review.index') }}" class="btn btn-outline-secondary">Cancel</a>
                                         <button type="submit" class="btn btn-primary btn-save">Save Changes</button>
                                         <button class="btn btn-primary btn-loading" style="display:none" type="button"
                                             disabled>

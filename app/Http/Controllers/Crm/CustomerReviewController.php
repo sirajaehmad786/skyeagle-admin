@@ -78,11 +78,20 @@ class CustomerReviewController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $request->validate([
+            'review_description' => 'required|string',
+            'reviewer_name'      => 'required|string|max:255',
+            'reviewer_location'  => 'required|string|max:255',
+            'rating'             => 'required|numeric|min:1|max:5',
+        ]);
+
         $this->customerReviewRepository->updateReview($request, $id);
+        session()->flash('success', 'Customer review updated successfully.');
+
         return response()->json([
-            'status' => true,
-            'message' => 'Customer Review updated successfully.',
-            'redirect_url' => route('customer-review.index')
+            'status'       => true,
+            'message'      => 'Customer review updated successfully.',
+            'redirect_url' => route('customer-review.index'),
         ]);
     }
 
@@ -121,21 +130,6 @@ class CustomerReviewController extends Controller
             })
             ->addColumn('rating', function ($row) {
                 return $row->rating;
-            })
-            ->addColumn('reviewer_email', function ($row) {
-                return $row->reviewer_email;
-            })
-            ->addColumn('reviewer_phone', function ($row) {
-                return $row->reviewer_phone;
-            })
-            ->addColumn('reviewer_designation', function ($row) {
-                return $row->reviewer_designation;
-            })
-            ->addColumn('reviewer_company', function ($row) {
-                return $row->reviewer_company;
-            })
-            ->addColumn('reviewer_location', function ($row) {
-                return $row->reviewer_location;
             })
             ->addColumn('created_at', function ($row) {
                 return formateDate($row->created_at);

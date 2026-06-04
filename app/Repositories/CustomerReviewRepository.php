@@ -4,7 +4,6 @@ namespace App\Repositories;
 
 use App\Models\CustomerReview;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class CustomerReviewRepository extends BaseRepository
 {
@@ -55,12 +54,7 @@ class CustomerReviewRepository extends BaseRepository
             'rating',
             'sort_order',
             'reviewer_name',
-            'reviewer_designation',
-            'reviewer_company',
             'reviewer_location',
-            'reviewer_email',
-            'reviewer_phone',
-            'slug'
         ]);
 
         if ($request->hasFile('reviewer_image')) {
