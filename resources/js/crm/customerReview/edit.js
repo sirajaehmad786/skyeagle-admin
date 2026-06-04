@@ -5,7 +5,6 @@ import Dropzone from "dropzone";
 Dropzone.autoDiscover = false;
 
 document.addEventListener("DOMContentLoaded", function () {
-
     const reviewDescriptionEditor = new Quill(
         "#review-description-editor",
         {
@@ -22,16 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
+    document.getElementById("review_description").value =
+        reviewDescriptionEditor.root.innerHTML;
     reviewDescriptionEditor.on("text-change", function () {
         document.getElementById("review_description").value =
             reviewDescriptionEditor.root.innerHTML;
     });
-
     let reviewDropzone = null;
     const previewTemplate =
         document.querySelector("#uploadPreviewTemplate")
             ?.innerHTML.trim();
-
     if (document.querySelector("#demoDropzone")) {
         reviewDropzone = new Dropzone("#demoDropzone", {
             url: "#",
@@ -42,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function () {
             previewsContainer: "#file-previews",
             previewTemplate: previewTemplate,
             addRemoveLinks: false,
-
             init: function () {
                 this.on("addedfile", function (file) {
                     if (this.files.length > 1) {
@@ -56,12 +54,29 @@ document.addEventListener("DOMContentLoaded", function () {
                 this.on("error", function (file, message) {
                     console.log(message);
                 });
+                const existingImage =
+                    document.getElementById("existingImage")?.value;
+                if (existingImage) {
+                    let mockFile = {
+                        name: "Current Image",
+                        size: 12345,
+                        accepted: true
+                    };
+                    this.emit("addedfile", mockFile);
+                    this.emit(
+                        "thumbnail",
+                        mockFile,
+                        existingImage
+                    );
+                    this.emit("complete",mockFile);
+                    this.files.push(mockFile);
+                }
             }
         });
     }
     window.reviewDropzone = reviewDropzone;
     initAjaxFormValidation(
-        "#create_customer-review",
+        "#edit_customer-review",
         {
             review_description: {
                 required: true
@@ -84,9 +99,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 document
                     .querySelectorAll(".dz-hidden-input")
                     .forEach(el => el.remove());
-                if (dz && dz.files.length > 0) {
-                    const input =
-                        document.createElement("input");
+                if (
+                    dz &&
+                    dz.files.length > 0 &&
+                    dz.files[0] instanceof File
+                ) {
+                    const input = document.createElement("input");
                     input.type = "file";
                     input.name = "reviewer_image";
                     input.classList.add(
@@ -94,18 +112,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
                     const dt = new DataTransfer();
                     dt.items.add(dz.files[0]);
-                    input.files = dt.files;
-                    document
-                        .getElementById(
-                            "create_customer-review"
-                        )
-                        .appendChild(input);
+                    input.files =dt.files;
+                    document.getElementById("edit_customer-review").appendChild(input);
                 }
                 $(".btn-save").addClass("d-none");
-                $(".btn-loading").removeClass("d-none");
+                $(".btn-loading")
+                    .removeClass("d-none");
             },
             onSuccess: function (res) {
-                window.location.href =res.redirect_url;
+                showToastmessage(res.message,"success");
+                window.location.href = res.redirect_url;
             },
             onError: function (res) {
                 $(".btn-save").removeClass("d-none");

@@ -39,6 +39,11 @@
                                             <th>Name</th>
                                             <th>Review</th>
                                             <th>Rating</th>
+                                            <th>Reviewer Email</th>
+                                            <th>Reviewer Phone</th>
+                                            <th>Reviewer Designation</th>
+                                            <th>Reviewer Company</th>
+                                            <th>Reviewer Location</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>

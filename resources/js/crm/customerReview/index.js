@@ -7,6 +7,11 @@ $(function () {
         { data: 'reviewer_name', name: 'name' },
         { data: 'review_title', name: 'review' },
         { data: 'rating', name: 'rating' },
+        { data: 'reviewer_email', name: 'reviewer_email' },
+        { data: 'reviewer_phone', name: 'reviewer_phone' },
+        { data: 'reviewer_designation', name: 'reviewer_designation' },
+        { data: 'reviewer_company', name: 'reviewer_company' },
+        { data: 'reviewer_location', name: 'reviewer_location' },
         { data: 'created_at', name: 'created_at' },
         { data: 'action', orderable: false, searchable: false },
     ];
