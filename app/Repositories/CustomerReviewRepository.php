@@ -3,6 +3,8 @@
 namespace App\Repositories;
 
 use App\Models\CustomerReview;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CustomerReviewRepository extends BaseRepository
 {
@@ -37,6 +39,41 @@ class CustomerReviewRepository extends BaseRepository
     public function initData()
     {
         return $this->model->latest();
+    }
+
+    public function findById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function updateReview($request, $id)
+    {
+        $review = $this->model->findOrFail($id);
+        $data = $request->only([
+            'review_title',
+            'review_description',
+            'rating',
+            'sort_order',
+            'reviewer_name',
+            'reviewer_designation',
+            'reviewer_company',
+            'reviewer_location',
+            'reviewer_email',
+            'reviewer_phone',
+            'slug'
+        ]);
+
+        if ($request->hasFile('reviewer_image')) {
+            if (
+                !empty($review->reviewer_image) &&
+                Storage::disk('public')->exists($review->reviewer_image)
+            ) {
+                Storage::disk('public')->delete($review->reviewer_image);
+            }
+            $data['reviewer_image'] = $request->file('reviewer_image')->store('customer-review', 'public');
+        }
+        $review->update($data);
+        return $review;
     }
 
     public function deleteReview($id)

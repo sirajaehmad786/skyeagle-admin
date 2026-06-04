@@ -1,0 +1,264 @@
+@extends('crm.layouts.vertical', ['page_title' => 'Edit Customer Review', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
+
+@section('css')
+    @vite(['resources/css/crm/custom.css', 'node_modules/dropzone/dist/dropzone.css', 'node_modules/select2/dist/css/select2.min.css', 'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css', 'node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css', 'node_modules/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css', 'node_modules/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css', 'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css', 'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css', 'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css', 'node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css', 'node_modules/flatpickr/dist/flatpickr.min.css', 'node_modules/quill/dist/quill.core.css', 'node_modules/quill/dist/quill.snow.css', 'node_modules/quill/dist/quill.bubble.css'])
+@endsection
+
+@section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box">
+                    <div class="page-title-right">
+                        <a href="{{ route('customer-review.index') }}" class="btn btn btn-secondary"><i
+                                class=" ri-arrow-go-back-line"></i>
+                            Back</a>
+                    </div>
+                    <h4 class="m-0 pt-3">Edit Customer Review</h4>
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('customer-review.index') }}">Customer Reviews</a></li>
+                        <li class="breadcrumb-item active">Edit Customer Review</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form id="edit_customer-review" action="{{ route('customer-review.update', $review->id) }}" method="POST"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
+
+                                <!-- Review Description -->
+                               <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Review Description <span class="text-danger">*</span>
+                                        </label>
+                                        <div id="review-description-editor" style="height:250px;">
+                                        {!! $review->review_description !!}
+                                        </div>
+                                        <input type="hidden"
+                                            name="review_description"
+                                            id="review_description"
+                                            value="{{ $review->review_description }}">
+                                    </div>
+                                </div>
+
+                                <!-- Review Title -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Review Title</label>
+                                        <input type="text" name="review_title" class="form-control" value="{{ $review->review_title }}"
+                                            placeholder="Amazing Experience">
+                                    </div>
+                                </div>
+
+                                <!-- Rating -->
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Rating</label>
+                                        <select name="rating" class="form-select">
+                                        <option value="">Select Rating</option>
+                                        <option value="5"
+                                            {{ $review->rating == 5 ? 'selected' : '' }}>
+                                            ⭐⭐⭐⭐⭐ (5)
+                                        </option>
+                                        <option value="4"
+                                            {{ $review->rating == 4 ? 'selected' : '' }}>
+                                            ⭐⭐⭐⭐ (4)
+                                        </option>
+                                        <option value="3"
+                                            {{ $review->rating == 3 ? 'selected' : '' }}>
+                                            ⭐⭐⭐ (3)
+                                        </option>
+                                        <option value="2"
+                                            {{ $review->rating == 2 ? 'selected' : '' }}>
+                                            ⭐⭐ (2)
+                                        </option>
+                                        <option value="1"
+                                            {{ $review->rating == 1 ? 'selected' : '' }}>
+                                            ⭐ (1)
+                                        </option>
+                                    </select>
+                                    </div>
+                                </div>
+
+                                <!-- Sort Order -->
+                                <div class="col-md-3">
+                                    <div class="mb-3">
+                                        <label class="form-label">Sort Order</label>
+                                        <input type="number" name="sort_order" class="form-control" value="{{ $review->sort_order }}"
+                                            placeholder="1, 2, 3" min="0">
+                                    </div>
+                                </div>
+                                <hr class="my-3">
+                                <h5 class="mb-3">Reviewer Information</h5>
+                                <!-- Reviewer Name -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Reviewer Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" name="reviewer_name" class="form-control"
+                                            placeholder="Enter reviewer name" value="{{ $review->reviewer_name }}" required>
+                                    </div>
+                                </div>
+
+                                <!-- Designation -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Designation</label>
+                                        <input type="text" name="reviewer_designation" class="form-control"
+                                            placeholder="CEO, Manager, Traveler etc." value="{{ $review->reviewer_designation }}">
+                                    </div>
+                                </div>
+
+                                <!-- Company -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Company</label>
+                                        <input type="text" name="reviewer_company" class="form-control"
+                                            placeholder="Company Name" value="{{ $review->reviewer_company }}">
+                                    </div>
+                                </div>
+
+                                <!-- Location -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Location</label>
+                                        <input type="text" name="reviewer_location" class="form-control"
+                                            placeholder="Ahmedabad, Gujarat" value="{{ $review->reviewer_location }}">
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email</label>
+                                        <input type="email" name="reviewer_email" class="form-control"
+                                            placeholder="example@email.com" value="{{ $review->reviewer_email }}">
+                                    </div>
+                                </div>
+
+                                <!-- Phone -->
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" name="reviewer_phone" class="form-control"
+                                            placeholder="+91 9876543210" value="{{ $review->reviewer_phone }}">
+                                    </div>
+                                </div>
+                                <!-- Reviewer Image -->
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <h4 class="header-title">
+                                                Reviewer Profile Image
+                                            </h4>
+
+                                            <p class="text-muted mb-3">
+                                                Upload the reviewer's profile photo.
+                                            </p>
+
+                                            {{-- Existing Image URL For JS --}}
+                                            <input type="hidden"
+                                                id="existingImage"
+                                                value="{{ !empty($review->reviewer_image) ? asset('storage/' . $review->reviewer_image) : '' }}">
+
+                                            <div id="demoDropzone" class="dropzone border rounded">
+                                                <div class="dz-message needsclick text-center py-5">
+                                                    <i class="ri-image-add-line fs-1"></i>
+
+                                                    <h4 class="mt-2">
+                                                        Drop Reviewer Image Here
+                                                    </h4>
+
+                                                    <span class="text-muted">
+                                                        JPG, JPEG, PNG
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div id="file-previews" class="mt-3"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden Preview Template -->
+                                <div class="d-none" id="uploadPreviewTemplate">
+                                    <div class="card mt-1 mb-0 shadow-none border dz-preview dz-file-preview">
+                                        <div class="p-2">
+                                            <div class="row align-items-center">
+
+                                                <div class="col-auto">
+                                                    <img data-dz-thumbnail
+                                                        src="#"
+                                                        class="avatar-sm rounded bg-light"
+                                                        alt="">
+                                                </div>
+
+                                                <div class="col ps-0">
+                                                    <a href="javascript:void(0);"
+                                                        class="text-muted fw-bold"
+                                                        data-dz-name></a>
+
+                                                    <p class="mb-0"
+                                                        data-dz-size></p>
+                                                </div>
+
+                                                <div class="col-auto">
+                                                    <a href="javascript:void(0);"
+                                                        class="btn btn-link text-danger p-0"
+                                                        data-dz-remove>
+                                                        <i class="ri-close-line fs-5"></i>
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Slug -->
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Slug</label>
+                                        <input type="text" name="slug" class="form-control"
+                                            placeholder="auto-generated-slug" value="{{ $review->slug }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3 float-end ">
+                                        <button type="button" class="btn btn-outline-secondary">Cancel</button>
+                                        <button type="submit" class="btn btn-primary btn-save">Save Changes</button>
+                                        <button class="btn btn-primary btn-loading" style="display:none" type="button"
+                                            disabled>
+                                            <span class="spinner-border spinner-border-sm me-1" role="status"
+                                                aria-hidden="true"></span>
+                                            Loading...
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    @vite(['resources/js/pages/demo.form-advanced.js', 
+        'resources/js/crm/customerReview/edit.js', 
+        'resources/js/crm/common/common.js'
+    ])
+@endsection

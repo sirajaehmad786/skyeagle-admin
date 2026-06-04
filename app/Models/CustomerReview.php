@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerReview extends Model
 {
@@ -20,4 +21,13 @@ class CustomerReview extends Model
         'rating',
         'sort_order',
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function ($review) {
+            if ($review->reviewer_image && Storage::disk('public')->exists($review->reviewer_image)) {
+                Storage::disk('public')->delete($review->reviewer_image);
+            }
+        });
+    }
 }

@@ -80,9 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
     }
-
     window.reviewDropzone = reviewDropzone;
-
     initAjaxFormValidation(
         "#create_customer-review",
         {
