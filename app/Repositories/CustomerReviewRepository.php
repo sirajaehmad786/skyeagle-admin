@@ -3,7 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\CustomerReview;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerReviewRepository extends BaseRepository
 {
@@ -15,17 +15,12 @@ class CustomerReviewRepository extends BaseRepository
     public function saveCustomerReview($request)
     {
         $data = [
-            'review_title'         => $request->review_title,
-            'review_description'   => $request->review_description,
-            'reviewer_name'        => $request->reviewer_name,
-            'reviewer_email'       => $request->reviewer_email,
-            'reviewer_phone'       => $request->reviewer_phone,
-            'reviewer_designation' => $request->reviewer_designation,
-            'reviewer_company'     => $request->reviewer_company,
-            'reviewer_location'    => $request->reviewer_location,
-            'rating'               => $request->rating ?? 5,
-            'sort_order'           => $request->sort_order ?? 1,
-            'slug'                 => $request->slug ?: Str::slug($request->reviewer_name),
+            'review_title'       => $request->review_title,
+            'review_description' => $request->review_description,
+            'reviewer_name'      => $request->reviewer_name,
+            'reviewer_location'  => $request->reviewer_location,
+            'rating'             => $request->rating ?? 5,
+            'sort_order'         => $request->sort_order ?? 1,
         ];
         if ($request->hasFile('reviewer_image')) {
             $image = $request->file('reviewer_image');
@@ -43,6 +38,36 @@ class CustomerReviewRepository extends BaseRepository
     public function initData()
     {
         return $this->model->latest();
+    }
+
+    public function findById($id)
+    {
+        return $this->model->findOrFail($id);
+    }
+
+    public function updateReview($request, $id)
+    {
+        $review = $this->model->findOrFail($id);
+        $data = $request->only([
+            'review_title',
+            'review_description',
+            'rating',
+            'sort_order',
+            'reviewer_name',
+            'reviewer_location',
+        ]);
+
+        if ($request->hasFile('reviewer_image')) {
+            if (
+                !empty($review->reviewer_image) &&
+                Storage::disk('public')->exists($review->reviewer_image)
+            ) {
+                Storage::disk('public')->delete($review->reviewer_image);
+            }
+            $data['reviewer_image'] = $request->file('reviewer_image')->store('customer-review', 'public');
+        }
+        $review->update($data);
+        return $review;
     }
 
     public function deleteReview($id)

@@ -9,7 +9,7 @@
         </a>
         <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item text-primary" 
-                href="#">
+                href="{{ route('customer-review.edit', $row->id) }}">
                 <i class="ri-edit-box-line me-2 text-muted vertical-middle"></i> Edit
             </a>  
             <a class="dropdown-item text-danger delete-btn" 

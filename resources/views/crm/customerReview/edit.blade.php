@@ -1,4 +1,4 @@
-@extends('crm.layouts.vertical', ['page_title' => 'Create Customer Review', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
+@extends('crm.layouts.vertical', ['page_title' => 'Edit Customer Review', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
 
 @section('css')
     @vite(['resources/css/crm/custom.css', 'node_modules/dropzone/dist/dropzone.css', 'node_modules/select2/dist/css/select2.min.css', 'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css', 'node_modules/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css', 'node_modules/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css', 'node_modules/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css', 'node_modules/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css', 'node_modules/datatables.net-select-bs5/css/select.bootstrap5.min.css', 'node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css', 'node_modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css', 'node_modules/flatpickr/dist/flatpickr.min.css', 'node_modules/quill/dist/quill.core.css', 'node_modules/quill/dist/quill.snow.css', 'node_modules/quill/dist/quill.bubble.css'])
@@ -14,11 +14,11 @@
                                 class=" ri-arrow-go-back-line"></i>
                             Back</a>
                     </div>
-                    <h4 class="m-0 pt-3">Create Customer Review</h4>
+                    <h4 class="m-0 pt-3">Edit Customer Review</h4>
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('customer-review.index') }}">Customer Reviews</a></li>
-                        <li class="breadcrumb-item active">Create Customer Review</li>
+                        <li class="breadcrumb-item active">Edit Customer Review</li>
                     </ol>
                 </div>
             </div>
@@ -27,15 +27,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form id="create_customer-review" action="{{ route('customer-review.store') }}" method="POST"
+                        <form id="edit_customer-review" action="{{ route('customer-review.update', $review->id) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
+                            @method('PUT')
                             <div class="row">
                                 <!-- Review Title -->
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Review Title</label>
-                                        <input type="text" name="review_title" class="form-control"
+                                        <input type="text" name="review_title" class="form-control" value="{{ $review->review_title }}"
                                             placeholder="Amazing Experience">
                                     </div>
                                 </div>
@@ -47,13 +48,28 @@
                                             Rating <span class="text-danger">*</span>
                                         </label>
                                         <select name="rating" class="form-select" required>
-                                            <option value="">Select Rating</option>
-                                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-                                            <option value="4">⭐⭐⭐⭐ (4)</option>
-                                            <option value="3">⭐⭐⭐ (3)</option>
-                                            <option value="2">⭐⭐ (2)</option>
-                                            <option value="1">⭐ (1)</option>
-                                        </select>
+                                        <option value="">Select Rating</option>
+                                        <option value="5"
+                                            {{ $review->rating == 5 ? 'selected' : '' }}>
+                                            ⭐⭐⭐⭐⭐ (5)
+                                        </option>
+                                        <option value="4"
+                                            {{ $review->rating == 4 ? 'selected' : '' }}>
+                                            ⭐⭐⭐⭐ (4)
+                                        </option>
+                                        <option value="3"
+                                            {{ $review->rating == 3 ? 'selected' : '' }}>
+                                            ⭐⭐⭐ (3)
+                                        </option>
+                                        <option value="2"
+                                            {{ $review->rating == 2 ? 'selected' : '' }}>
+                                            ⭐⭐ (2)
+                                        </option>
+                                        <option value="1"
+                                            {{ $review->rating == 1 ? 'selected' : '' }}>
+                                            ⭐ (1)
+                                        </option>
+                                    </select>
                                     </div>
                                 </div>
 
@@ -61,7 +77,8 @@
                                 <div class="col-md-3">
                                     <div class="mb-3">
                                         <label class="form-label">Sort Order</label>
-                                        <input type="number" name="sort_order" class="form-control" value="1">
+                                        <input type="number" name="sort_order" class="form-control" value="{{ $review->sort_order }}"
+                                            placeholder="1, 2, 3" min="0">
                                     </div>
                                 </div>
 
@@ -72,7 +89,7 @@
                                             Reviewer Name <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="reviewer_name" class="form-control"
-                                            placeholder="Enter reviewer name" required>
+                                            placeholder="Enter reviewer name" value="{{ $review->reviewer_name }}" required>
                                     </div>
                                 </div>
 
@@ -83,7 +100,7 @@
                                             Location <span class="text-danger">*</span>
                                         </label>
                                         <input type="text" name="reviewer_location" class="form-control"
-                                            placeholder="Ahmedabad, Gujarat" required>
+                                            placeholder="Ahmedabad, Gujarat" value="{{ $review->reviewer_location }}" required>
                                     </div>
                                 </div>
 
@@ -93,10 +110,13 @@
                                         <label class="form-label">
                                             Review Description <span class="text-danger">*</span>
                                         </label>
-                                        <div id="review-description-editor" style="height:250px;"></div>
+                                        <div id="review-description-editor" style="height:250px;">
+                                        {!! $review->review_description !!}
+                                        </div>
                                         <input type="hidden"
                                             name="review_description"
-                                            id="review_description">
+                                            id="review_description"
+                                            value="{{ $review->review_description }}">
                                     </div>
                                 </div>
 
@@ -108,10 +128,15 @@
                                             <h4 class="header-title">
                                                 Reviewer Profile Image
                                             </h4>
-                                            
+
                                             <p class="text-muted mb-3">
                                                 Upload the reviewer's profile photo.
                                             </p>
+
+                                            {{-- Existing Image URL For JS --}}
+                                            <input type="hidden"
+                                                id="existingImage"
+                                                value="{{ !empty($review->reviewer_image) ? asset('storage/' . $review->reviewer_image) : '' }}">
 
                                             <div id="demoDropzone" class="dropzone border rounded">
                                                 <div class="dz-message needsclick text-center py-5">
@@ -193,7 +218,7 @@
 
 @section('script')
     @vite(['resources/js/pages/demo.form-advanced.js', 
-        'resources/js/crm/customerReview/create.js', 
+        'resources/js/crm/customerReview/edit.js', 
         'resources/js/crm/common/common.js'
     ])
 @endsection

@@ -7,7 +7,6 @@ use App\Models\CustomerReview;
 use Illuminate\Http\Request;
 use App\Repositories\CustomerReviewRepository;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Str;
 
 class CustomerReviewController extends Controller
 {
@@ -40,11 +39,20 @@ class CustomerReviewController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'review_description' => 'required|string',
+            'reviewer_name'      => 'required|string|max:255',
+            'reviewer_location'  => 'required|string|max:255',
+            'rating'             => 'required|numeric|min:1|max:5',
+        ]);
+
         $this->customerReviewRepository->saveCustomerReview($request);
+        session()->flash('success', 'Customer review created successfully.');
+
         return response()->json([
-            'success' => true,
-            'message' => 'Customer review created successfully.',
-            'redirect_url' => route('customer-review.index')
+            'status'       => true,
+            'message'      => 'Customer review created successfully.',
+            'redirect_url' => route('customer-review.index'),
         ]);
     }
 
@@ -61,7 +69,8 @@ class CustomerReviewController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $review = $this->customerReviewRepository->findById($id);
+        return view('crm.customerReview.edit', compact('review'));
     }
 
     /**
@@ -69,7 +78,21 @@ class CustomerReviewController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'review_description' => 'required|string',
+            'reviewer_name'      => 'required|string|max:255',
+            'reviewer_location'  => 'required|string|max:255',
+            'rating'             => 'required|numeric|min:1|max:5',
+        ]);
+
+        $this->customerReviewRepository->updateReview($request, $id);
+        session()->flash('success', 'Customer review updated successfully.');
+
+        return response()->json([
+            'status'       => true,
+            'message'      => 'Customer review updated successfully.',
+            'redirect_url' => route('customer-review.index'),
+        ]);
     }
 
     /**
@@ -95,15 +118,15 @@ class CustomerReviewController extends Controller
 
                     $query->where(function ($q) use ($search) {
                         $q->whereRaw('LOWER(reviewer_name) LIKE ?', ["%{$search}%"])
-                          ->orWhereRaw('LOWER(review_title) LIKE ?', ["%{$search}%"]);
+                          ->orWhereRaw('LOWER(reviewer_location) LIKE ?', ["%{$search}%"]);
                     });
                 }
             })
-            ->addColumn('name', function ($row) {
-                return $row->name;
+            ->addColumn('reviewer_name', function ($row) {
+                return $row->reviewer_name;
             })
-            ->addColumn('review', function ($row) {
-                return Str::limit($row->review, 100);
+            ->addColumn('reviewer_location', function ($row) {
+                return $row->reviewer_location ?? '-';
             })
             ->addColumn('rating', function ($row) {
                 return $row->rating;

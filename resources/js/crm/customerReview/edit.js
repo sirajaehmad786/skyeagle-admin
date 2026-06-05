@@ -15,7 +15,6 @@ function setReviewFormSubmitting(isSubmitting) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-
     const reviewDescriptionEditor = new Quill(
         "#review-description-editor",
         {
@@ -32,26 +31,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     );
 
+    document.getElementById("review_description").value =
+        reviewDescriptionEditor.root.innerHTML;
     reviewDescriptionEditor.on("text-change", function () {
         document.getElementById("review_description").value =
             reviewDescriptionEditor.root.innerHTML;
     });
-
     let reviewDropzone = null;
     const previewTemplate =
         document.querySelector("#uploadPreviewTemplate")
             ?.innerHTML.trim();
-
-    if (Dropzone.instances.length > 0) {
-        Dropzone.instances.forEach((dz) => dz.destroy());
-    }
-
-    const dropzoneElement = document.querySelector("#demoDropzone");
-    const hiddenInputContainer = document.getElementById(
-        "reviewer-image-input-container"
-    );
-
-    if (dropzoneElement) {
+    if (document.querySelector("#demoDropzone")) {
         reviewDropzone = new Dropzone("#demoDropzone", {
             url: "#",
             autoProcessQueue: false,
@@ -61,51 +51,55 @@ document.addEventListener("DOMContentLoaded", function () {
             previewsContainer: "#file-previews",
             previewTemplate: previewTemplate,
             addRemoveLinks: false,
-            hiddenInputContainer: hiddenInputContainer || dropzoneElement,
-
             init: function () {
-                const dz = this;
-
-                dz.on("addedfile", function () {
-                    if (dz.files.length > 1) {
-                        dz.removeFile(dz.files[0]);
-                    }
-                    dropzoneElement.classList.add("dz-started");
-                });
-
-                dz.on("removedfile", function () {
-                    if (dz.files.length === 0) {
-                        dropzoneElement.classList.remove("dz-started");
+                this.on("addedfile", function (file) {
+                    if (this.files.length > 1) {
+                        this.removeFile(this.files[0]);
                     }
                 });
-
-                dz.on("maxfilesexceeded", function (file) {
-                    dz.removeAllFiles();
-                    dz.addFile(file);
+                this.on("maxfilesexceeded", function (file) {
+                    this.removeAllFiles();
+                    this.addFile(file);
                 });
-
-                dz.on("error", function (file, message) {
+                this.on("error", function (file, message) {
                     console.log(message);
                 });
-            },
+                const existingImage =
+                    document.getElementById("existingImage")?.value;
+                if (existingImage) {
+                    let mockFile = {
+                        name: "Current Image",
+                        size: 12345,
+                        accepted: true
+                    };
+                    this.emit("addedfile", mockFile);
+                    this.emit(
+                        "thumbnail",
+                        mockFile,
+                        existingImage
+                    );
+                    this.emit("complete",mockFile);
+                    this.files.push(mockFile);
+                }
+            }
         });
     }
     window.reviewDropzone = reviewDropzone;
     initAjaxFormValidation(
-        "#create_customer-review",
+        "#edit_customer-review",
         {
             review_description: {
-                required: true,
+                required: true
             },
             reviewer_name: {
-                required: true,
+                required: true
             },
             reviewer_location: {
-                required: true,
+                required: true
             },
             rating: {
-                required: true,
-            },
+                required: true
+            }
         },
         {},
         {
@@ -113,30 +107,31 @@ document.addEventListener("DOMContentLoaded", function () {
                 "review_description",
                 "reviewer_name",
                 "reviewer_location",
-                "rating",
+                "rating"
             ],
             beforeSubmit: function () {
                 $("#review_description").val(
                     reviewDescriptionEditor.root.innerHTML
                 );
-
-                const form = document.getElementById("create_customer-review");
-                const dz = window.reviewDropzone;
-
-                form.querySelectorAll(".dz-hidden-input").forEach((el) => el.remove());
-
-                if (dz && dz.files.length > 0) {
+                let dz = window.reviewDropzone;
+                document
+                    .querySelectorAll(".dz-hidden-input")
+                    .forEach(el => el.remove());
+                if (
+                    dz &&
+                    dz.files.length > 0 &&
+                    dz.files[0] instanceof File
+                ) {
                     const input = document.createElement("input");
                     input.type = "file";
                     input.name = "reviewer_image";
-                    input.classList.add("dz-hidden-input");
-                    input.style.display = "none";
-
+                    input.classList.add(
+                        "dz-hidden-input"
+                    );
                     const dt = new DataTransfer();
                     dt.items.add(dz.files[0]);
-                    input.files = dt.files;
-
-                    (hiddenInputContainer || form).appendChild(input);
+                    input.files =dt.files;
+                    document.getElementById("edit_customer-review").appendChild(input);
                 }
             },
             onSuccess: function (res) {
@@ -149,8 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
             onError: function (res) {
                 setReviewFormSubmitting(false);
                 showToastmessage(res.message, "error");
-            },
+            }
         }
     );
 });
-    

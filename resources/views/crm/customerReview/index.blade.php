@@ -37,7 +37,7 @@
                                     <x-table id="customer-review-table">
                                         <tr>
                                             <th>Name</th>
-                                            <th>Review</th>
+                                            <th>Location</th>
                                             <th>Rating</th>
                                             <th>Created At</th>
                                             <th>Action</th>

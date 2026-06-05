@@ -16,15 +16,10 @@ return new class extends Migration
             $table->string('review_title')->nullable();
             $table->text('review_description');
             $table->string('reviewer_name');
-            $table->string('reviewer_email')->nullable();
-            $table->string('reviewer_phone')->nullable();
-            $table->string('reviewer_designation')->nullable();
-            $table->string('reviewer_company')->nullable();
             $table->string('reviewer_location')->nullable();
             $table->string('reviewer_image')->nullable();
             $table->decimal('rating', 2, 1)->default(5.0);
             $table->integer('sort_order')->default(0);
-            $table->string('slug')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

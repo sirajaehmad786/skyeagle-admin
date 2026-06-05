@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class CustomerReview extends Model
 {
@@ -15,14 +16,18 @@ class CustomerReview extends Model
         'review_title',
         'review_description',
         'reviewer_name',
-        'reviewer_email',
-        'reviewer_phone',
-        'reviewer_designation',
-        'reviewer_company',
         'reviewer_location',
         'reviewer_image',
         'rating',
         'sort_order',
-        'slug'
     ];
+
+    protected static function booted()
+    {
+        static::deleting(function ($review) {
+            if ($review->reviewer_image && Storage::disk('public')->exists($review->reviewer_image)) {
+                Storage::disk('public')->delete($review->reviewer_image);
+            }
+        });
+    }
 }
