@@ -89,8 +89,14 @@
                     <span> Customer Reviews</span>
                 </a>
             </li>
-           
 
+            <li class="side-nav-item">
+                <a href="{{ route('newsletter-subscribers.index') }}" class="side-nav-link">
+                    <i class="ri-user-follow-line"></i>
+                    <span> Subscriber Management </span>
+                </a>
+            </li>
+           
         </ul>
         <!--- End Sidemenu -->
 
