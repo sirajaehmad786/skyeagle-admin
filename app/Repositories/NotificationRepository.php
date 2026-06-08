@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\Booking;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

@@ -27,12 +27,11 @@ class UserCreateRequest extends FormRequest
             "last_name" => "required|max:50",
             "email" => "required|max:100|email|unique:users,email",
             "password" => ['required',
-                            Password::min(8) // Minimum length
-                            ->letters()  // Must contain at least one letter
-                            ->mixedCase() // Must contain uppercase AND lowercase letters
-                            ->numbers()   // Must contain at least one number
+                            Password::min(8)
+                            ->letters()
+                            ->mixedCase()
+                            ->numbers()
                         ],
-            "role" => "required",
             "phone" => "required|digits_between:10,15",
             // "al_phone" => "digits_between:10,15",
             "status" => "required"

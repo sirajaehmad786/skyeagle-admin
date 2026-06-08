@@ -1,4 +1,0 @@
-@resources/views/crm/quotation/item/hotel-row.blade.php:1-110 Remove price field.
-add new field triple_room, triple_room_price, total_room_price, total_cwb_price,total_cnb_price.
-
-get the total of all price is hotel price. add with migration and remove price field migration as well

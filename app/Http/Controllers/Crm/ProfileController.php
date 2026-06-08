@@ -21,11 +21,6 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
 
-    public function __construct() {
-
-        $this->middleware('permission:profile-update')->only('edit', 'update', 'updatePassword');
-    }
-
     /**
      * Display the user's profile form.
      */

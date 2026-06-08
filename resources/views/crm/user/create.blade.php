@@ -90,18 +90,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="role"
-                                            class="form-label">Role <span class="text-danger">*</span></label>
-                                        <select class="form-select" id="role" name="role">
-                                            <option value="">{{ config('constant.select_text') }}</option>
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
                                         <label for="phone" class="form-label">Mobile
                                             No <span class="text-danger">*</span></label>
                                         <input type="text" id="phone" name="phone" class="form-control" placeholder="Mobile" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -133,7 +121,7 @@
                                         <select class="form-control select2" data-toggle="select2" id="parent_id" name="parent_id" data-placeholder="Select Parent">
                                             <option></option>
                                             @foreach ($parentUsers as $sts_key => $parent_user)
-                                                <option value="{{ $parent_user->id }}">{{ $parent_user->name }} ({{ $parent_user->role->name }})</option>
+                                                <option value="{{ $parent_user->id }}">{{ $parent_user->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -209,9 +197,6 @@
                             minlength: 8,
                             pwcheck: true
                         },
-                        role: {
-                            required: true
-                        },
                         status: {
                             required: true
                         },
@@ -237,9 +222,6 @@
                         email: {
                             required: "",
                             email: ""
-                        },
-                        role: {
-                            required: "",
                         },
                         parent_id:{
                             required:""

@@ -106,7 +106,6 @@ export default defineConfig(({ mode }) => {
                 // Dashboard js
                 'resources/js/pages/demo.dashboard.js',
                 'resources/js/pages/demo.dashboard-analytics.js',
-                'resources/js/crm/dashboard/index.js',
 
                 // Apps js
                 'resources/js/pages/demo.calendar.js',
@@ -187,45 +186,8 @@ export default defineConfig(({ mode }) => {
                 'resources/js/crm/common/form-handler.js',
                 'resources/js/crm/common/datatable-setup.js',
                 
-                //Contact js
-                'resources/js/crm/contact/index.js',
-                'resources/js/crm/contact/edit.js',
-                'resources/js/crm/contact/contact-assign.js',
-
-                //Contact js
+                //User js
                 'resources/js/crm/user/index.js',
-
-                //Leads js
-                'resources/js/crm/lead/index.js',
-                'resources/js/crm/lead/edit.js',
-
-                //Quotation js
-                'resources/js/crm/quotation/index.js',
-                'resources/js/crm/quotation/create.js',
-                'resources/js/crm/quotation/edit.js',
-                'resources/js/crm/quotation/flight.js',
-                'resources/js/crm/quotation/visa.js',
-                'resources/js/crm/quotation/sightseeing.js',
-                'resources/js/crm/quotation/hotel.js',
-                'resources/js/crm/quotation/pdf_generate.js',
-
-                //Hotels Master
-                'resources/js/crm/hotel/create.js',
-                'resources/js/crm/hotel/edit.js',
-                'resources/js/crm/hotel/index.js',
-
-                //Sightseeing master
-                'resources/js/crm/sightseeing/index.js',
-                'resources/js/crm/sightseeing/edit.js',
-                'resources/js/crm/sightseeing/create.js',
-
-                //Booking
-                'resources/js/crm/booking/index.js',
-
-                //Payment
-                'resources/js/crm/payment/index.js',
-                'resources/js/crm/payment/paymentHistory.js',
-                'resources/js/crm/common/payment-modal.js',
 
                 //Profile
                 'resources/js/crm/profile/profile.js',
@@ -237,17 +199,8 @@ export default defineConfig(({ mode }) => {
                 //Settings
                 'resources/js/crm/setting/create.js',
                 
-                //Document  
-                'resources/js/crm/document/index.js',
-                'resources/js/crm/document/edit.js',
-                'resources/js/crm/document/create.js',
-
                 //Activity
                 'resources/js/crm/activity/index.js',
-
-                //Booking Document
-                'resources/js/crm/bookingDocument/create.js',
-
 
                 //skyeagle website
 

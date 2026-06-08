@@ -74,12 +74,10 @@
                         <h6 class="text-overflow m-0">Welcome !</h6>
                     </div>
 
-                    @can('profile-update')
-                        <a href="{{ route('profile.edit') }}" class="dropdown-item">
-                            <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
-                            <span>My Account</span>
-                        </a>
-                    @endcan
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                        <i class="ri-account-circle-line fs-18 align-middle me-1"></i>
+                        <span>My Account</span>
+                    </a>
 
                     <!-- item-->
                     <form method="POST" action="{{ route('logout') }}">

@@ -16,7 +16,6 @@ class SettingController extends Controller
     private $settingRepository;
     public function __construct(SettingRepository $settingRepository)
     {
-        $this->middleware('permission:settings-manage')->only('index','initDataTable');
         $this->settingRepository = $settingRepository;
     }
 

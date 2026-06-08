@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Booking;
 use App\Repositories\NotificationRepository;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -13,13 +12,9 @@ class NotificationController extends Controller
     protected $notificationRepository;
     public function __construct(NotificationRepository $notificationRepository)
     {
-        // $this->middleware('permission:notification-list')->only('index', 'initDataTable');
         $this->notificationRepository = $notificationRepository;
     }
 
-    /**
-     * Mark a single notification as read.
-     */
     public function readSingle(string $id)
     {
         $notification = auth()->user()->notifications()->where('id', $id)->first();
@@ -32,9 +27,6 @@ class NotificationController extends Controller
         ]);
     }
 
-    /**
-     * Mark all notifications as read.
-     */
     public function readAll(Request $request)
     {
         auth()->user()->unreadNotifications()->update(['read_at' => now()]);
@@ -47,58 +39,37 @@ class NotificationController extends Controller
         return back();
     }
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.notification.index'); //compact('users')
+        return view('crm.notification.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request) {}
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Booking $booking)
+    public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Booking $booking)
+    public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Booking $booking)
+    public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Booking $booking)
+    public function destroy(string $id)
     {
         //
     }

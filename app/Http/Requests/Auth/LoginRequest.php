@@ -56,9 +56,7 @@ class LoginRequest extends FormRequest
             Auth::logout();
             RateLimiter::hit($this->throttleKey());
 
-            $message = $user && $user->status !== AdminAccess::activeStatus()
-                ? __('auth.account_inactive')
-                : __('auth.admin_panel_only');
+            $message = __('auth.account_inactive');
 
             throw ValidationException::withMessages([
                 'email' => $message,

@@ -11,7 +11,7 @@ $(function () {
         { data: 'name', name: 'name' },
         { data: 'email', name: 'email', orderable: false, searchable: false },
         { data: 'phone', name: 'phone', orderable: false, searchable: false },
-        { data: 'role', name: 'role', orderable: false, searchable: false },
+        { data: 'parent', name: 'parent', orderable: false, searchable: false },
         { data: 'status', name: 'status', orderable: false, searchable: false },
         { data: 'created_at', name: 'created_at'},
         { data: 'action', name: 'action', orderable: false, searchable: false }

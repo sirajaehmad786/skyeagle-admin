@@ -11,7 +11,7 @@
                 <h4 class="m-0 pt-3">Package Details</h4>
                 <ol class="breadcrumb m-0">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('package.index') }}">Bookings</a>
+                        <a href="{{ route('package.index') }}">Packages</a>
                     </li>
                     <li class="breadcrumb-item active">Package View</li>
                 </ol>

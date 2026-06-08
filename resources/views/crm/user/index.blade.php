@@ -10,9 +10,7 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                    @can('user-add')
                         <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm">Add User</a>
-                    @endcan
                     </div>
                     <h4 class="m-0 pt-3">Users</h4>
                     <ol class="breadcrumb m-0">
@@ -35,7 +33,7 @@
                                             <th wisth="15%">Name</th>
                                             <th width="20%">Email</th>
                                             <th width="10%">Mobile</th>
-                                            <th width="15%">Role</th>
+                                            <th width="15%">Parent</th>
                                             <th width="10%">Status</th>
                                             <th width="10%">Created</th>
                                             <th width="10%">Action</th>

@@ -33,12 +33,11 @@ class UserUpdateRequest extends FormRequest
                         Rule::unique('users', 'email')->ignore($this->route('user')),
                     ],
             "password" => ['nullable',
-                            Password::min(8) // Minimum length
-                            ->letters()  // Must contain at least one letter
-                            ->mixedCase() // Must contain uppercase AND lowercase letters
-                            ->numbers()   // Must contain at least one number
+                            Password::min(8)
+                            ->letters()
+                            ->mixedCase()
+                            ->numbers()
                         ],
-            "role" => "required",
             "phone" => "required|digits_between:10,15",
             // "al_phone" => "digits_between:10,15",
             "status" => "required"

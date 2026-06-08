@@ -8,14 +8,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -61,11 +59,6 @@ class User extends Authenticatable
         ];
     }
 
-    protected static function booted()
-    {
-        // static::addGlobalScope(new UserHierarchyScope());
-    }
-
     public function scopeActive($query){
         return $query->where('status', 'Active');
     }
@@ -85,37 +78,26 @@ class User extends Authenticatable
         }
     }
 
-    // team members (children)
     public function teamMembers()
     {
         return $this->hasMany(User::class, 'parent_id');
     }
-    // parent (manager)
+
     public function parent()
     {
         return $this->belongsTo(User::class, 'parent_id');
     }
-
 
     public function children()
     {
         return $this->hasMany(User::class, 'parent_id');
     }
 
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
     public function activities()
     {
         return $this->hasMany(Activity::class);
     }
-    /**
-     * Get IDs of this user and all their descendants (multi-level).
-     * Super Admin (role level = 1) is treated as global and should be
-     * handled by the caller (no restriction).
-     */
+
     public static function hierarchyUserIdsFor(?User $user = null): array
     {
         $user = $user ?: auth()->user();
@@ -124,17 +106,14 @@ class User extends Authenticatable
             return [];
         }
 
-        // Start with the current user
         $resultIds = [$user->id];
         $currentLevelIds = [$user->id];
 
-        // Breadth-first traversal to collect all descendants
         while (! empty($currentLevelIds)) {
             $childrenIds = self::whereIn('parent_id', $currentLevelIds)
                 ->pluck('id')
                 ->all();
 
-            // Remove already processed IDs to avoid infinite loops
             $childrenIds = array_values(array_diff($childrenIds, $resultIds));
 
             if (empty($childrenIds)) {

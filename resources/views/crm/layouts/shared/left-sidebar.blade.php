@@ -46,14 +46,12 @@
 
             <li class="side-nav-title">Navigation</li>
 
-            @can('dashboard-view')
-                <li class="side-nav-item">
-                    <a href="{{ route('dashboard') }}" class="side-nav-link">
-                        <i class="ri-home-4-line"></i>
-                        <span> Dashboard </span>
-                    </a>
-                </li>
-            @endcan
+            <li class="side-nav-item">
+                <a href="{{ route('dashboard') }}" class="side-nav-link">
+                    <i class="ri-home-4-line"></i>
+                    <span> Dashboard </span>
+                </a>
+            </li>
           
             <li class="side-nav-item">
                 <a href="{{ route('media.index') }}" class="side-nav-link">

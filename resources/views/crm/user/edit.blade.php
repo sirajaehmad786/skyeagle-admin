@@ -90,20 +90,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="mb-3">
-                                        <label for="role" class="form-label">Role <span
-                                                class="text-danger">*</span></label>
-                                        <select class="form-select" id="role" name="role">
-                                            <option value="">{{ config('constant.select_text') }}</option>
-                                            @foreach ($roles as $role)
-                                                <option value="{{ $role->name }}"
-                                                    @if ($user->roles->value('name') == $role->name) selected @endif>{{ $role->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="mb-3">
                                         <label for="phone" class="form-label">Mobile No <span class="text-danger">*</span></label>
                                         <input type="text" id="phone" name="phone" class="form-control"
                                             value="{{ $user->phone }}" placeholder="Mobile" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -128,7 +114,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                @if($user->roles->value('level') != 1)
                                 <div class="col-md-4">
                                     <div class="mb-3">
                                         <label for="parent_id" class="form-label">Parent <span class="text-danger">*</span></label>
@@ -140,7 +125,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                @endif
                             </div>
                             <div class="row">
                                 <div class="col-md-12">
@@ -224,9 +208,6 @@
                             }
 
                         },
-                        role: {
-                            required: true
-                        },
                         status: {
                             required: true
                         },
@@ -258,9 +239,6 @@
                             minlength: "Password must be at least 8 characters",
                             pwcheck: "Password must contain uppercase, lowercase, number, and special character"
                         },
-                        role: {
-                            required: "",
-                        },
                         parent_id:{
                             required:""
                         },
@@ -279,7 +257,7 @@
                     errorPlacement: function(error, element) {
 
                         const skipRequiredFor = ["first_name", "last_name", "email", "password",
-                            "role", 'status', 'phone'
+                            'status', 'phone'
                         ];
 
                         if (skipRequiredFor.includes(element.attr("name")) && error.text()

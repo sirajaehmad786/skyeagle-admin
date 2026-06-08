@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckUserActive
 {
     /**
-     * Admin panel: allowed role_ids + active status (see config/constant.php admin_access).
+     * Admin panel: active status check only.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -28,9 +28,7 @@ class CheckUserActive
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
-            $message = $user->status !== AdminAccess::activeStatus()
-                ? __('auth.account_inactive')
-                : __('auth.admin_panel_only');
+            $message = __('auth.account_inactive');
 
             return redirect()->route('login')->with('error', $message);
         }

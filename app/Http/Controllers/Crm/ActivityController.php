@@ -13,8 +13,6 @@ class ActivityController extends Controller
 
     public function __construct(ActivityRepository $activityRepository)
     {
-        $this->middleware('permission:activity-list')->only('index','initDataTable');
-        
         $this->activityRepository = $activityRepository;
     }
     /**
