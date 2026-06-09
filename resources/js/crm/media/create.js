@@ -1,6 +1,36 @@
 import { initAjaxFormValidation } from "../common/form-handler";
 import Dropzone from "dropzone";
 
+function resetMediaFormButtons() {
+    document.querySelector('.btn-save')?.classList.remove('d-none');
+    document.querySelector('.btn-outline-secondary')?.classList.remove('d-none');
+    document.querySelector('.btn-loading')?.classList.add('d-none');
+}
+
+function setMediaFormLoading() {
+    document.querySelector('.btn-save')?.classList.add('d-none');
+    document.querySelector('.btn-outline-secondary')?.classList.add('d-none');
+    document.querySelector('.btn-loading')?.classList.remove('d-none');
+}
+
+function getDropzoneOptions() {
+    return {
+        url: "/dummy",
+        autoProcessQueue: false,
+        clickable: true,
+        maxFiles: 10,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        paramName: "images",
+        acceptedFiles: ".jpeg,.jpg,.png",
+        resizeWidth: null,
+        resizeHeight: null,
+        resizeQuality: 1,
+        previewsContainer: "#file-previews",
+        previewTemplate: document.querySelector('#uploadPreviewTemplate').innerHTML,
+    };
+}
+
  const startPicker = flatpickr("#start_date", {
         dateFormat: "d-m-Y",
         minDate: "today",
@@ -27,24 +57,9 @@ if (Dropzone.instances.length > 0) {
 const dropzoneElement = document.querySelector("#demoDropzone");
 if (dropzoneElement) {
     let myDropzone = new Dropzone("#demoDropzone", {
-        url: "/dummy",
-        autoProcessQueue: false,
-        clickable: true,
-        maxFiles: 10,
-        uploadMultiple: true,
-        parallelUploads: 10,
-        paramName: "images",
-        acceptedFiles: ".jpeg,.jpg,.png",
-        previewsContainer: "#file-previews",
-        previewTemplate: document.querySelector('#uploadPreviewTemplate').innerHTML,
+        ...getDropzoneOptions(),
         init: function () {
             let dz = this;
-            dz.on("addedfile", function (file) {
-                console.log("File added:", file.name);
-            });
-            dz.on("removedfile", function (file) {
-                console.log("File removed:", file.name);
-            });
             dz.on("maxfilesexceeded", function(file) {
                 dz.removeFile(file);
                 showToastmessage("Maximum 10 images allowed", "error");
@@ -65,31 +80,34 @@ initAjaxFormValidation("#create_media_fr", {
     ],
     beforeSubmit: function () {
         let dz = window.myDropzone;
-        document.querySelectorAll('.dz-hidden-input').forEach(e => e.remove());
-        if (dz && dz.files.length > 0) {
-            let form = document.getElementById('create_media_fr');
-            dz.files.forEach((file) => {
-                let input = document.createElement('input');
-                input.type = 'file';
-                input.name = 'images[]';
-                input.classList.add('dz-hidden-input');
-                let dataTransfer = new DataTransfer();
+        let input = document.getElementById('hiddenImagesInput');
+        let newFiles = dz ? dz.getAcceptedFiles() : [];
+
+        if (input && newFiles.length > 0) {
+            let dataTransfer = new DataTransfer();
+            newFiles.forEach((file) => {
                 dataTransfer.items.add(file);
-                input.files = dataTransfer.files;
-                form.appendChild(input);
             });
+            input.files = dataTransfer.files;
+        } else if (input) {
+            input.value = '';
         }
-        document.querySelector('.btn-save')?.classList.add('d-none');
-        document.querySelector('.btn-outline-secondary')?.classList.add('d-none');
-        document.querySelector('.btn-loading')?.classList.remove('d-none');
+
+        let countInput = document.getElementById('expected_images_count');
+        if (countInput) {
+            countInput.value = newFiles.length;
+        }
+
+        setMediaFormLoading();
     },
     onSuccess: function (res) {
-        window.location.href = res.redirect_url;
+        showToastmessage(res.message || 'Media created successfully', 'success');
+        setTimeout(() => {
+            window.location.href = res.redirect_url;
+        }, 1000);
     },
     onError: function (res) {
-        document.querySelector('.btn-save')?.classList.remove('d-none');
-        document.querySelector('.btn-outline-secondary')?.classList.remove('d-none');
-        document.querySelector('.btn-loading')?.classList.add('d-none');
-        showToastmessage(res.message, 'error');
+        resetMediaFormButtons();
+        showToastmessage(res.message || 'Something went wrong.', 'error');
     }
 });

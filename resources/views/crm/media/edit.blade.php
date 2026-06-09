@@ -28,6 +28,7 @@
             <form id="edit_media_fr" action="{{ route('media.update', $media->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                <input type="hidden" name="expected_images_count" id="expected_images_count" value="0">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">

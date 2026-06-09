@@ -27,6 +27,7 @@
         <div class="col-md-12">
             <form id="create_media_fr" action="{{ route('media.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <input type="hidden" name="expected_images_count" id="expected_images_count" value="0">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
@@ -103,6 +104,7 @@
                                         <div class="card-body">
                                             <h4 class="header-title">Upload Images</h4>
                                             <div class="dropzone" id="demoDropzone">
+                                                <input type="file" name="images[]" id="hiddenImagesInput" multiple hidden>
                                                 <div class="dz-message needsclick text-center">
                                                     <i class="h1 text-muted ri-upload-cloud-2-line"></i>
                                                     <h3>Drop files here or click to upload.</h3>

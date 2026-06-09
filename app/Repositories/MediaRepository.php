@@ -32,23 +32,47 @@ class MediaRepository extends BaseRepository
 
     public function uploadMediaImages($request, $mediaId)
     {
+        $maxFiles = config('constant.media_upload.max_files', 10);
+        $expectedCount = (int) $request->input('expected_images_count', 0);
+
         if (!$request->hasFile('images')) {
+            if ($expectedCount > 0) {
+                throw new \Exception('Image upload failed. Files were not received by the server. Please check server upload limits (post_max_size / upload_max_filesize) and try again.');
+            }
             return;
         }
+
         $files = $request->file('images');
         if (!is_array($files)) {
             $files = [$files];
         }
-        if (count($files) > 10) {
-            throw new \Exception('Maximum 10 images allowed');
+
+        if (count($files) > $maxFiles) {
+            throw new \Exception("Maximum {$maxFiles} images allowed");
         }
+
+        if ($expectedCount > 0 && count($files) < $expectedCount) {
+            throw new \Exception('Image upload failed. Some files were not received by the server. Please try again.');
+        }
+
         $insertData = [];
+        $errors = [];
+
         foreach ($files as $index => $file) {
             if (!$file->isValid()) {
+                $errors[] = $file->getClientOriginalName() . ': ' . $file->getErrorMessage();
                 continue;
             }
-            $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+            $extension = $file->getClientOriginalExtension() ?: $file->extension();
+            $fileName = time() . '_' . uniqid() . '.' . $extension;
             $filePath = $file->storeAs('media', $fileName, 'public');
+
+            if (!$filePath) {
+                $errors[] = $file->getClientOriginalName() . ': failed to save file';
+                continue;
+            }
+
             $insertData[] = [
                 'media_id'   => $mediaId,
                 'file_name'  => $fileName,
@@ -60,6 +84,15 @@ class MediaRepository extends BaseRepository
                 'updated_at' => now(),
             ];
         }
+
+        if (!empty($errors)) {
+            throw new \Exception('Image upload failed: ' . implode(', ', $errors));
+        }
+
+        if ($expectedCount > 0 && empty($insertData)) {
+            throw new \Exception('Image upload failed. No images were saved. Please check file size and format.');
+        }
+
         if (!empty($insertData)) {
             DB::table('media_images')->insert($insertData);
         }

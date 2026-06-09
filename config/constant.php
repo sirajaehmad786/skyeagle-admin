@@ -215,7 +215,8 @@ return [
         'Footer',
         'Ads' ,
         'Header',
-        'Tour Package'
+        'Tour Package',
+        "Newsletter Subscribe"
     ],
 
     'section' => [
@@ -223,6 +224,10 @@ return [
         'Banner',
         'Sidebar',
         'Popup',
+    ],
+
+    'media_upload' => [
+        'max_files' => 10,
     ],
 
     'status'=>[
