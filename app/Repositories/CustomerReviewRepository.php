@@ -65,6 +65,14 @@ class CustomerReviewRepository extends BaseRepository
                 Storage::disk('public')->delete($review->reviewer_image);
             }
             $data['reviewer_image'] = $request->file('reviewer_image')->store('customer-review', 'public');
+        } elseif ($request->boolean('remove_reviewer_image')) {
+            if (
+                !empty($review->reviewer_image) &&
+                Storage::disk('public')->exists($review->reviewer_image)
+            ) {
+                Storage::disk('public')->delete($review->reviewer_image);
+            }
+            $data['reviewer_image'] = null;
         }
         $review->update($data);
         return $review;

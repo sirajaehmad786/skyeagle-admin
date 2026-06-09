@@ -137,6 +137,10 @@
                                             <input type="hidden"
                                                 id="existingImage"
                                                 value="{{ !empty($review->reviewer_image) ? asset('storage/' . $review->reviewer_image) : '' }}">
+                                            <input type="hidden"
+                                                name="remove_reviewer_image"
+                                                id="remove_reviewer_image"
+                                                value="0">
 
                                             <div id="demoDropzone" class="dropzone border rounded">
                                                 <div class="dz-message needsclick text-center py-5">
