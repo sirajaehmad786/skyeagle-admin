@@ -134,30 +134,49 @@ export function initAjaxFormValidation(formSelector, rules, messages, extraOptio
                     $('.btn-loading').hide();
                 },
                 error: function(xhr) {
+                    submitBtn.prop("disabled", false);
                     $('.btn-save').show().prop("disabled", false);
                     $('.btn-loading').hide();
-                    if (xhr.status === 422) {
+
+                    let message = 'Something went wrong. Please try again.';
+
+                    if (xhr.status === 422 && xhr.responseJSON?.errors) {
                         let errors = xhr.responseJSON.errors;
                         $.each(errors, function(field, messages) {
                             let input = $form.find('[name="' + field + '"]');
                             input.addClass("is-invalid");
-                            
+
                             if (field === "password" && input.closest(".input-group").length) {
                                 input.closest(".input-group")
                                     .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
                             } else if (field.includes('.')) {
-                                //for allow only multipale field
                                 let fieldName = field.replace(/\.\d+$/, "[]");
-                                // find the matching input
-                                let input = $(`[name="${fieldName}"]`).eq(field.match(/\d+/)?.[0] || 0);
-                                if(input.hasClass("select2")){
-                                    input.next('.select2-container')
+                                let indexedInput = $(`[name="${fieldName}"]`).eq(field.match(/\d+/)?.[0] || 0);
+                                if (indexedInput.hasClass("select2")) {
+                                    indexedInput.next('.select2-container')
                                         .after('<div class="invalid-feedback d-block">' + messages[0] + '</div>');
                                 }
                             } else {
                                 input.after('<div class="invalid-feedback">' + messages[0] + '</div>');
                             }
                         });
+
+                        const firstError = Object.values(errors)[0];
+                        message = Array.isArray(firstError) ? firstError[0] : firstError;
+                    } else if (xhr.status === 413) {
+                        message = 'Upload failed: request data is too large for the server. Please increase PHP post_max_size / upload_max_filesize.';
+                    } else if (xhr.status === 0) {
+                        message = 'Network error or upload failed. Please check server upload limits and try again.';
+                    } else if (xhr.responseJSON?.message) {
+                        message = xhr.responseJSON.message;
+                    } else if (xhr.statusText && xhr.statusText !== 'error') {
+                        message = xhr.statusText;
+                    }
+
+                    if (extraOptions.onError) {
+                        extraOptions.onError({ status: false, message: message });
+                    } else {
+                        showToastmessage(message, 'error');
                     }
                 },
                 complete: function() {

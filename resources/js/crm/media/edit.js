@@ -1,6 +1,36 @@
 import { initAjaxFormValidation } from "../common/form-handler";
 import Dropzone from "dropzone";
 
+function resetMediaFormButtons() {
+    document.querySelector('.btn-save')?.classList.remove('d-none');
+    document.querySelector('.btn-outline-secondary')?.classList.remove('d-none');
+    document.querySelector('.btn-loading')?.classList.add('d-none');
+}
+
+function setMediaFormLoading() {
+    document.querySelector('.btn-save')?.classList.add('d-none');
+    document.querySelector('.btn-outline-secondary')?.classList.add('d-none');
+    document.querySelector('.btn-loading')?.classList.remove('d-none');
+}
+
+function getDropzoneOptions() {
+    return {
+        url: "/dummy",
+        autoProcessQueue: false,
+        clickable: true,
+        maxFiles: 10,
+        uploadMultiple: true,
+        parallelUploads: 10,
+        paramName: "images",
+        acceptedFiles: ".jpeg,.jpg,.png",
+        resizeWidth: null,
+        resizeHeight: null,
+        resizeQuality: 1,
+        previewsContainer: "#file-previews",
+        previewTemplate: document.querySelector('#uploadPreviewTemplate').innerHTML,
+    };
+}
+
 Dropzone.autoDiscover = false;
 if (Dropzone.instances.length > 0) {
     Dropzone.instances.forEach(dz => dz.destroy());
@@ -30,16 +60,7 @@ const dropzoneElement = document.querySelector("#demoDropzone");
 if (dropzoneElement) {
     let removedImages = [];
     let myDropzone = new Dropzone("#demoDropzone", {
-        url: "/dummy",
-        autoProcessQueue: false,
-        clickable: true,
-        maxFiles: 10,
-        uploadMultiple: true,
-        parallelUploads: 10,
-        paramName: "images",
-        acceptedFiles: ".jpeg,.jpg,.png",
-        previewsContainer: "#file-previews",
-        previewTemplate: document.querySelector('#uploadPreviewTemplate').innerHTML,
+        ...getDropzoneOptions(),
         init: function () {
             let dz = this;
             function getCurrentFileCount() {
@@ -98,23 +119,35 @@ initAjaxFormValidation("#edit_media_fr", {
 }, {}, {
     beforeSubmit: function () {
         let input = document.getElementById('hiddenImagesInput');
+        let newFiles = [];
+
         if (window.myDropzone && input) {
             let dataTransfer = new DataTransfer();
             let files = window.myDropzone.getAcceptedFiles();
             files.forEach((file) => {
                 if (!file._imageId) {
                     dataTransfer.items.add(file);
+                    newFiles.push(file);
                 }
             });
             input.files = dataTransfer.files;
         }
-        document.querySelector('.btn-save')?.classList.add('d-none');
-        document.querySelector('.btn-loading')?.classList.remove('d-none');
+
+        let countInput = document.getElementById('expected_images_count');
+        if (countInput) {
+            countInput.value = newFiles.length;
+        }
+
+        setMediaFormLoading();
     },
     onSuccess: function (res) {
-        window.location.href = res.redirect_url;
+        showToastmessage(res.message || 'Media updated successfully.', 'success');
+        setTimeout(() => {
+            window.location.href = res.redirect_url;
+        }, 1000);
     },
     onError: function (res) {
-        showToastmessage(res.message, 'error');
+        resetMediaFormButtons();
+        showToastmessage(res.message || 'Something went wrong.', 'error');
     }
 });
