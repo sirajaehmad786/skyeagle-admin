@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         size: 12345,
                         accepted: true
                     };
+                    mockFile._isExistingImage = true;
                     this.emit("addedfile", mockFile);
                     this.emit(
                         "thumbnail",
@@ -81,6 +82,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.emit("complete",mockFile);
                     this.files.push(mockFile);
                 }
+                this.on("removedfile", function (file) {
+                    if (file._isExistingImage) {
+                        document.getElementById("remove_reviewer_image").value = "1";
+                    }
+                });
+                this.on("addedfile", function (file) {
+                    if (file instanceof File) {
+                        document.getElementById("remove_reviewer_image").value = "0";
+                    }
+                });
             }
         });
     }
