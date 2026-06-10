@@ -38,13 +38,12 @@ class CategoryRepository extends BaseRepository
         return $query;
     }
 
-    public function search($search)
+    public function search($search, int $page = 1, int $perPage = 20)
     {
         return Category::query()
-            ->where('name', 'LIKE', "%{$search}%")
+            ->when($search, fn ($query) => $query->where('name', 'LIKE', "%{$search}%"))
             ->orderBy('name', 'asc')
-            ->limit(10)
-            ->get();
+            ->paginate($perPage, ['id', 'name'], 'page', $page);
     }
 
     public function delete($id)

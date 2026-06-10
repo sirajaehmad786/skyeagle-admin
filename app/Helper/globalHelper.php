@@ -8,6 +8,33 @@ if(!function_exists('formateDate')){
     }
 }
 
+if (!function_exists('formatDateTimeIST')) {
+    function formatDateTimeIST($date, $format = 'd-m-Y h:i A')
+    {
+        if (empty($date)) {
+            return '-';
+        }
+
+        return Carbon::parse($date, 'UTC')
+            ->setTimezone('Asia/Kolkata')
+            ->format($format);
+    }
+}
+
+if (!function_exists('istDateRangeToUtc')) {
+    function istDateRangeToUtc($date, $endOfDay = false)
+    {
+        if (empty($date)) {
+            return null;
+        }
+
+        $carbon = Carbon::createFromFormat('d-m-Y', $date, 'Asia/Kolkata');
+        $carbon = $endOfDay ? $carbon->endOfDay() : $carbon->startOfDay();
+
+        return $carbon->setTimezone('UTC');
+    }
+}
+
 if (! function_exists('formatAmount')) {
     function formatAmount($amount, $decimals = 2)
     {

@@ -65,6 +65,7 @@ export default defineConfig(({ mode }) => {
 
                 // My css
                 'resources/css/crm/custom.css',
+                'resources/css/crm/inline-edit.css',
 
                 'resources/js/bootstrap.js',
                 'resources/js/app.js',
@@ -216,6 +217,15 @@ export default defineConfig(({ mode }) => {
                 'resources/js/crm/package/create.js',
                 'resources/js/crm/package/edit.js',
                 'resources/js/crm/package/index.js',
+
+                //blog
+                'resources/js/crm/blogPost/create.js',
+                'resources/js/crm/blogPost/edit.js',
+                'resources/js/crm/blogPost/index.js',
+                'resources/js/crm/blogTag/create.js',
+                'resources/js/crm/blogTag/edit.js',
+                'resources/js/crm/blogTag/index.js',
+                'resources/js/crm/blogComment/index.js',
 
                 //enquiry
                 'resources/js/crm/enquiry/index.js',
