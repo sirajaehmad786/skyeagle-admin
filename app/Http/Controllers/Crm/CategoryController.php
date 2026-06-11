@@ -133,10 +133,19 @@ class CategoryController extends Controller
 
     public function search(Request $request)
     {
-        $search = $request->get('search');
-        $categories = $this->categoryRepository->search($search);
+        $search = $request->get('q', $request->get('search'));
+        $page = max(1, (int) $request->get('page', 1));
+        $perPage = min(50, max(10, (int) $request->get('per_page', 20)));
+        $categories = $this->categoryRepository->search($search, $page, $perPage);
+
         return response()->json([
-            'data' => $categories
+            'data' => $categories->getCollection()->map(fn ($category) => [
+                'id' => $category->id,
+                'text' => $category->name,
+            ])->values(),
+            'pagination' => [
+                'more' => $categories->hasMorePages(),
+            ],
         ]);
     }
 }

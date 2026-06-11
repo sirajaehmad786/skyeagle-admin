@@ -1,0 +1,86 @@
+.inline-edit-cell {
+    cursor: text;
+    border-bottom: 1px dashed transparent;
+}
+
+.inline-edit-cell:hover {
+    border-bottom-color: #727cf5;
+    color: #727cf5;
+}
+
+.inline-edit-control {
+    min-width: 160px;
+}
+
+.inline-floating-select {
+    position: fixed;
+    z-index: 2000;
+    padding: 8px;
+    background: #fff;
+    border: 1px solid #d9dee3;
+    border-radius: 6px;
+    box-shadow: 0 12px 28px rgba(50, 58, 70, 0.16);
+}
+
+.inline-floating-search {
+    margin-bottom: 8px;
+    min-height: 36px;
+}
+
+.inline-floating-options {
+    max-height: 220px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.inline-floating-option {
+    display: block;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: #6c757d;
+    text-align: left;
+    padding: 8px 10px;
+    border-radius: 4px;
+    line-height: 1.35;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.inline-floating-option:hover {
+    background-color: #f1f3ff;
+    color: #3b4fd8;
+}
+
+.inline-floating-option.active {
+    position: relative;
+    background-color: #eef1ff;
+    color: #3b4fd8;
+    font-weight: 600;
+    padding-right: 30px;
+}
+
+.inline-floating-option.active::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    font-size: 13px;
+}
+
+.inline-floating-option.active:hover {
+    background-color: #e6eaff;
+}
+
+.inline-floating-empty {
+    padding: 8px 10px;
+    color: #98a6ad;
+}
+
+.inline-floating-loader {
+    padding: 8px 10px 2px;
+    color: #98a6ad;
+    font-size: 12px;
+}

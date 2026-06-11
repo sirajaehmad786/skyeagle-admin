@@ -1,0 +1,70 @@
+@extends('crm.layouts.vertical', ['page_title' => 'Create Blog Tag', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
+
+@section('css')
+    @vite(['node_modules/select2/dist/css/select2.min.css'])
+@endsection
+
+@section('content')
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box">
+                <div class="page-title-right">
+                    <a href="{{ route('blog-tags.index') }}" class="btn btn-secondary"><i class="ri-arrow-go-back-line"></i> Back</a>
+                </div>
+                <h4 class="m-0 pt-3">Create Blog Tag</h4>
+                <ol class="breadcrumb m-0">
+                    <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('blog-tags.index') }}">Blog Tags</a></li>
+                    <li class="breadcrumb-item active">Create Blog Tag</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form id="create_blog_tag" action="{{ route('blog-tags.store') }}" method="POST">
+                @csrf
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Tag Name <span class="text-danger">*</span></label>
+                                    <input type="text" name="name" class="form-control" placeholder="Tag Name">
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select name="status" class="form-control">
+                                        @foreach(config('constant.status') as $status)
+                                            <option value="{{ $status === config('constant.status.0', 'Active') ? 1 : 0 }}">{{ $status }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3 float-end">
+                                    <a href="{{ route('blog-tags.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                                    <button type="submit" class="btn btn-primary btn-save">Save Changes</button>
+                                    <button class="btn btn-primary btn-loading" style="display:none" type="button" disabled>
+                                        <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endsection
+
+@section('script')
+    @vite(['resources/js/crm/blogTag/create.js'])
+@endsection

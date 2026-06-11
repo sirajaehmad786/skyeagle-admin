@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Crm\ActivityController;
+use App\Http\Controllers\Crm\BlogCommentController;
+use App\Http\Controllers\Crm\BlogPostController;
+use App\Http\Controllers\Crm\BlogTagController;
 use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\CustomerReviewController;
 use App\Http\Controllers\Crm\DashboardController;
@@ -28,7 +31,15 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::resource("package", PackageController::class);
     
     //Category routes
+    Route::get('category/search', [CategoryController::class, 'search'])->name('category.search');
     Route::resource("category", CategoryController::class);
+
+    //Blog routes
+    Route::patch('blog-posts/{blog_post}/inline-update', [BlogPostController::class, 'inlineUpdate'])->name('blog-posts.inline-update');
+    Route::resource("blog-posts", BlogPostController::class);
+    Route::patch('blog-tags/{blog_tag}/inline-update', [BlogTagController::class, 'inlineUpdate'])->name('blog-tags.inline-update');
+    Route::resource("blog-tags", BlogTagController::class);
+    Route::resource("blog-comments", BlogCommentController::class)->only(['index', 'destroy']);
 
     //Enquiry routes
     Route::resource("enquiry", EnquiryController::class);
