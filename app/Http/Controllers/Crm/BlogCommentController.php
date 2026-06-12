@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogComment;
-use App\Repositories\BlogCommentRepository;
+use App\Repositories\BlogPostRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class BlogCommentController extends Controller
 {
-    public function __construct(protected BlogCommentRepository $blogCommentRepository)
+    public function __construct(protected BlogPostRepository $blogPostRepository)
     {
     }
 
@@ -34,7 +34,7 @@ class BlogCommentController extends Controller
         ]);
 
         try {
-            $comment = $this->blogCommentRepository->updateApprovalStatus($blog_comment, $data['status']);
+            $comment = $this->blogPostRepository->updateCommentApprovalStatus($blog_comment, $data['status']);
             $label = BlogComment::statusOptions()[$comment->status] ?? Str::headline($comment->status);
 
             return response()->json([
@@ -49,7 +49,7 @@ class BlogCommentController extends Controller
     public function destroy(string $id)
     {
         try {
-            $this->blogCommentRepository->delete($id);
+            $this->blogPostRepository->deleteComment($id);
             return response()->json(['status' => true, 'message' => 'Blog comment deleted successfully.']);
         } catch (\Exception $e) {
             return response()->json(['status' => false, 'message' => 'Failed to delete blog comment: ' . $e->getMessage()], 500);
@@ -58,7 +58,7 @@ class BlogCommentController extends Controller
 
     protected function initDataTable(Request $request)
     {
-        $data = $this->blogCommentRepository->initData($request);
+        $data = $this->blogPostRepository->initCommentData($request);
         $statuses = BlogComment::statusOptions();
 
         return DataTables::of($data)

@@ -6,17 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogPostRequest;
 use App\Models\Category;
 use App\Repositories\BlogPostRepository;
-use App\Repositories\BlogTagRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Yajra\DataTables\Facades\DataTables;
 
 class BlogPostController extends Controller
 {
-    public function __construct(
-        protected BlogPostRepository $blogPostRepository,
-        protected BlogTagRepository $blogTagRepository
-    ) {
+    public function __construct(protected BlogPostRepository $blogPostRepository)
+    {
     }
 
     public function index(Request $request)
@@ -25,7 +22,7 @@ class BlogPostController extends Controller
             return $this->initDataTable($request);
         }
 
-        $tags = $this->blogTagRepository->active();
+        $tags = $this->blogPostRepository->activeBlogTags();
         $statuses = config('constant.status', []);
 
         return view('crm.blogPost.index', compact('tags', 'statuses'));
