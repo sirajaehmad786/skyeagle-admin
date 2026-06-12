@@ -100,4 +100,9 @@ class BlogPost extends Model
     {
         return $this->hasMany(BlogComment::class);
     }
+
+    public function approvedComments()
+    {
+        return $this->hasMany(BlogComment::class)->approved();
+    }
 }
