@@ -1,7 +1,7 @@
 @extends('crm.layouts.vertical', ['page_title' => 'Blog Post Details', 'mode' => $mode ?? '', 'demo' => $demo ?? ''])
 
 @section('css')
-    @vite(['resources/css/crm/custom.css'])
+    @vite(['resources/css/crm/custom.css', 'resources/css/crm/blog-author.css'])
 @endsection
 
 @section('content')
@@ -87,6 +87,29 @@
                 <h5 class="section-title">Content</h5>
                 <div class="content-box">{!! $post->content !!}</div>
             </div>
+            @if($post->author_name || $post->author_about || $post->author_image)
+                <div class="mb-4">
+                    <div class="blog-author-panel blog-author-view-panel">
+                        <div class="blog-author-title">
+                            <span>Author Profile</span>
+                            <h5>About Author</h5>
+                        </div>
+                        <div class="d-flex flex-column flex-md-row gap-3 align-items-start">
+                            <div class="author-view-avatar">
+                                @if($post->author_image)
+                                    <img src="{{ asset('storage/' . $post->author_image) }}" alt="{{ $post->author_name ?? 'Author' }}">
+                                @else
+                                    <span>{{ strtoupper(substr($post->author_name ?? 'A', 0, 1)) }}</span>
+                                @endif
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5 class="author-view-name">{{ $post->author_name ?? '-' }}</h5>
+                                <p class="author-view-about mb-0">{{ $post->author_about ?? '-' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @if($post->images->count())
                 <div class="mb-4">
                     <h5 class="section-title mb-3">Blog Gallery ({{ $post->images->count() }} Images)</h5>

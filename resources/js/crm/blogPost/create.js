@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     initBlogDropzone(false);
     initPasteSupport();
+    initAuthorImageUpload();
 
     initAjaxFormValidation("#create_blog_post", {
         title: { required: true },
@@ -72,6 +73,34 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+function initAuthorImageUpload() {
+    const input = document.getElementById('author_image');
+    const preview = document.getElementById('authorImagePreview');
+    const box = document.querySelector('.author-image-box');
+    const removeBtn = document.getElementById('removeAuthorImage');
+    const removeInput = document.getElementById('remove_author_image');
+
+    if (!input || !preview || !box || !removeBtn || !removeInput) return;
+
+    input.addEventListener('change', function () {
+        const file = input.files?.[0];
+        if (!file) return;
+
+        preview.src = URL.createObjectURL(file);
+        box.classList.add('has-image');
+        removeBtn.classList.remove('d-none');
+        removeInput.value = '0';
+    });
+
+    removeBtn.addEventListener('click', function () {
+        input.value = '';
+        preview.src = '';
+        box.classList.remove('has-image');
+        removeBtn.classList.add('d-none');
+        removeInput.value = '1';
+    });
+}
 
 function initBlogDropzone(hasExistingImages) {
     Dropzone.autoDiscover = false;
