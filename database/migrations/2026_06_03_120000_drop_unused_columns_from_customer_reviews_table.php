@@ -11,14 +11,22 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('customer_reviews', function (Blueprint $table) {
-            $table->dropColumn([
-                'reviewer_email',
-                'reviewer_phone',
-                'reviewer_designation',
-                'reviewer_company',
-                'slug',
-            ]);
+        $columns = [
+            'reviewer_email',
+            'reviewer_phone',
+            'reviewer_designation',
+            'reviewer_company',
+            'slug',
+        ];
+
+        $existing = array_filter($columns, fn ($column) => Schema::hasColumn('customer_reviews', $column));
+
+        if (empty($existing)) {
+            return;
+        }
+
+        Schema::table('customer_reviews', function (Blueprint $table) use ($existing) {
+            $table->dropColumn($existing);
         });
     }
 
@@ -28,11 +36,21 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('customer_reviews', function (Blueprint $table) {
-            $table->string('reviewer_email')->nullable();
-            $table->string('reviewer_phone')->nullable();
-            $table->string('reviewer_designation')->nullable();
-            $table->string('reviewer_company')->nullable();
-            $table->string('slug')->nullable();
+            if (! Schema::hasColumn('customer_reviews', 'reviewer_email')) {
+                $table->string('reviewer_email')->nullable();
+            }
+            if (! Schema::hasColumn('customer_reviews', 'reviewer_phone')) {
+                $table->string('reviewer_phone')->nullable();
+            }
+            if (! Schema::hasColumn('customer_reviews', 'reviewer_designation')) {
+                $table->string('reviewer_designation')->nullable();
+            }
+            if (! Schema::hasColumn('customer_reviews', 'reviewer_company')) {
+                $table->string('reviewer_company')->nullable();
+            }
+            if (! Schema::hasColumn('customer_reviews', 'slug')) {
+                $table->string('slug')->nullable();
+            }
         });
     }
 };
