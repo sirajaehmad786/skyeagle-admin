@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class BlogPost extends Model
@@ -15,6 +16,9 @@ class BlogPost extends Model
         'excerpt',
         'content',
         'featured_image',
+        'author_name',
+        'author_image',
+        'author_about',
         'status',
         'is_featured',
         'published_at',
@@ -47,6 +51,10 @@ class BlogPost extends Model
             $post->images->each(function ($image) {
                 $image->delete();
             });
+
+            if ($post->author_image && Storage::disk('public')->exists($post->author_image)) {
+                Storage::disk('public')->delete($post->author_image);
+            }
         });
     }
 
