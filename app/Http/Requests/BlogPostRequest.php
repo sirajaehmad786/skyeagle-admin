@@ -31,8 +31,8 @@ class BlogPostRequest extends FormRequest
             'is_featured' => ['nullable', 'boolean'],
             'published_at' => ['nullable', 'required_if:status,' . $activeStatus, 'date'],
             'reading_time_minutes' => ['nullable', 'integer', 'min:1', 'max:65535'],
-            'tags' => ['nullable', 'array'],
-            'tags.*' => ['integer', 'exists:blog_tags,id'],
+            'tags' => ['nullable', 'array', 'max:30'],
+            'tags.*' => ['string', 'max:100'],
             'images' => ['nullable', 'array', 'max:10'],
             'images.*' => ['image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
             'removed_images' => ['nullable', 'string'],
@@ -45,6 +45,17 @@ class BlogPostRequest extends FormRequest
             $this->merge([
                 'published_at' => convertDateFormat($this->published_at),
             ]);
+        }
+
+        if (is_array($this->tags)) {
+            $tags = collect($this->tags)
+                ->map(fn ($tag) => is_string($tag) ? trim($tag) : null)
+                ->filter()
+                ->unique(fn ($tag) => mb_strtolower($tag))
+                ->values()
+                ->all();
+
+            $this->merge(['tags' => $tags]);
         }
     }
 

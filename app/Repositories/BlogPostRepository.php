@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\BlogPost;
+use App\Models\BlogTag;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -152,10 +153,20 @@ class BlogPostRepository extends BaseRepository
 
     protected function syncTags(BlogPost $post, array $tags): void
     {
+        $names = collect($tags)
+            ->map(fn ($tag) => is_string($tag) ? trim($tag) : null)
+            ->filter()
+            ->unique(fn ($name) => mb_strtolower($name))
+            ->values();
+
         $sync = [];
-        foreach (array_filter($tags) as $tagId) {
-            $sync[$tagId] = ['created_at' => now()];
+        foreach ($names as $name) {
+            $tag = BlogTag::whereRaw('LOWER(name) = ?', [mb_strtolower($name)])->first()
+                ?? BlogTag::create(['name' => $name, 'status' => 1]);
+
+            $sync[$tag->id] = ['created_at' => now()];
         }
+
         $post->tags()->sync($sync);
     }
 

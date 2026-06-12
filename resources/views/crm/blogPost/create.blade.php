@@ -61,11 +61,8 @@
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">Tags</label>
-                                    <select name="tags[]" id="tags" class="form-control select2" multiple>
-                                        @foreach($tags as $tag)
-                                            <option value="{{ $tag->id }}">{{ $tag->name }}</option>
-                                        @endforeach
-                                    </select>
+                                    <select name="tags[]" id="tags" class="form-control select2-tags" multiple></select>
+                                    <small class="text-muted">Type a tag and press Enter or comma.</small>
                                 </div>
                             </div>
                             <div class="col-md-4">

@@ -222,9 +222,6 @@ export default defineConfig(({ mode }) => {
                 'resources/js/crm/blogPost/create.js',
                 'resources/js/crm/blogPost/edit.js',
                 'resources/js/crm/blogPost/index.js',
-                'resources/js/crm/blogTag/create.js',
-                'resources/js/crm/blogTag/edit.js',
-                'resources/js/crm/blogTag/index.js',
                 'resources/js/crm/blogComment/index.js',
 
                 //enquiry

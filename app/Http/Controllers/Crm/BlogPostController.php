@@ -34,9 +34,8 @@ class BlogPostController extends Controller
     public function create()
     {
         $categories = Category::orderBy('name')->get();
-        $tags = $this->blogTagRepository->active();
 
-        return view('crm.blogPost.create', compact('categories', 'tags'));
+        return view('crm.blogPost.create', compact('categories'));
     }
 
     public function store(BlogPostRequest $request)
@@ -68,9 +67,8 @@ class BlogPostController extends Controller
     {
         $post = $this->blogPostRepository->getById($id);
         $categories = Category::orderBy('name')->get();
-        $tags = $this->blogTagRepository->active();
 
-        return view('crm.blogPost.edit', compact('post', 'categories', 'tags'));
+        return view('crm.blogPost.edit', compact('post', 'categories'));
     }
 
     public function update(BlogPostRequest $request, string $id)
