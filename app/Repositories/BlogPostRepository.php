@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\BlogComment;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
 use Illuminate\Support\Facades\Auth;
@@ -33,6 +34,39 @@ class BlogPostRepository extends BaseRepository
     public function getById($id)
     {
         return BlogPost::with(['category', 'tags', 'images', 'comments'])->findOrFail($id);
+    }
+
+    public function activeBlogTags()
+    {
+        return BlogTag::query()->where('status', 1)->orderBy('name')->get();
+    }
+
+    public function initCommentData($request = null)
+    {
+        $query = BlogComment::query()
+            ->with(['post', 'parent'])
+            ->latest();
+
+        if ($request) {
+            $this->applyCommentFilters($query, $request);
+        }
+
+        return $query;
+    }
+
+    public function updateCommentApprovalStatus(BlogComment $comment, string $status): BlogComment
+    {
+        $comment->status = $status;
+        $comment->approved_at = $status === BlogComment::STATUS_APPROVED ? now() : null;
+        $comment->save();
+
+        return $comment->refresh();
+    }
+
+    public function deleteComment($id)
+    {
+        $comment = BlogComment::withTrashed()->findOrFail($id);
+        return $comment->forceDelete();
     }
 
     public function createBlogPost($request)
@@ -120,6 +154,21 @@ class BlogPostRepository extends BaseRepository
 
         if ($request->filled('published_to')) {
             $query->where('published_at', '<=', istDateRangeToUtc($request->published_to, true));
+        }
+
+        if ($request->filled('created_from')) {
+            $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+        }
+
+        if ($request->filled('created_to')) {
+            $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+        }
+    }
+
+    protected function applyCommentFilters($query, $request): void
+    {
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         if ($request->filled('created_from')) {
