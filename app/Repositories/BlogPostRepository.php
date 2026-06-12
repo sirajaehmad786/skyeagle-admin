@@ -39,6 +39,7 @@ class BlogPostRepository extends BaseRepository
         return DB::transaction(function () use ($request) {
             $data = $this->prepareData($request);
             $data['user_id'] = Auth::id();
+            $data['author_image'] = $this->storeAuthorImage($request);
             $post = $this->model->create($data);
             $this->syncTags($post, $request->tags ?? []);
             $this->uploadBlogImages($request, $post->id);
@@ -52,7 +53,9 @@ class BlogPostRepository extends BaseRepository
     {
         return DB::transaction(function () use ($request, $id) {
             $post = $this->model->findOrFail($id);
-            $post->update($this->prepareData($request));
+            $data = $this->prepareData($request);
+            $this->syncAuthorImage($request, $post, $data);
+            $post->update($data);
             $this->syncTags($post, $request->tags ?? []);
             $this->deleteRemovedImages($request);
             $this->uploadBlogImages($request, $post->id);
@@ -137,6 +140,8 @@ class BlogPostRepository extends BaseRepository
             'title' => $request->title,
             'excerpt' => $request->excerpt,
             'content' => $content,
+            'author_name' => $request->author_name,
+            'author_about' => $request->author_about,
             'status' => $request->status,
             'is_featured' => $request->has('is_featured') ? 1 : 0,
             'published_at' => $request->published_at,
@@ -148,6 +153,34 @@ class BlogPostRepository extends BaseRepository
     {
         $words = str_word_count(strip_tags($content));
         return max(1, (int) ceil($words / 200));
+    }
+
+    protected function storeAuthorImage($request): ?string
+    {
+        if (!$request->hasFile('author_image') || !$request->file('author_image')->isValid()) {
+            return null;
+        }
+
+        $file = $request->file('author_image');
+        $fileName = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+        return $file->storeAs('blogs/authors', $fileName, 'public');
+    }
+
+    protected function syncAuthorImage($request, BlogPost $post, array &$data): void
+    {
+        $removeImage = (bool) $request->input('remove_author_image');
+        $newImage = $this->storeAuthorImage($request);
+
+        if (!$removeImage && !$newImage) {
+            return;
+        }
+
+        if ($post->author_image && Storage::disk('public')->exists($post->author_image)) {
+            Storage::disk('public')->delete($post->author_image);
+        }
+
+        $data['author_image'] = $newImage;
     }
 
     protected function syncTags(BlogPost $post, array $tags): void

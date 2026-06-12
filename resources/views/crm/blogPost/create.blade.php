@@ -3,6 +3,7 @@
 @section('css')
     @vite([
         'resources/css/crm/custom.css',
+        'resources/css/crm/blog-author.css',
         'node_modules/dropzone/dist/dropzone.css',
         'node_modules/select2/dist/css/select2.min.css',
         'node_modules/datatables.net-bs5/css/dataTables.bootstrap5.min.css',
@@ -110,6 +111,39 @@
                                     <label class="form-label">Content <span class="text-danger">*</span></label>
                                     <div id="content-editor" style="height:300px;"></div>
                                     <textarea name="content" id="content" class="d-none"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="blog-author-panel mb-3">
+                                    <div class="blog-author-title">
+                                        <span>Author Profile</span>
+                                        <h5>Author details shown on the blog detail page</h5>
+                                    </div>
+                                    <div class="row align-items-start">
+                                        <div class="col-lg-3 col-md-4">
+                                            <label class="author-image-box" for="author_image">
+                                                <input type="file" name="author_image" id="author_image" class="d-none author-image-input" accept="image/jpeg,image/png,image/jpg,image/webp">
+                                                <input type="hidden" name="remove_author_image" id="remove_author_image" value="0">
+                                                <img src="" alt="Author preview" class="author-image-preview" id="authorImagePreview">
+                                                <span class="author-upload-icon"><i class="ri-user-add-line"></i></span>
+                                                <strong>Upload Author Image</strong>
+                                                <small>JPG, PNG or WEBP up to 2 MB</small>
+                                            </label>
+                                            <button type="button" class="btn btn-outline-danger btn-sm w-100 mt-2 d-none" id="removeAuthorImage">
+                                                <i class="ri-delete-bin-line"></i> Remove Image
+                                            </button>
+                                        </div>
+                                        <div class="col-lg-9 col-md-8">
+                                            <div class="mb-3">
+                                                <label class="form-label">Author Name</label>
+                                                <input type="text" name="author_name" class="form-control" placeholder="Author name">
+                                            </div>
+                                            <div class="mb-0">
+                                                <label class="form-label">About Author</label>
+                                                <textarea name="author_about" class="form-control" rows="5" placeholder="Short author bio shown below the blog post"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12">

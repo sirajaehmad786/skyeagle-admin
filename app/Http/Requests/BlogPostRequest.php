@@ -27,6 +27,10 @@ class BlogPostRequest extends FormRequest
             'category_id' => ['nullable', 'exists:categories,id'],
             'excerpt' => ['nullable', 'string', 'max:1000'],
             'content' => ['required', 'string'],
+            'author_name' => ['nullable', 'string', 'max:150'],
+            'author_about' => ['nullable', 'string', 'max:1500'],
+            'author_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+            'remove_author_image' => ['nullable', 'boolean'],
             'status' => ['required', Rule::in(config('constant.status', []))],
             'is_featured' => ['nullable', 'boolean'],
             'published_at' => ['nullable', 'required_if:status,' . $activeStatus, 'date'],
@@ -59,6 +63,9 @@ class BlogPostRequest extends FormRequest
             'images.max' => 'Maximum 10 images allowed',
             'images.*.image' => 'Only image files are allowed',
             'images.*.mimes' => 'Only JPG, JPEG, PNG and WEBP images are allowed',
+            'author_image.image' => 'Only image files are allowed for author image',
+            'author_image.mimes' => 'Only JPG, JPEG, PNG and WEBP images are allowed for author image',
+            'author_image.max' => 'Author image must not be greater than 2 MB',
         ];
     }
 }

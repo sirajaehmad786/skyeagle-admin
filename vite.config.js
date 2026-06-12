@@ -66,6 +66,7 @@ export default defineConfig(({ mode }) => {
                 // My css
                 'resources/css/crm/custom.css',
                 'resources/css/crm/inline-edit.css',
+                'resources/css/crm/blog-author.css',
 
                 'resources/js/bootstrap.js',
                 'resources/js/app.js',

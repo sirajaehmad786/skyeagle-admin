@@ -3,6 +3,8 @@ import { confirmDelete } from '../common/form-handler.js';
 import { openInlineSelect } from '../common/inline-floating-select.js';
 
 $(function () {
+    clearSavedBlogPostTableState();
+
     const columns = [
         { data: 'title', name: 'title' },
         { data: 'category', name: 'category' },
@@ -41,7 +43,7 @@ $(function () {
 
     let table = initDataTable('#blog-post-table', ajaxUrl, columns, function () {
         return getFilters();
-    });
+    }, { stateSave: false });
 
     let typingTimer;
     $('#commonSearch').on('keyup', function () {
@@ -75,6 +77,18 @@ $(function () {
 
     bindInlineEditing(table);
 });
+
+function clearSavedBlogPostTableState() {
+    try {
+        Object.keys(localStorage).forEach((key) => {
+            if (key.includes('DataTables_blog-post-table')) {
+                localStorage.removeItem(key);
+            }
+        });
+    } catch (e) {
+        return;
+    }
+}
 
 function getFilters() {
     return {
