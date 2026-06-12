@@ -61,11 +61,12 @@
                     <div class="col-md-4">
                         <div class="mb-3">
                             <label class="form-label">Tags</label>
-                            <select name="tags[]" id="tags" class="form-control select2" multiple>
-                                @foreach($tags as $tag)
-                                    <option value="{{ $tag->id }}" @selected($post->tags->contains('id', $tag->id))>{{ $tag->name }}</option>
+                            <select name="tags[]" id="tags" class="form-control select2-tags" multiple>
+                                @foreach($post->tags as $tag)
+                                    <option value="{{ $tag->name }}" selected>{{ $tag->name }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-muted">Type a tag and press Enter or comma.</small>
                         </div>
                     </div>
                     <div class="col-md-4">

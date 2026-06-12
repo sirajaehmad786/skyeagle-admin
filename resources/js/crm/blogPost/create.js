@@ -4,7 +4,17 @@ import { initAjaxFormValidation } from '../common/form-handler.js';
 
 document.addEventListener("DOMContentLoaded", function () {
     $('#category_id').select2({ placeholder: "Select Category", width: '100%' });
-    $('#tags').select2({ placeholder: "Select Tags", width: '100%' });
+    $('#tags').select2({
+        placeholder: "Type a tag and press Enter",
+        width: '100%',
+        tags: true,
+        tokenSeparators: [',', ';'],
+        createTag: function (params) {
+            const term = $.trim(params.term);
+            if (term === '') return null;
+            return { id: term, text: term, newTag: true };
+        },
+    });
     $('#blog_status').select2({ placeholder: "Select Status", width: '100%', minimumResultsForSearch: Infinity });
 
     const contentQuill = new Quill("#content-editor", {

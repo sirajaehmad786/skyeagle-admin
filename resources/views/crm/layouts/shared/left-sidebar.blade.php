@@ -82,13 +82,6 @@
             </li>
 
             <li class="side-nav-item">
-                <a href="{{ route('blog-tags.index') }}" class="side-nav-link">
-                    <i class="ri-price-tag-3-line"></i>
-                    <span> Blog Tags </span>
-                </a>
-            </li>
-
-            <li class="side-nav-item">
                 <a href="{{ route('blog-comments.index') }}" class="side-nav-link">
                     <i class="ri-chat-3-line"></i>
                     <span> Blog Comments </span>

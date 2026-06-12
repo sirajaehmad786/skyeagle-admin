@@ -3,7 +3,6 @@
 use App\Http\Controllers\Crm\ActivityController;
 use App\Http\Controllers\Crm\BlogCommentController;
 use App\Http\Controllers\Crm\BlogPostController;
-use App\Http\Controllers\Crm\BlogTagController;
 use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\CustomerReviewController;
 use App\Http\Controllers\Crm\DashboardController;
