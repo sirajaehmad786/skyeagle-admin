@@ -36,6 +36,9 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     //Blog routes
     Route::patch('blog-posts/{blog_post}/inline-update', [BlogPostController::class, 'inlineUpdate'])->name('blog-posts.inline-update');
     Route::resource("blog-posts", BlogPostController::class);
+    Route::patch('blog-tags/{blog_tag}/inline-update', [BlogTagController::class, 'inlineUpdate'])->name('blog-tags.inline-update');
+    Route::resource("blog-tags", BlogTagController::class);
+    Route::patch('blog-comments/{blog_comment}/approval', [BlogCommentController::class, 'approval'])->name('blog-comments.approval');
     Route::resource("blog-comments", BlogCommentController::class)->only(['index', 'destroy']);
 
     //Enquiry routes

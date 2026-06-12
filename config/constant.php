@@ -38,5 +38,11 @@ return [
     'status'=>[
         'Active',
         'Inactive'
-    ]
+    ],
+
+    'blog_comment_status' => [
+        'pending' => 'Pending',
+        'approved' => 'Approved',
+        'rejected' => 'Rejected',
+    ],
 ];
