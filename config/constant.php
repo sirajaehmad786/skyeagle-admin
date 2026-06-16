@@ -21,7 +21,9 @@ return [
         'Ads' ,
         'Header',
         'Tour Package',
-        "Newsletter Subscribe"
+        "Newsletter Subscribe",
+        "Blog",
+        "Flight"
     ],
 
     'section' => [
