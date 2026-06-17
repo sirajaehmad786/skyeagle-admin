@@ -17,9 +17,8 @@ return [
 
     'module' => [
         'Home',
-        'Footer',
-        'Ads' ,
-        'Header',
+        'Login With OTP',
+        'Login With Password',
         'Tour Package',
         "Newsletter Subscribe",
         "Blog",
