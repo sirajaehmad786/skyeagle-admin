@@ -13,6 +13,7 @@ class CustomerReview extends Model
     protected $dates = ['deleted_at'];
     
     protected $fillable = [
+        'package_id',
         'review_title',
         'review_description',
         'reviewer_name',
@@ -21,6 +22,11 @@ class CustomerReview extends Model
         'rating',
         'sort_order',
     ];
+
+    public function package()
+    {
+        return $this->belongsTo(Package::class);
+    }
 
     protected static function booted()
     {

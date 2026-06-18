@@ -13,6 +13,13 @@ class Package extends Model
     use SoftDeletes;
     protected $fillable = ['package_name','booking_type','categories_id','package_type','short_title','slug','source_city','destination_city','price','min_people','max_people','start_date','end_date','video_url','description','inclusions','exclusions','is_featured','is_popular','is_trending','status','created_by'];
     protected $dates = ['start_date', 'end_date'];
+    protected $casts = [
+        'price' => 'decimal:2',
+        'is_featured' => 'boolean',
+        'is_popular' => 'boolean',
+        'is_trending' => 'boolean',
+        'status' => 'boolean',
+    ];
     
     protected static function boot()
     {
@@ -40,6 +47,7 @@ class Package extends Model
             $package->itineraries->each(function ($itinerary) {
                 $itinerary->delete();
             });
+            $package->packageAttributes()->detach();
         });
     }
 
@@ -84,5 +92,36 @@ class Package extends Model
     public function itineraries()
     {
         return $this->hasMany(PackageItinerary::class, 'package_id')->orderBy('day');
+    }
+
+    public function packageAttributes()
+    {
+        return $this->belongsToMany(PackageAttribute::class, 'package_attribute_package')
+            ->withTimestamps();
+    }
+
+    public function popularAttributes()
+    {
+        return $this->packageAttributes()->where('type', PackageAttribute::TYPE_POPULAR);
+    }
+
+    public function accommodationTypes()
+    {
+        return $this->packageAttributes()->where('type', PackageAttribute::TYPE_ACCOMMODATION);
+    }
+
+    public function activities()
+    {
+        return $this->packageAttributes()->where('type', PackageAttribute::TYPE_ACTIVITY);
+    }
+
+    public function mealPlans()
+    {
+        return $this->packageAttributes()->where('type', PackageAttribute::TYPE_MEAL_PLAN);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(CustomerReview::class);
     }
 }

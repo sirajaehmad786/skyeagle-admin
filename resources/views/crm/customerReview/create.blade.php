@@ -40,6 +40,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Package</label>
+                                        <select name="package_id" class="form-control select2">
+                                            <option value="">General Review</option>
+                                            @foreach($packages as $package)
+                                                <option value="{{ $package->id }}">{{ $package->package_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <!-- Rating -->
                                 <div class="col-md-3">
                                     <div class="mb-3">

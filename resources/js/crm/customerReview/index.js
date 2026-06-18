@@ -4,6 +4,7 @@ import { confirmDelete } from '../common/form-handler.js';
 $(function () {
 
     const columns = [
+        { data: 'package_name', name: 'package.package_name' },
         { data: 'reviewer_name', name: 'reviewer_name' },
         { data: 'reviewer_location', name: 'location' },
         { data: 'rating', name: 'rating' },

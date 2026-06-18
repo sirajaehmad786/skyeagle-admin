@@ -41,6 +41,13 @@ return [
         'Inactive'
     ],
 
+    'package_attribute_types' => [
+        'popular' => 'Popular',
+        'accommodation' => 'Accommodation Type',
+        'activity' => 'Activities',
+        'meal_plan' => 'Meal Plans'
+    ],
+
     'blog_comment_status' => [
         'pending' => 'Pending',
         'approved' => 'Approved',

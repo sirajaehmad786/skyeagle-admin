@@ -15,6 +15,7 @@ class CustomerReviewRepository extends BaseRepository
     public function saveCustomerReview($request)
     {
         $data = [
+            'package_id'          => $request->filled('package_id') ? $request->package_id : null,
             'review_title'       => $request->review_title,
             'review_description' => $request->review_description,
             'reviewer_name'      => $request->reviewer_name,
@@ -37,7 +38,7 @@ class CustomerReviewRepository extends BaseRepository
 
     public function initData()
     {
-        return $this->model->latest();
+        return $this->model->with('package')->latest();
     }
 
     public function findById($id)
@@ -56,6 +57,7 @@ class CustomerReviewRepository extends BaseRepository
             'reviewer_name',
             'reviewer_location',
         ]);
+        $data['package_id'] = $request->filled('package_id') ? $request->package_id : null;
 
         if ($request->hasFile('reviewer_image')) {
             if (

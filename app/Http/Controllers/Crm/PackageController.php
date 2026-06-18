@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageRequest;
 use App\Models\Category;
+use App\Models\PackageAttribute;
 use App\Repositories\PackageRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -35,7 +36,14 @@ class PackageController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('crm.package.create', compact('categories'));
+        $packageAttributes = PackageAttribute::active()
+            ->orderBy('type')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('type');
+
+        return view('crm.package.create', compact('categories', 'packageAttributes'));
     }
 
     /**
@@ -44,6 +52,7 @@ class PackageController extends Controller
     public function store(Request $request)
     {
         try {
+            DB::beginTransaction();
             $package = $this->packageRepository->createPackage($request);
             if ($request->hasFile('images')) {
                 $this->packageRepository->uploadPackageImages($request, $package->id);
@@ -56,6 +65,7 @@ class PackageController extends Controller
                 'redirect_url' => route('package.index')
             ]);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json(['success' => false, 'message' => 'Failed to create package: ' . $e->getMessage()]);
         }
     }
@@ -77,7 +87,15 @@ class PackageController extends Controller
         $categories = Category::all();
         $package = $this->packageRepository->getById($id);
         $faqs = $package->faqs;
-        return view('crm.package.edit', compact('package', 'faqs', 'categories'));
+        $packageAttributes = PackageAttribute::active()
+            ->orderBy('type')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get()
+            ->groupBy('type');
+        $selectedAttributeIds = $package->packageAttributes->pluck('id')->all();
+
+        return view('crm.package.edit', compact('package', 'faqs', 'categories', 'packageAttributes', 'selectedAttributeIds'));
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
 use App\Models\CustomerReview;
+use App\Models\Package;
 use Illuminate\Http\Request;
 use App\Repositories\CustomerReviewRepository;
 use Yajra\DataTables\Facades\DataTables;
@@ -31,7 +32,8 @@ class CustomerReviewController extends Controller
      */
     public function create()
     {
-        return view('crm.customerReview.create');
+        $packages = Package::where('status', 1)->orderBy('package_name')->get(['id', 'package_name']);
+        return view('crm.customerReview.create', compact('packages'));
     }
 
     /**
@@ -44,6 +46,7 @@ class CustomerReviewController extends Controller
             'reviewer_name'      => 'required|string|max:255',
             'reviewer_location'  => 'required|string|max:255',
             'rating'             => 'required|numeric|min:1|max:5',
+            'package_id'          => 'nullable|exists:packages,id',
         ]);
 
         $this->customerReviewRepository->saveCustomerReview($request);
@@ -70,7 +73,8 @@ class CustomerReviewController extends Controller
     public function edit(string $id)
     {
         $review = $this->customerReviewRepository->findById($id);
-        return view('crm.customerReview.edit', compact('review'));
+        $packages = Package::where('status', 1)->orderBy('package_name')->get(['id', 'package_name']);
+        return view('crm.customerReview.edit', compact('review', 'packages'));
     }
 
     /**
@@ -83,6 +87,7 @@ class CustomerReviewController extends Controller
             'reviewer_name'      => 'required|string|max:255',
             'reviewer_location'  => 'required|string|max:255',
             'rating'             => 'required|numeric|min:1|max:5',
+            'package_id'          => 'nullable|exists:packages,id',
         ]);
 
         $this->customerReviewRepository->updateReview($request, $id);
@@ -118,9 +123,15 @@ class CustomerReviewController extends Controller
 
                     $query->where(function ($q) use ($search) {
                         $q->whereRaw('LOWER(reviewer_name) LIKE ?', ["%{$search}%"])
-                          ->orWhereRaw('LOWER(reviewer_location) LIKE ?', ["%{$search}%"]);
+                          ->orWhereRaw('LOWER(reviewer_location) LIKE ?', ["%{$search}%"])
+                          ->orWhereHas('package', function ($packageQuery) use ($search) {
+                              $packageQuery->whereRaw('LOWER(package_name) LIKE ?', ["%{$search}%"]);
+                          });
                     });
                 }
+            })
+            ->addColumn('package_name', function ($row) {
+                return $row->package?->package_name ?? 'General';
             })
             ->addColumn('reviewer_name', function ($row) {
                 return $row->reviewer_name;

@@ -75,6 +75,13 @@
             </li>
 
             <li class="side-nav-item">
+                <a href="{{ route('package-attributes.index') }}" class="side-nav-link">
+                    <i class="ri-list-check-2"></i>
+                    <span> Package Attributes </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
                 <a href="{{ route('blog-posts.index') }}" class="side-nav-link">
                     <i class="ri-article-line"></i>
                     <span> Blog Posts </span>

@@ -36,6 +36,7 @@
                                 <div class="table-responsive-scroll">
                                     <x-table id="customer-review-table">
                                         <tr>
+                                            <th>Package</th>
                                             <th>Name</th>
                                             <th>Location</th>
                                             <th>Rating</th>
