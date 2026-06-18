@@ -220,6 +220,11 @@
                             </div>
                         </div>
                     </div>                    
+                    @include('crm.package.partials.attributes', [
+                        'packageAttributes' => $packageAttributes,
+                        'selectedAttributeIds' => $selectedAttributeIds,
+                    ])
+
                     <div class="col-md-12">
                         <div class="mb-3">
                             <label class="form-label">Description <span class="text-danger">*</span></label>

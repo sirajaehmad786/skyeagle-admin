@@ -15,6 +15,8 @@ function setReviewFormSubmitting(isSubmitting) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    $(".select2").select2({ width: "100%" });
+
     const reviewDescriptionEditor = new Quill(
         "#review-description-editor",
         {

@@ -13,6 +13,7 @@ use App\Http\Controllers\Crm\LocationController;
 use App\Http\Controllers\Crm\MediaController;
 use App\Http\Controllers\Crm\NewsletterSubscriberController;
 use App\Http\Controllers\Crm\NotificationController;
+use App\Http\Controllers\Crm\PackageAttributeController;
 use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\SettingController;
 use App\Http\Controllers\RoutingController;
@@ -27,6 +28,7 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::resource("media", MediaController::class);
 
     //Package routes
+    Route::resource("package-attributes", PackageAttributeController::class)->except(['show']);
     Route::resource("package", PackageController::class);
     
     //Category routes
@@ -36,8 +38,6 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     //Blog routes
     Route::patch('blog-posts/{blog_post}/inline-update', [BlogPostController::class, 'inlineUpdate'])->name('blog-posts.inline-update');
     Route::resource("blog-posts", BlogPostController::class);
-    Route::patch('blog-tags/{blog_tag}/inline-update', [BlogTagController::class, 'inlineUpdate'])->name('blog-tags.inline-update');
-    Route::resource("blog-tags", BlogTagController::class);
     Route::patch('blog-comments/{blog_comment}/approval', [BlogCommentController::class, 'approval'])->name('blog-comments.approval');
     Route::resource("blog-comments", BlogCommentController::class)->only(['index', 'destroy']);
 

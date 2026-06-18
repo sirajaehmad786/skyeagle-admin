@@ -140,8 +140,37 @@
                             </p>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="info-box">
+                            <label>Average Rating</label>
+                            <p>
+                                {{ number_format((float) $package->reviews->avg('rating'), 1) ?: '0.0' }} / 5
+                            </p>
+                        </div>
+                    </div>
                 </div>
                 <hr class="my-4">
+                @if($package->packageAttributes && $package->packageAttributes->count())
+                    <div class="mb-4">
+                        <h5 class="section-title mb-3">Frontend Filters</h5>
+                        <div class="row g-3">
+                            @foreach($package->packageAttributes->groupBy('type') as $type => $attributes)
+                                <div class="col-md-6 col-lg-3">
+                                    <div class="custom-card info h-100">
+                                        <h6>{{ \App\Models\PackageAttribute::typeLabel($type) }}</h6>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            @foreach($attributes as $attribute)
+                                                <span class="badge bg-soft-primary text-primary">
+                                                    {{ $attribute->name }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
                 <div class="mb-4">
                     <h5 class="section-title">Description</h5>
                     <div class="content-box">

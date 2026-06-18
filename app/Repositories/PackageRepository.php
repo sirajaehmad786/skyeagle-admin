@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\City;
 use App\Models\Package;
+use App\Models\PackageAttribute;
 use App\Models\PackageFaqs;
 use App\Models\PackageHighlight;
 use App\Models\PackageItinerary;
@@ -45,6 +46,7 @@ class PackageRepository extends BaseRepository
         $data['is_popular'] = $request->has('is_popular') ? 1 : 0;
         $data['is_trending'] = $request->has('is_trending') ? 1 : 0;
         $package = $this->model->create($data);
+        $this->syncAttributes($package, $request);
         if ($request->faq_question && $request->faq_answer) {
             $faqs = [];
             foreach ($request->faq_question as $index => $question) {
@@ -103,7 +105,6 @@ class PackageRepository extends BaseRepository
                 PackageItinerary::insert($itineraries);
             }
         }
-        DB::commit();
         return $package;
     }
 
@@ -116,7 +117,7 @@ class PackageRepository extends BaseRepository
 
     public function getById($id)
     {
-        return $this->model->with(['images','highlights','itineraries'])->findOrFail($id);
+        return $this->model->with(['images','highlights','itineraries','packageAttributes','reviews'])->findOrFail($id);
     }
 
     public function updatePackage($request, $id)
@@ -144,6 +145,7 @@ class PackageRepository extends BaseRepository
         $data['is_popular'] = $request->has('is_popular') ? 1 : 0;
         $data['is_trending'] = $request->has('is_trending') ? 1 : 0;
         $package->update($data);
+        $this->syncAttributes($package, $request);
         $faqIds = $request->faq_id ?? [];
         $questions = $request->faq_question ?? [];
         $answers = $request->faq_answer ?? [];
@@ -277,5 +279,28 @@ class PackageRepository extends BaseRepository
     {
         $package = Package::findOrFail($id);
         return $package->delete();
-    }     
+    }
+
+    protected function syncAttributes(Package $package, $request): void
+    {
+        $attributeIds = collect($request->input('package_attributes', []))
+            ->flatten()
+            ->filter()
+            ->map(fn ($id) => (int) $id)
+            ->unique()
+            ->values()
+            ->all();
+
+        if (empty($attributeIds)) {
+            $package->packageAttributes()->sync([]);
+            return;
+        }
+
+        $validIds = PackageAttribute::active()
+            ->whereIn('id', $attributeIds)
+            ->pluck('id')
+            ->all();
+
+        $package->packageAttributes()->sync($validIds);
+    }
 }
