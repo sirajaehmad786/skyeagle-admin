@@ -16,6 +16,7 @@ use App\Http\Controllers\Crm\NotificationController;
 use App\Http\Controllers\Crm\PackageAttributeController;
 use App\Http\Controllers\Crm\PackageController;
 use App\Http\Controllers\Crm\SettingController;
+use App\Http\Controllers\Crm\TourBookingRequestController;
 use App\Http\Controllers\RoutingController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,6 +44,9 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     //Enquiry routes
     Route::resource("enquiry", EnquiryController::class);
+
+    //Tour booking request routes
+    Route::resource('tour-booking-requests', TourBookingRequestController::class)->only(['index', 'show', 'update', 'destroy']);
     
     //CustomerReview
     Route::resource('customer-review', CustomerReviewController::class);

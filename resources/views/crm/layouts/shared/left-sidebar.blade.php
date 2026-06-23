@@ -103,6 +103,13 @@
             </li>
 
             <li class="side-nav-item">
+                <a href="{{ route('tour-booking-requests.index') }}" class="side-nav-link">
+                    <i class="ri-calendar-check-line"></i>
+                    <span> Tour Booking Requests </span>
+                </a>
+            </li>
+
+            <li class="side-nav-item">
                 <a href="{{ route('customer-review.index') }}" class="side-nav-link">
                     <i class="ri-feedback-line"></i>
                     <span> Customer Reviews</span>

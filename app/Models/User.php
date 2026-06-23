@@ -98,6 +98,11 @@ class User extends Authenticatable
         return $this->hasMany(Activity::class);
     }
 
+    public function tourBookingRequests()
+    {
+        return $this->hasMany(TourBookingRequest::class);
+    }
+
     public static function hierarchyUserIdsFor(?User $user = null): array
     {
         $user = $user ?: auth()->user();

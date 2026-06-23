@@ -124,4 +124,9 @@ class Package extends Model
     {
         return $this->hasMany(CustomerReview::class);
     }
+
+    public function tourBookingRequests()
+    {
+        return $this->hasMany(TourBookingRequest::class);
+    }
 }
