@@ -53,4 +53,11 @@ return [
         'approved' => 'Approved',
         'rejected' => 'Rejected',
     ],
+
+    'tour_booking_request_status' => [
+        'pending' => 'Pending',
+        'contacted' => 'Contacted',
+        'confirmed' => 'Confirmed',
+        'cancelled' => 'Cancelled',
+    ],
 ];
