@@ -22,7 +22,8 @@ return [
         'Tour Package',
         "Newsletter Subscribe",
         "Blog",
-        "Flight"
+        "Flight",
+        "Tour Details"
     ],
 
     'section' => [
