@@ -30,6 +30,7 @@ class PackageRepository extends BaseRepository
             'short_title',
             'source_city',
             'destination_city',
+            'destination_id',
             'price',
             'min_people',
             'max_people',
@@ -129,6 +130,7 @@ class PackageRepository extends BaseRepository
             'short_title',
             'source_city',
             'destination_city',
+            'destination_id',
             'price',
             'min_people',
             'max_people',
@@ -304,3 +306,4 @@ class PackageRepository extends BaseRepository
         $package->packageAttributes()->sync($validIds);
     }
 }
+

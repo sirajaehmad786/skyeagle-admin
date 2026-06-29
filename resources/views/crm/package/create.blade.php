@@ -129,6 +129,16 @@
                                         <label class="form-label">Destination City <span class="text-danger">*</span></label>
                                         <input type="text" name="destination_city" id="destination_city" class="form-control city-autocomplete" placeholder="Type city name (e.g. Mumbai)" autocomplete="off" data-city-search-url="{{ route('cities.geoapify.search') }}">
                                     </div>
+                                </div>                                <div class="col-md-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Destination Module</label>
+                                        <select name="destination_id" id="destination_id" class="form-control select2">
+                                            <option value="">Select Destination</option>
+                                            @foreach($destinations as $destination)
+                                                <option value="{{ $destination->id }}">{{ $destination->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <!-- Price -->
                                 <div class="col-md-4">
@@ -396,3 +406,5 @@
         'resources/js/crm/common/common.js',
     ])
 @endsection
+
+

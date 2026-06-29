@@ -59,6 +59,12 @@
                     <span> Media </span>
                 </a>
             </li>
+            <li class="side-nav-item">
+                <a href="{{ route('destinations.index') }}" class="side-nav-link">
+                    <i class="ri-map-pin-line"></i>
+                    <span> Destinations </span>
+                </a>
+            </li>
 
             <li class="side-nav-item">
                 <a href="{{ route('category.index') }}" class="side-nav-link">
@@ -130,3 +136,5 @@
     </div>
 </div>
 <!-- ========== Left Sidebar End ========== -->
+
+

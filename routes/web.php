@@ -5,6 +5,7 @@ use App\Http\Controllers\Crm\BlogCommentController;
 use App\Http\Controllers\Crm\BlogPostController;
 use App\Http\Controllers\Crm\CategoryController;
 use App\Http\Controllers\Crm\CustomerReviewController;
+use App\Http\Controllers\Crm\DestinationController;
 use App\Http\Controllers\Crm\DashboardController;
 use App\Http\Controllers\Crm\EnquiryController;
 use App\Http\Controllers\Crm\ProfileController;
@@ -27,6 +28,9 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     //Media routes
     Route::resource("media", MediaController::class);
+
+    //Destination routes
+    Route::resource("destinations", DestinationController::class)->except(['show']);
 
     //Package routes
     Route::resource("package-attributes", PackageAttributeController::class)->except(['show']);
@@ -84,3 +88,4 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
     Route::get('{any}', [RoutingController::class, 'root'])->name('any');
 });
+
