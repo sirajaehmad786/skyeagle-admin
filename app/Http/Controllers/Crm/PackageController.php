@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Crm;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageRequest;
 use App\Models\Category;
+use App\Models\Destination;
 use App\Models\PackageAttribute;
 use App\Repositories\PackageRepository;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class PackageController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $destinations = Destination::active()->orderBy('name')->get();
         $packageAttributes = PackageAttribute::active()
             ->orderBy('type')
             ->orderBy('sort_order')
@@ -43,7 +45,7 @@ class PackageController extends Controller
             ->get()
             ->groupBy('type');
 
-        return view('crm.package.create', compact('categories', 'packageAttributes'));
+        return view('crm.package.create', compact('categories', 'packageAttributes', 'destinations'));
     }
 
     /**
@@ -85,6 +87,7 @@ class PackageController extends Controller
     public function edit(string $id)
     {
         $categories = Category::all();
+        $destinations = Destination::active()->orderBy('name')->get();
         $package = $this->packageRepository->getById($id);
         $faqs = $package->faqs;
         $packageAttributes = PackageAttribute::active()
@@ -95,7 +98,7 @@ class PackageController extends Controller
             ->groupBy('type');
         $selectedAttributeIds = $package->packageAttributes->pluck('id')->all();
 
-        return view('crm.package.edit', compact('package', 'faqs', 'categories', 'packageAttributes', 'selectedAttributeIds'));
+        return view('crm.package.edit', compact('package', 'faqs', 'categories', 'packageAttributes', 'selectedAttributeIds', 'destinations'));
     }
 
     /**
@@ -206,3 +209,5 @@ class PackageController extends Controller
         ]);
     }
 }
+
+

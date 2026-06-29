@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Package extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['package_name','booking_type','categories_id','package_type','short_title','slug','source_city','destination_city','price','min_people','max_people','start_date','end_date','video_url','description','inclusions','exclusions','is_featured','is_popular','is_trending','status','created_by'];
+    protected $fillable = ['package_name','booking_type','categories_id','package_type','short_title','slug','source_city','destination_city','destination_id','price','min_people','max_people','start_date','end_date','video_url','description','inclusions','exclusions','is_featured','is_popular','is_trending','status','created_by'];
     protected $dates = ['start_date', 'end_date'];
     protected $casts = [
         'price' => 'decimal:2',
@@ -69,6 +69,11 @@ class Package extends Model
         ];
     }
     
+    public function destination()
+    {
+        return $this->belongsTo(Destination::class, 'destination_id');
+    }
+
     public function images()
     {
         return $this->hasMany(PackageImage::class,'package_id');
@@ -130,3 +135,4 @@ class Package extends Model
         return $this->hasMany(TourBookingRequest::class);
     }
 }
+
