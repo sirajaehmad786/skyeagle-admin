@@ -39,7 +39,10 @@ class CustomerReviewRepository extends BaseRepository
 
     public function initData()
     {
-        return $this->model->with('package')->latest();
+        return $this->model
+            ->select('customer_reviews.*')
+            ->with('package')
+            ->latest('customer_reviews.created_at');
     }
 
     public function findById($id)

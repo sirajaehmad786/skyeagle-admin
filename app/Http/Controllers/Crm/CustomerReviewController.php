@@ -124,9 +124,9 @@ class CustomerReviewController extends Controller
                     $search = strtolower($request->search['value']);
 
                     $query->where(function ($q) use ($search) {
-                        $q->whereRaw('LOWER(reviewer_name) LIKE ?', ["%{$search}%"])
-                          ->orWhereRaw('LOWER(reviewer_location) LIKE ?', ["%{$search}%"])
-                          ->orWhereRaw("CASE WHEN is_active = 1 THEN 'active' ELSE 'inactive' END LIKE ?", ["%{$search}%"])
+                        $q->whereRaw('LOWER(customer_reviews.reviewer_name) LIKE ?', ["%{$search}%"])
+                          ->orWhereRaw('LOWER(customer_reviews.reviewer_location) LIKE ?', ["%{$search}%"])
+                          ->orWhereRaw("CASE WHEN customer_reviews.is_active = 1 THEN 'active' ELSE 'inactive' END LIKE ?", ["%{$search}%"])
                           ->orWhereHas('package', function ($packageQuery) use ($search) {
                               $packageQuery->whereRaw('LOWER(package_name) LIKE ?', ["%{$search}%"]);
                           });

@@ -5,11 +5,11 @@ $(function () {
 
     const columns = [
         { data: 'package_name', name: 'package.package_name' },
-        { data: 'reviewer_name', name: 'reviewer_name' },
-        { data: 'reviewer_location', name: 'location' },
-        { data: 'rating', name: 'rating' },
-        { data: 'is_active', name: 'is_active' },
-        { data: 'created_at', name: 'created_at' },
+        { data: 'reviewer_name', name: 'customer_reviews.reviewer_name' },
+        { data: 'reviewer_location', name: 'customer_reviews.reviewer_location' },
+        { data: 'rating', name: 'customer_reviews.rating' },
+        { data: 'is_active', name: 'customer_reviews.is_active' },
+        { data: 'created_at', name: 'customer_reviews.created_at' },
         { data: 'action', orderable: false, searchable: false },
     ];
 
