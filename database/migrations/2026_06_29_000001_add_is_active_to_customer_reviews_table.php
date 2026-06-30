@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (! Schema::hasTable('customer_reviews')) {
+            return;
+        }
+
         Schema::table('customer_reviews', function (Blueprint $table) {
             if (! Schema::hasColumn('customer_reviews', 'is_active')) {
                 $table->boolean('is_active')
@@ -20,6 +24,10 @@ return new class extends Migration
 
     public function down(): void
     {
+        if (! Schema::hasTable('customer_reviews')) {
+            return;
+        }
+
         Schema::table('customer_reviews', function (Blueprint $table) {
             if (Schema::hasColumn('customer_reviews', 'is_active')) {
                 $table->dropColumn('is_active');
