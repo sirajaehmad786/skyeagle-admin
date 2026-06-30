@@ -21,11 +21,23 @@ class CustomerReview extends Model
         'reviewer_image',
         'rating',
         'sort_order',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'rating' => 'float',
+        'sort_order' => 'integer',
+        'is_active' => 'boolean',
     ];
 
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
     }
 
     protected static function booted()

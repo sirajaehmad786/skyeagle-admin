@@ -8,6 +8,7 @@ $(function () {
         { data: 'reviewer_name', name: 'reviewer_name' },
         { data: 'reviewer_location', name: 'location' },
         { data: 'rating', name: 'rating' },
+        { data: 'is_active', name: 'is_active' },
         { data: 'created_at', name: 'created_at' },
         { data: 'action', orderable: false, searchable: false },
     ];
