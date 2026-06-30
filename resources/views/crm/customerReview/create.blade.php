@@ -77,6 +77,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">
+                                            Status <span class="text-danger">*</span>
+                                        </label>
+                                        <select name="is_active" class="form-select" required>
+                                            <option value="1" selected>Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <!-- Reviewer Name -->
                                 <div class="col-md-6">
                                     <div class="mb-3">

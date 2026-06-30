@@ -47,6 +47,7 @@ class CustomerReviewController extends Controller
             'reviewer_location'  => 'required|string|max:255',
             'rating'             => 'required|numeric|min:1|max:5',
             'package_id'          => 'nullable|exists:packages,id',
+            'is_active'           => 'required|boolean',
         ]);
 
         $this->customerReviewRepository->saveCustomerReview($request);
@@ -88,6 +89,7 @@ class CustomerReviewController extends Controller
             'reviewer_location'  => 'required|string|max:255',
             'rating'             => 'required|numeric|min:1|max:5',
             'package_id'          => 'nullable|exists:packages,id',
+            'is_active'           => 'required|boolean',
         ]);
 
         $this->customerReviewRepository->updateReview($request, $id);
@@ -122,8 +124,9 @@ class CustomerReviewController extends Controller
                     $search = strtolower($request->search['value']);
 
                     $query->where(function ($q) use ($search) {
-                        $q->whereRaw('LOWER(reviewer_name) LIKE ?', ["%{$search}%"])
-                          ->orWhereRaw('LOWER(reviewer_location) LIKE ?', ["%{$search}%"])
+                        $q->whereRaw('LOWER(customer_reviews.reviewer_name) LIKE ?', ["%{$search}%"])
+                          ->orWhereRaw('LOWER(customer_reviews.reviewer_location) LIKE ?', ["%{$search}%"])
+                          ->orWhereRaw("CASE WHEN customer_reviews.is_active = 1 THEN 'active' ELSE 'inactive' END LIKE ?", ["%{$search}%"])
                           ->orWhereHas('package', function ($packageQuery) use ($search) {
                               $packageQuery->whereRaw('LOWER(package_name) LIKE ?', ["%{$search}%"]);
                           });
@@ -142,13 +145,18 @@ class CustomerReviewController extends Controller
             ->addColumn('rating', function ($row) {
                 return $row->rating;
             })
+            ->addColumn('is_active', function ($row) {
+                return $row->is_active
+                    ? '<span class="badge bg-success">Active</span>'
+                    : '<span class="badge bg-secondary">Inactive</span>';
+            })
             ->addColumn('created_at', function ($row) {
                 return formateDate($row->created_at);
             })
             ->addColumn('action', function ($row) {
                 return view('crm.customerReview.action', compact('row'))->render();
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['is_active', 'action'])
             ->make(true);
     }
 }

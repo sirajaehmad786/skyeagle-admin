@@ -107,6 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
             rating: {
                 required: true,
             },
+            is_active: {
+                required: true,
+            },
         },
         {},
         {
@@ -115,6 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "reviewer_name",
                 "reviewer_location",
                 "rating",
+                "is_active",
             ],
             beforeSubmit: function () {
                 $("#review_description").val(

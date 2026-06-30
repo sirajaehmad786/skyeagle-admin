@@ -40,6 +40,7 @@
                                             <th>Name</th>
                                             <th>Location</th>
                                             <th>Rating</th>
+                                            <th>Status</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>

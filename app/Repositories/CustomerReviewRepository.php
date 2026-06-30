@@ -22,6 +22,7 @@ class CustomerReviewRepository extends BaseRepository
             'reviewer_location'  => $request->reviewer_location,
             'rating'             => $request->rating ?? 5,
             'sort_order'         => $request->sort_order ?? 1,
+            'is_active'          => $request->boolean('is_active'),
         ];
         if ($request->hasFile('reviewer_image')) {
             $image = $request->file('reviewer_image');
@@ -38,7 +39,10 @@ class CustomerReviewRepository extends BaseRepository
 
     public function initData()
     {
-        return $this->model->with('package')->latest();
+        return $this->model
+            ->select('customer_reviews.*')
+            ->with('package')
+            ->latest('customer_reviews.created_at');
     }
 
     public function findById($id)
@@ -54,9 +58,11 @@ class CustomerReviewRepository extends BaseRepository
             'review_description',
             'rating',
             'sort_order',
+            'is_active',
             'reviewer_name',
             'reviewer_location',
         ]);
+        $data['is_active'] = $request->boolean('is_active');
         $data['package_id'] = $request->filled('package_id') ? $request->package_id : null;
 
         if ($request->hasFile('reviewer_image')) {
