@@ -37,7 +37,11 @@ class DashboardController extends Controller
     {
         $selectedUserId = $request->filled('user_id') ? (int) $request->get('user_id') : null;
         $this->dashboardService->setFilterUserId($selectedUserId);
+        $period = $request->get('period', 'monthly');
 
-        return response()->json([]);
+        return response()->json([
+            'status' => true,
+            'data' => $this->dashboardService->getDashboardData($period),
+        ]);
     }
 }
