@@ -128,6 +128,13 @@
                     <span> Subscriber Management </span>
                 </a>
             </li>
+
+            <li class="side-nav-item">
+                <a href="{{ route('content-pages.index') }}" class="side-nav-link">
+                    <i class="ri-file-text-line"></i>
+                    <span> Page Settings </span>
+                </a>
+            </li>
            
         </ul>
         <!--- End Sidemenu -->
@@ -136,5 +143,4 @@
     </div>
 </div>
 <!-- ========== Left Sidebar End ========== -->
-
 
