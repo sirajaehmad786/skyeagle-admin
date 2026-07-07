@@ -16,6 +16,7 @@ use App\Http\Controllers\Crm\NewsletterSubscriberController;
 use App\Http\Controllers\Crm\NotificationController;
 use App\Http\Controllers\Crm\PackageAttributeController;
 use App\Http\Controllers\Crm\PackageController;
+use App\Http\Controllers\Crm\ContentPageController;
 use App\Http\Controllers\Crm\SettingController;
 use App\Http\Controllers\Crm\TourBookingRequestController;
 use App\Http\Controllers\RoutingController;
@@ -57,6 +58,10 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
 
     //Subscriber routes
     Route::resource('newsletter-subscribers', NewsletterSubscriberController::class);
+
+    //Frontend page content routes
+    Route::get('content-pages', [ContentPageController::class, 'index'])->name('content-pages.index');
+    Route::post('content-pages', [ContentPageController::class, 'store'])->name('content-pages.store');
     
     
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -88,4 +93,3 @@ Route::group(['prefix' => '/', 'middleware'=>['auth', 'check.active']], function
     Route::get('{first}/{second}', [RoutingController::class, 'secondLevel'])->name('second');
     Route::get('{any}', [RoutingController::class, 'root'])->name('any');
 });
-

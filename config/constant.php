@@ -23,7 +23,10 @@ return [
         "Newsletter Subscribe",
         "Blog",
         "Flight",
-        "Tour Details"
+        "Tour Details",
+        "Privacy Policy",
+        "Terms and Conditions",
+        "Refund Policy"
     ],
 
     'section' => [
