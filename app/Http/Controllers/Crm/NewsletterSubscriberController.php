@@ -78,7 +78,7 @@ class NewsletterSubscriberController extends Controller
 
     protected function initDataTable($request)
     {
-        $data = $this->newsletterSubscriberRepository->initData();
+        $data = $this->newsletterSubscriberRepository->initData($request);
         return DataTables::of($data)
         ->filter(function ($query) use ($request) {
             if ($request->has('search') && $request->search['value']) {

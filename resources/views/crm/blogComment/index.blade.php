@@ -54,7 +54,7 @@
 </div>
 @include('crm.blogPost.model')
 <div class="modal fade" id="filter_blog_comment_modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Filter Blog Comments</h5>
@@ -83,6 +83,18 @@
                         <div class="mb-3">
                             <label class="form-label">Created To</label>
                             <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Approved From</label>
+                            <input type="text" id="filter_approved_from" class="form-control filter-date" placeholder="Approved From">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Approved To</label>
+                            <input type="text" id="filter_approved_to" class="form-control filter-date" placeholder="Approved To">
                         </div>
                     </div>
                 </div>

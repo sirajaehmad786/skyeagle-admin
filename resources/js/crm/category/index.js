@@ -8,8 +8,10 @@ $(function () {
         { data: 'action', orderable: false,  },
     ];
 
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
     let table = initDataTable('#category-table',ajaxUrl, columns, function () {
-        return {};
+        return getFilters();
     });
 
     let typingTimer;
@@ -31,4 +33,28 @@ $(function () {
             confirmDelete(url,table);
         }
     });
+
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_category_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_category_modal').find('input').val('');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
 });
+
+function getFilters() {
+    return {
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const hasFilter = Object.values(getFilters()).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}

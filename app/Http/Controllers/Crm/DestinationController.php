@@ -72,7 +72,7 @@ class DestinationController extends Controller
 
     protected function initDataTable(Request $request)
     {
-        $data = $this->destinationRepository->initData();
+        $data = $this->destinationRepository->initData($request);
 
         return DataTables::of($data)
             ->filter(function ($query) use ($request) {

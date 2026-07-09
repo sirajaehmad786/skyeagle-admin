@@ -10,10 +10,6 @@ $(function () {
     const chartColors = ['#3e60d5', '#47ad77', '#fa5c7c', '#ffbc00'];
     const dashboardMessageLimit = 4;
 
-    function getUserId() {
-        return $('#dashboard-user-filter').val() || '';
-    }
-
     function formatNumber(value) {
         return new Intl.NumberFormat('en-IN').format(Number(value || 0));
     }
@@ -47,7 +43,6 @@ $(function () {
             method: 'GET',
             data: {
                 period: currentPeriod,
-                user_id: getUserId(),
             },
             success: function (response) {
                 if (!response.status) {
@@ -327,10 +322,6 @@ $(function () {
             .addClass('btn-light');
         $(this).removeClass('btn-light').addClass('btn-primary active');
         loadDashboard($(this).data('period'));
-    });
-
-    $('#dashboard-user-filter').on('change', function () {
-        loadDashboard(currentPeriod);
     });
 
     $('#dashboard-refresh-btn').on('click', function () {

@@ -56,7 +56,7 @@
 @include('crm.tourBookingRequest.modal')
 
 <div class="modal fade" id="filter_tour_booking_request_modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Filter Tour Booking Requests</h5>
@@ -97,6 +97,18 @@
                         <div class="mb-3">
                             <label class="form-label">Created To</label>
                             <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Min Estimated Price</label>
+                            <input type="number" id="filter_price_min" class="form-control" placeholder="Min Estimated Price" min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label">Max Estimated Price</label>
+                            <input type="number" id="filter_price_max" class="form-control" placeholder="Max Estimated Price" min="0" step="0.01">
                         </div>
                     </div>
                 </div>

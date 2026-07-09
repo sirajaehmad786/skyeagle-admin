@@ -88,6 +88,8 @@ function getFilters() {
         status: $('#filter_status').val(),
         travel_from: $('#filter_travel_from').val(),
         travel_to: $('#filter_travel_to').val(),
+        price_min: $('#filter_price_min').val(),
+        price_max: $('#filter_price_max').val(),
         created_from: $('#filter_created_from').val(),
         created_to: $('#filter_created_to').val(),
     };

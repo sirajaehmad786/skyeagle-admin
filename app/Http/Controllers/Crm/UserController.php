@@ -28,7 +28,11 @@ class UserController extends Controller
         if ($request->ajax()) {
             return self::initDataTable($request);
         }
-        return view('crm.user.index');
+
+        $statuses = config('constant.user_status', []);
+        $parentUsers = $this->userRepository->userList();
+
+        return view('crm.user.index', compact('statuses', 'parentUsers'));
     }
 
     public function create()
@@ -166,7 +170,9 @@ class UserController extends Controller
                     $search = $request->name_search;
                     $query->where(function ($q) use ($search) {
                         $q->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%");
+                            ->orWhere('last_name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%")
+                            ->orWhere('phone', 'like', "%{$search}%");
                     });
                 }
             })

@@ -178,6 +178,14 @@ class BlogPostRepository extends BaseRepository
         if ($request->filled('created_to')) {
             $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
         }
+
+        if ($request->filled('approved_from')) {
+            $query->where('approved_at', '>=', istDateRangeToUtc($request->approved_from));
+        }
+
+        if ($request->filled('approved_to')) {
+            $query->where('approved_at', '<=', istDateRangeToUtc($request->approved_to, true));
+        }
     }
 
     protected function prepareData($request): array

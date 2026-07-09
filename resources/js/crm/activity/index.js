@@ -1,7 +1,6 @@
 import { initDataTable } from '../common/datatable-setup.js';
 
 $(function () {
-
     let columns = [
         { data: 'user_name', name: 'user_name', orderable: false },
         { data: 'module', name: 'module', orderable: false },
@@ -14,55 +13,61 @@ $(function () {
         { data: 'created_at', name: 'created_at' }
     ];
 
+    $('.filter-select').select2({ width: '100%', dropdownParent: $('#filter_activity_modal') });
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
     let table = initDataTable(
         '#activity-table',
         activityAjaxUrl,
         columns,
         function () {
-            return {
-                search_text: $('#commonSearch').val(),
-            };
+            return getFilters();
         },
         {
             order: [[8, 'desc']]
         }
     );
 
-    /* ==========================
-       Search Box UI (Same as Document)
-    ========================== */
-
-    const searchBoxHtml = `
-        <div class="d-flex justify-content-end align-items-center mb-3">
-            <div style="max-width: 300px; width: 100%;">
-                <input type="text"
-                    id="commonSearch"
-                    class="form-control"
-                    placeholder="Search User, Module, Action...">
-            </div>
-        </div>
-    `;
-
-    // ✅ SAME STRUCTURE AS DOCUMENT
-    $('#activity-table_wrapper .dataTables_length').parent()
-        .addClass('d-flex justify-content-between align-items-center');
-
-    $('#activity-table_wrapper').prepend(searchBoxHtml);
-
-    /* ==========================
-       Debounce Search
-    ========================== */
-
     let typingTimer;
 
     $(document).on('keyup', '#commonSearch', function () {
-
         clearTimeout(typingTimer);
 
         typingTimer = setTimeout(function () {
             table.ajax.reload();
         }, 500);
-
     });
 
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_activity_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_activity_modal').find('input').val('');
+        $('#filter_activity_modal').find('select').val('').trigger('change');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
 });
+
+function getFilters() {
+    return {
+        search_text: $('#commonSearch').val(),
+        user_id: $('#filter_user_id').val(),
+        module: $('#filter_module').val(),
+        activity_type: $('#filter_activity_type').val(),
+        activity_action: $('#filter_activity_action').val(),
+        method: $('#filter_method').val(),
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const filters = getFilters();
+    delete filters.search_text;
+    const hasFilter = Object.values(filters).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}

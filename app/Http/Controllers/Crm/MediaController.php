@@ -23,7 +23,11 @@ class MediaController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.media.index');
+
+        $modules = config('constant.module', []);
+        $sections = config('constant.section', []);
+
+        return view('crm.media.index', compact('modules', 'sections'));
     }
 
     /**
@@ -142,7 +146,9 @@ class MediaController extends Controller
                 return '<div class="w-150px">' . ($row->sub_title ?? '-') . '</div>';
             })
             ->addColumn('is_active', function ($row) {
-                return '<div class="w-150px">' . ($row->is_active ?? '-') . '</div>';
+                return $row->is_active
+                    ? '<span class="badge bg-success">Active</span>'
+                    : '<span class="badge bg-secondary">Inactive</span>';
             })
             ->addColumn('created_at', function ($row) {
                 return formateDate($row->created_at);

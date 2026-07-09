@@ -13,9 +13,25 @@ class DestinationRepository extends BaseRepository
         parent::__construct($destination);
     }
 
-    public function initData()
+    public function initData($request = null)
     {
-        return Destination::query()->withCount('packages')->latest();
+        $query = Destination::query()->withCount('packages')->latest();
+
+        if ($request) {
+            if ($request->filled('status')) {
+                $query->where('status', (int) $request->status);
+            }
+
+            if ($request->filled('created_from')) {
+                $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+            }
+
+            if ($request->filled('created_to')) {
+                $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+            }
+        }
+
+        return $query;
     }
 
     public function createDestination($request): Destination

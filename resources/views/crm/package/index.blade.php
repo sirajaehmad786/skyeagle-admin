@@ -10,13 +10,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        {{-- <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
+                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
                             data-bs-toggle="modal" data-bs-target="#filter_package_modal">
                             <i class="ri-filter-2-fill"></i>
                             <span id="filterIndicator"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
                             </span>
-                        </button> --}}
+                        </button>
                        <a href="{{ route('package.create') }}" class="btn btn-primary btn-sm me-1">
                             Add Package
                         </a>
@@ -62,6 +62,81 @@
         </div>
     </div>
     @include('crm.package.model');
+    <div class="modal fade" id="filter_package_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Package</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Booking Type</label>
+                                <select id="filter_booking_type" class="form-control filter-select">
+                                    <option value="">All Booking Types</option>
+                                    @foreach($bookingTypes as $bookingType)
+                                        <option value="{{ $bookingType }}">{{ $bookingType }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Source City</label>
+                                <select id="filter_source_city" class="form-control filter-select">
+                                    <option value="">All Source Cities</option>
+                                    @foreach($sourceCities as $sourceCity)
+                                        <option value="{{ $sourceCity }}">{{ $sourceCity }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Destination City</label>
+                                <select id="filter_destination_city" class="form-control filter-select">
+                                    <option value="">All Destination Cities</option>
+                                    @foreach($destinationCities as $destinationCity)
+                                        <option value="{{ $destinationCity }}">{{ $destinationCity }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Min Price</label>
+                                <input type="number" id="filter_price_min" class="form-control" placeholder="Min Price" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Max Price</label>
+                                <input type="number" id="filter_price_max" class="form-control" placeholder="Max Price" min="0" step="0.01">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created From</label>
+                                <input type="text" id="filter_created_from" class="form-control filter-date" placeholder="Created From">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created To</label>
+                                <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="resetFilter">Reset</button>
+                    <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')

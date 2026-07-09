@@ -10,13 +10,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        {{-- <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
-                            data-bs-toggle="modal" data-bs-target="#filter_package_modal">
+                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
+                            data-bs-toggle="modal" data-bs-target="#filter_media_modal">
                             <i class="ri-filter-2-fill"></i>
                             <span id="filterIndicator"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
                             </span>
-                        </button> --}}
+                        </button>
                        <a href="{{ route('media.create') }}" class="btn btn-primary btn-sm me-1">
                             Add Media
                         </a>
@@ -58,6 +58,68 @@
                     </div> <!-- end card body-->
                 </div> <!-- end card -->
             </div><!-- end col-->
+        </div>
+    </div>
+    <div class="modal fade" id="filter_media_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Media</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Module</label>
+                                <select id="filter_module" class="form-control filter-select">
+                                    <option value="">All Modules</option>
+                                    @foreach($modules as $module)
+                                        <option value="{{ $module }}">{{ $module }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Section</label>
+                                <select id="filter_section" class="form-control filter-select">
+                                    <option value="">All Sections</option>
+                                    @foreach($sections as $section)
+                                        <option value="{{ $section }}">{{ $section }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Status</label>
+                                <select id="filter_is_active" class="form-control filter-select">
+                                    <option value="">All Status</option>
+                                    <option value="1">Active</option>
+                                    <option value="0">Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created From</label>
+                                <input type="text" id="filter_created_from" class="form-control filter-date" placeholder="Created From">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created To</label>
+                                <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="resetFilter">Reset</button>
+                    <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

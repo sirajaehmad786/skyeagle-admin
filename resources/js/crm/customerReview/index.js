@@ -13,8 +13,11 @@ $(function () {
         { data: 'action', orderable: false, searchable: false },
     ];
 
+    $('.filter-select').select2({ width: '100%', dropdownParent: $('#filter_customer_review_modal') });
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
     let table = initDataTable('#customer-review-table', ajaxUrl, columns, function () {
-        return {};
+        return getFilters();
     });
 
     let typingTimer;
@@ -45,4 +48,32 @@ $(function () {
                 confirmDelete(url, table);
             }
         });
+
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_customer_review_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_customer_review_modal').find('input').val('');
+        $('#filter_customer_review_modal').find('select').val('').trigger('change');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
 });
+
+function getFilters() {
+    return {
+        package_id: $('#filter_package_id').val(),
+        rating: $('#filter_rating').val(),
+        is_active: $('#filter_is_active').val(),
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const hasFilter = Object.values(getFilters()).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}

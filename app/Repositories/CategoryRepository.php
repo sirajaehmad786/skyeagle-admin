@@ -32,9 +32,20 @@ class CategoryRepository extends BaseRepository
         return $category;
     }
 
-    public function initData()
+    public function initData($request = null)
     {
         $query = Category::query()->latest();
+
+        if ($request) {
+            if ($request->filled('created_from')) {
+                $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+            }
+
+            if ($request->filled('created_to')) {
+                $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+            }
+        }
+
         return $query;
     }
 
