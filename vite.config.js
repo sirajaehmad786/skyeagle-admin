@@ -241,6 +241,9 @@ export default defineConfig(({ mode }) => {
                 //Subscriber Newsletter
                 'resources/js/crm/subscriber-newsletter/index.js',
                 'resources/js/crm/customerReview/edit.js',
+
+                //dashboard
+                'resources/js/crm/dashboard/index.js',
                 
             ],
             refresh: true,
