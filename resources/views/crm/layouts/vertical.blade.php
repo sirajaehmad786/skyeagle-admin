@@ -35,14 +35,14 @@
             @if(session('success'))
                 <script>
                     window.addEventListener('load', function() {
-                        showToastmessage("{{ session('success') }}");
+                        showToastmessage(@json(session('success')));
                     });
                 </script>
             @endif
             @if(session('error'))
                 <script>
                     window.addEventListener('load', function() {
-                        showToastmessage("{{ session('error') }}", "error");
+                        showToastmessage(@json(session('error')), "error");
                     });
                 </script>
             @endif

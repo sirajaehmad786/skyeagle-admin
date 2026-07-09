@@ -39,23 +39,44 @@ class ContentPageController extends Controller
 
         try {
             $pages = $this->contentPageRepository->saveManagedPages($validated['pages']);
+            $message = 'Page settings saved successfully.';
 
-            return response()->json([
-                'status' => true,
-                'message' => 'Page settings saved successfully.',
-                'pages' => $pages->map(fn ($page) => [
-                    'title' => $page->title,
-                    'content' => $page->content,
-                    'is_active' => $page->is_active,
-                ]),
-            ]);
+            if ($this->shouldReturnJson($request)) {
+                return response()->json([
+                    'status' => true,
+                    'message' => $message,
+                    'pages' => $pages->map(fn ($page) => [
+                        'title' => $page->title,
+                        'content' => $page->content,
+                        'is_active' => $page->is_active,
+                    ]),
+                ]);
+            }
+
+            return $this->redirectToContentPages($request)->with('success', $message);
         } catch (Exception $e) {
             Log::error($e->getMessage());
+
+            if (! $this->shouldReturnJson($request)) {
+                return $this->redirectToContentPages($request)
+                    ->withInput()
+                    ->with('error', 'Something went wrong.');
+            }
 
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong.',
             ], 500);
         }
+    }
+
+    private function shouldReturnJson(Request $request): bool
+    {
+        return $request->ajax() || $request->expectsJson() || $request->wantsJson();
+    }
+
+    private function redirectToContentPages(Request $request)
+    {
+        return redirect()->to($request->headers->get('referer') ?: route('content-pages.index'));
     }
 }
