@@ -253,9 +253,12 @@ export default defineConfig(({ mode }) => {
 
                 //destination
                 'resources/js/crm/destination/index.js',
+                'resources/js/crm/destination/create.js',
 
                 //package attribute
-                'resources/js/crm/packageAttribute/index.js'
+                'resources/js/crm/packageAttribute/index.js',
+                'resources/js/crm/packageAttribute/create.js',
+                
             ],
             refresh: true,
         }),
