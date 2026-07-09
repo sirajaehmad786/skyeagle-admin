@@ -244,7 +244,18 @@ export default defineConfig(({ mode }) => {
 
                 //dashboard
                 'resources/js/crm/dashboard/index.js',
-                
+
+                //content page
+                'resources/js/crm/contentPages/index.js',
+
+                //tourbooking request
+                'resources/js/crm/tourBookingRequest/index.js',
+
+                //destination
+                'resources/js/crm/destination/index.js',
+
+                //package attribute
+                'resources/js/crm/packageAttribute/index.js'
             ],
             refresh: true,
         }),
