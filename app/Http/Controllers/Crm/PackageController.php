@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PackageRequest;
 use App\Models\Category;
 use App\Models\Destination;
+use App\Models\Package;
 use App\Models\PackageAttribute;
 use App\Repositories\PackageRepository;
 use Illuminate\Http\Request;
@@ -28,7 +29,22 @@ class PackageController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.package.index');
+
+        $bookingTypes = config('constant.booking_type', []);
+        $sourceCities = Package::query()
+            ->whereNotNull('source_city')
+            ->where('source_city', '!=', '')
+            ->distinct()
+            ->orderBy('source_city')
+            ->pluck('source_city');
+        $destinationCities = Package::query()
+            ->whereNotNull('destination_city')
+            ->where('destination_city', '!=', '')
+            ->distinct()
+            ->orderBy('destination_city')
+            ->pluck('destination_city');
+
+        return view('crm.package.index', compact('bookingTypes', 'sourceCities', 'destinationCities'));
     }
 
     /**
@@ -209,5 +225,4 @@ class PackageController extends Controller
         ]);
     }
 }
-
 

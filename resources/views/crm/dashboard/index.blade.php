@@ -6,14 +6,6 @@
             <div class="col-12">
                 <div class="page-title-box dashboard-title-box">
                     <div class="page-title-right dashboard-actions">
-                        <select id="dashboard-user-filter" class="form-select form-select-sm">
-                            <option value="">All Team</option>
-                            @foreach($dashboardFilterUsers as $dashboardUser)
-                                <option value="{{ $dashboardUser->id }}" {{ (string) $selectedUserId === (string) $dashboardUser->id ? 'selected' : '' }}>
-                                    {{ $dashboardUser->name ?: 'User #' . $dashboardUser->id }}
-                                </option>
-                            @endforeach
-                        </select>
                         <button type="button" class="btn btn-primary btn-sm" id="dashboard-refresh-btn">
                             <i class="ri-refresh-line me-1"></i> Refresh
                         </button>

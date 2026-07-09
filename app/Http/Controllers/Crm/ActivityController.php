@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Crm;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Repositories\ActivityRepository;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
@@ -23,7 +24,14 @@ class ActivityController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.activity.index');
+
+        $users = User::query()->orderBy('first_name')->orderBy('last_name')->get(['id', 'first_name', 'last_name']);
+        $modules = $this->activityRepository->filterOptions('module');
+        $activityTypes = $this->activityRepository->filterOptions('activity_type');
+        $activityActions = $this->activityRepository->filterOptions('activity_action');
+        $methods = $this->activityRepository->filterOptions('method');
+
+        return view('crm.activity.index', compact('users', 'modules', 'activityTypes', 'activityActions', 'methods'));
     }
 
     /**

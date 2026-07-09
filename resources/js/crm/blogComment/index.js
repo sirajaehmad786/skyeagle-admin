@@ -80,6 +80,8 @@ function getFilters() {
         status: $('#filter_status').val(),
         created_from: $('#filter_created_from').val(),
         created_to: $('#filter_created_to').val(),
+        approved_from: $('#filter_approved_from').val(),
+        approved_to: $('#filter_approved_to').val(),
     };
 }
 

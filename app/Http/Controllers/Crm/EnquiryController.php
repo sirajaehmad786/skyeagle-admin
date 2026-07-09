@@ -23,7 +23,10 @@ class EnquiryController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.enquiry.index');
+
+        $sources = $this->enquiryRepository->sources();
+
+        return view('crm.enquiry.index', compact('sources'));
     }
 
     /**

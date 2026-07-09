@@ -10,7 +10,11 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box">
-                    <div class="page-title-right">                    
+                    <div class="page-title-right">
+                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative" data-bs-toggle="modal" data-bs-target="#filter_notification_modal">
+                            <i class="ri-filter-2-fill"></i>
+                            <span id="filterIndicator" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none"></span>
+                        </button>
                     </div>
                     <h4 class="m-0 pt-3">Notification</h4>
                     <ol class="breadcrumb m-0">
@@ -26,6 +30,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+                        <div class="d-flex justify-content-end align-items-center mb-3">
+                            <div style="max-width: 300px; width: 100%;">
+                                <input type="text" id="commonSearch" class="form-control" placeholder="Search...">
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-lg-12 col-md-12">
                                 <div class="table-responsive-scroll">
@@ -43,6 +52,57 @@
                     </div> <!-- end card body-->
                 </div> <!-- end card -->
             </div><!-- end col-->
+        </div>
+    </div>
+    <div class="modal fade" id="filter_notification_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Notification</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Notifiable Type</label>
+                                <select id="filter_notifiable_type" class="form-control filter-select">
+                                    <option value="">All Types</option>
+                                    @foreach($notifiableTypes as $notifiableType)
+                                        <option value="{{ $notifiableType }}">{{ class_basename($notifiableType) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Is Read</label>
+                                <select id="filter_read_status" class="form-control filter-select">
+                                    <option value="">All</option>
+                                    <option value="read">Read</option>
+                                    <option value="unread">Unread</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created From</label>
+                                <input type="text" id="filter_created_from" class="form-control filter-date" placeholder="Created From">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created To</label>
+                                <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="resetFilter">Reset</button>
+                    <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

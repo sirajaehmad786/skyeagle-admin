@@ -11,8 +11,11 @@ $(function () {
         { data: 'action', orderable: false, searchable: false },
     ];
 
+    $('.filter-select').select2({ width: '100%', dropdownParent: $('#filter_destination_modal') });
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
     let table = initDataTable('#destinations-table', ajaxUrl, columns, function () {
-        return {};
+        return getFilters();
     });
 
     let typingTimer;
@@ -31,4 +34,30 @@ $(function () {
             confirmDelete(btn.getAttribute('href'), $('#destinations-table').DataTable());
         }
     });
+
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_destination_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_destination_modal').find('input').val('');
+        $('#filter_destination_modal').find('select').val('').trigger('change');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
 });
+
+function getFilters() {
+    return {
+        status: $('#filter_status').val(),
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const hasFilter = Object.values(getFilters()).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}

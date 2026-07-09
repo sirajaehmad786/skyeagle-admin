@@ -77,6 +77,24 @@ class UserRepository extends BaseRepository
 
     public function initData($request)
     {
-        return User::query()->with('parent');
+        $query = User::query()->with('parent');
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('parent_id')) {
+            $query->where('parent_id', $request->parent_id);
+        }
+
+        if ($request->filled('created_from')) {
+            $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+        }
+
+        if ($request->filled('created_to')) {
+            $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+        }
+
+        return $query;
     }
 }

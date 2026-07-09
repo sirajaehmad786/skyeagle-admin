@@ -44,7 +44,10 @@ class NotificationController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.notification.index');
+
+        $notifiableTypes = $this->notificationRepository->notifiableTypes();
+
+        return view('crm.notification.index', compact('notifiableTypes'));
     }
 
     public function create()

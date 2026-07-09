@@ -58,6 +58,14 @@ class TourBookingRequestRepository extends BaseRepository
             $query->where('travel_to_date', '<=', convertDateFormat($request->travel_to));
         }
 
+        if ($request->filled('price_min')) {
+            $query->where('estimated_price', '>=', $request->price_min);
+        }
+
+        if ($request->filled('price_max')) {
+            $query->where('estimated_price', '<=', $request->price_max);
+        }
+
         if ($request->filled('created_from')) {
             $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
         }

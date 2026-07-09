@@ -24,7 +24,9 @@ class PackageAttributeController extends Controller
             return $this->initDataTable($request);
         }
 
-        return view('crm.packageAttribute.index');
+        $types = PackageAttribute::typeOptions();
+
+        return view('crm.packageAttribute.index', compact('types'));
     }
 
     public function create()

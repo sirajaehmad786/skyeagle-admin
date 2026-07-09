@@ -10,13 +10,13 @@
             <div class="col-12">
                 <div class="page-title-box">
                     <div class="page-title-right">
-                        {{-- <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
-                            data-bs-toggle="modal" data-bs-target="#filter_package_modal">
+                        <button type="button" class="btn btn-primary btn-sm me-1 position-relative"
+                            data-bs-toggle="modal" data-bs-target="#filter_enquiry_modal">
                             <i class="ri-filter-2-fill"></i>
                             <span id="filterIndicator"
                                 class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none">
                             </span>
-                        </button> --}}
+                        </button>
                        {{-- <a href="{{ route('media.create') }}" class="btn btn-primary btn-sm me-1">
                             Add Media
                         </a> --}}
@@ -61,6 +61,47 @@
         </div>
     </div>
     @include('crm.enquiry.modal');
+    <div class="modal fade" id="filter_enquiry_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Enquiry</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Source</label>
+                                <select id="filter_source" class="form-control filter-select">
+                                    <option value="">All Sources</option>
+                                    @foreach($sources as $source)
+                                        <option value="{{ $source }}">{{ \Illuminate\Support\Str::headline($source) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created From</label>
+                                <input type="text" id="filter_created_from" class="form-control filter-date" placeholder="Created From">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label class="form-label">Created To</label>
+                                <input type="text" id="filter_created_to" class="form-control filter-date" placeholder="Created To">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" id="resetFilter">Reset</button>
+                    <button type="button" class="btn btn-primary" id="applyFilter">Apply Filter</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')

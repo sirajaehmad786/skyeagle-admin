@@ -109,11 +109,44 @@ class PackageRepository extends BaseRepository
         return $package;
     }
 
-    public function initData()
+    public function initData($request = null)
     {
-        $packageList = Package::query()
-        ->where('status',1)->select('*')->latest();
-        return $packageList;
+        $query = Package::query()
+            ->where('status', 1)
+            ->select('*')
+            ->latest();
+
+        if ($request) {
+            if ($request->filled('booking_type')) {
+                $query->where('booking_type', $request->booking_type);
+            }
+
+            if ($request->filled('source_city')) {
+                $query->where('source_city', $request->source_city);
+            }
+
+            if ($request->filled('destination_city')) {
+                $query->where('destination_city', $request->destination_city);
+            }
+
+            if ($request->filled('price_min')) {
+                $query->where('price', '>=', $request->price_min);
+            }
+
+            if ($request->filled('price_max')) {
+                $query->where('price', '<=', $request->price_max);
+            }
+
+            if ($request->filled('created_from')) {
+                $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+            }
+
+            if ($request->filled('created_to')) {
+                $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+            }
+        }
+
+        return $query;
     }
 
     public function getById($id)
@@ -306,4 +339,3 @@ class PackageRepository extends BaseRepository
         $package->packageAttributes()->sync($validIds);
     }
 }
-

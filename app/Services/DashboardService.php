@@ -15,37 +15,14 @@ use Illuminate\Support\Str;
 
 class DashboardService
 {
-    protected ?int $filterUserId = null;
-
     public function __construct(
         private readonly ?User $user
     ) {
     }
 
-    public function setFilterUserId(?int $userId): self
-    {
-        $this->filterUserId = $userId;
-        return $this;
-    }
-
-    protected function allowedUserIds(): ?Collection
-    {
-        if ($this->filterUserId !== null) {
-            return collect([$this->filterUserId]);
-        }
-
-        return null;
-    }
-
     public function getRecentActivities(int $limit = 10): Collection
     {
-        $allowedUserIds = $this->allowedUserIds();
-
         $query = Activity::with('user')->latest();
-
-        if ($allowedUserIds) {
-            $query->whereIn('activities.user_id', $allowedUserIds);
-        }
 
         return $query->limit($limit)->get();
     }
@@ -300,13 +277,7 @@ class DashboardService
 
     protected function packagesQuery()
     {
-        $query = Package::query();
-
-        if ($this->filterUserId !== null && Schema::hasColumn('packages', 'created_by')) {
-            $query->where('created_by', $this->filterUserId);
-        }
-
-        return $query;
+        return Package::query();
     }
 
     protected function enquiriesQuery()
@@ -316,13 +287,7 @@ class DashboardService
 
     protected function bookingRequestsQuery()
     {
-        $query = TourBookingRequest::query()->with('package');
-
-        if ($this->filterUserId !== null && Schema::hasColumn('tour_booking_requests', 'user_id')) {
-            $query->where('user_id', $this->filterUserId);
-        }
-
-        return $query;
+        return TourBookingRequest::query()->with('package');
     }
 
     protected function newsletterSubscribersQuery()

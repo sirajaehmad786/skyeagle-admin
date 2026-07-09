@@ -24,7 +24,10 @@ class CustomerReviewController extends Controller
         if ($request->ajax()) {
             return $this->initDataTable($request);
         }
-        return view('crm.customerReview.index');
+
+        $packages = Package::where('status', 1)->orderBy('package_name')->get(['id', 'package_name']);
+
+        return view('crm.customerReview.index', compact('packages'));
     }
 
     /**

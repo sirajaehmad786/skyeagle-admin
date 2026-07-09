@@ -1,11 +1,8 @@
-
-import { initAjaxFormValidation, closeAndResetModal, confirmDelete } from '../common/form-handler.js';
+import { confirmDelete } from '../common/form-handler.js';
 import { initDataTable } from '../common/datatable-setup.js';
 import modal from '../common/modal.js';
 
 $(function () {
-    
-
     let columns = [
         { data: 'profile_image', name: 'profile_image', orderable: false, searchable: false },
         { data: 'name', name: 'name' },
@@ -17,32 +14,18 @@ $(function () {
         { data: 'action', name: 'action', orderable: false, searchable: false }
     ];
 
-    let table = initDataTable('#user-table', ajaxUrl, columns, 
+    $('.filter-select').select2({ width: '100%', dropdownParent: $('#filter_user_modal') });
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
+    let table = initDataTable('#user-table', ajaxUrl, columns,
         function() {
-            return {
-                name_search: $('#commonSearch').val()
-            };
+            return getFilters();
         },
         {
             order: [[6, 'desc']],
         }
-        );
-    
-    const searchBoxHtml = `
-        <div class="d-flex justify-content-end align-items-center mb-3">
-            <div style="max-width: 300px; width: 100%;">
-                <input type="text" id="commonSearch" class="form-control"
-                    placeholder="Search Name...">
-            </div>
-        </div>
-    `;
+    );
 
-    $('#user-table_wrapper .dataTables_length').parent()
-        .addClass('d-flex justify-content-between align-items-center');
-
-    $('#user-table_wrapper').prepend(searchBoxHtml);
-
-    // Debounce search
     let typingTimer;
     $(document).on('keyup', '#commonSearch', function () {
         clearTimeout(typingTimer);
@@ -50,13 +33,42 @@ $(function () {
             table.ajax.reload(null, false);
         }, 500);
     });
-    //delete record
+
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_user_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_user_modal').find('input').val('');
+        $('#filter_user_modal').find('select').val('').trigger('change');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
+
     $(document).on('click', '.delete-btn', function () {
         let id = $(this).data('id');
         let url = deleteRecord.replace(':id', id);
         confirmDelete(url, table);
     });
-    
 });
+
+function getFilters() {
+    return {
+        name_search: $('#commonSearch').val(),
+        status: $('#filter_status').val(),
+        parent_id: $('#filter_parent_id').val(),
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const filters = getFilters();
+    delete filters.name_search;
+    const hasFilter = Object.values(filters).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}
 
 modal.init();

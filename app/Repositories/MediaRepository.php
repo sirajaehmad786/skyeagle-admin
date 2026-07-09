@@ -98,11 +98,33 @@ class MediaRepository extends BaseRepository
         }
     }
 
-    public function initData()
+    public function initData($request = null)
     {
-        return Media::query()
-            ->where('is_active', 1)
-            ->latest();
+        $query = Media::query()->latest();
+
+        if ($request) {
+            if ($request->filled('module')) {
+                $query->where('module', $request->module);
+            }
+
+            if ($request->filled('section')) {
+                $query->where('section', $request->section);
+            }
+
+            if ($request->filled('is_active')) {
+                $query->where('is_active', (int) $request->is_active);
+            }
+
+            if ($request->filled('created_from')) {
+                $query->where('created_at', '>=', istDateRangeToUtc($request->created_from));
+            }
+
+            if ($request->filled('created_to')) {
+                $query->where('created_at', '<=', istDateRangeToUtc($request->created_to, true));
+            }
+        }
+
+        return $query;
     }
 
     public function deleteMediaRecord($id){

@@ -37,12 +37,36 @@ class CustomerReviewRepository extends BaseRepository
         return $this->model->create($data);
     }
 
-    public function initData()
+    public function initData($request = null)
     {
-        return $this->model
+        $query = $this->model
             ->select('customer_reviews.*')
             ->with('package')
             ->latest('customer_reviews.created_at');
+
+        if ($request) {
+            if ($request->filled('package_id')) {
+                $query->where('package_id', $request->package_id);
+            }
+
+            if ($request->filled('rating')) {
+                $query->where('rating', $request->rating);
+            }
+
+            if ($request->filled('is_active')) {
+                $query->where('is_active', (int) $request->is_active);
+            }
+
+            if ($request->filled('created_from')) {
+                $query->where('customer_reviews.created_at', '>=', istDateRangeToUtc($request->created_from));
+            }
+
+            if ($request->filled('created_to')) {
+                $query->where('customer_reviews.created_at', '<=', istDateRangeToUtc($request->created_to, true));
+            }
+        }
+
+        return $query;
     }
 
     public function findById($id)

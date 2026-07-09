@@ -13,8 +13,11 @@ $(function () {
         { data: 'action', orderable: false,  },
     ];
 
+    $('.filter-select').select2({ width: '100%', dropdownParent: $('#filter_package_modal') });
+    $('.filter-date').flatpickr({ dateFormat: 'd-m-Y', allowInput: true });
+
     let table = initDataTable('#package-table',ajaxUrl, columns, function () {
-        return {};
+        return getFilters();
     });
 
     let typingTimer;
@@ -42,4 +45,34 @@ $(function () {
         $('#messageModal .modal-body').text(fullMessage);
         $('#messageModal').modal('show');
     });
+
+    $('#applyFilter').on('click', function () {
+        table.ajax.reload();
+        updateFilterIndicator();
+        $('#filter_package_modal').modal('hide');
+    });
+
+    $('#resetFilter').on('click', function () {
+        $('#filter_package_modal').find('input').val('');
+        $('#filter_package_modal').find('select').val('').trigger('change');
+        table.ajax.reload();
+        updateFilterIndicator();
+    });
 });
+
+function getFilters() {
+    return {
+        booking_type: $('#filter_booking_type').val(),
+        source_city: $('#filter_source_city').val(),
+        destination_city: $('#filter_destination_city').val(),
+        price_min: $('#filter_price_min').val(),
+        price_max: $('#filter_price_max').val(),
+        created_from: $('#filter_created_from').val(),
+        created_to: $('#filter_created_to').val(),
+    };
+}
+
+function updateFilterIndicator() {
+    const hasFilter = Object.values(getFilters()).some(value => value !== '');
+    $('#filterIndicator').toggleClass('d-none', !hasFilter);
+}
