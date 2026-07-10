@@ -178,7 +178,7 @@ class UserController extends Controller
             })
             ->addColumn('profile_image', function ($data) {
                 $imageUrl = $data->profile_image
-                    ? asset('storage/profileImage/' . $data->profile_image)
+                    ? public_storage_url('profileImage/' . $data->profile_image)
                     : asset('images/users/istockphoto-1337144146-612x612.jpg');
 
                 return '<img 

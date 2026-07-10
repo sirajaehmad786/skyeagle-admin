@@ -162,7 +162,7 @@
                                             {{-- Existing Image URL For JS --}}
                                             <input type="hidden"
                                                 id="existingImage"
-                                                value="{{ !empty($review->reviewer_image) ? asset('storage/' . $review->reviewer_image) : '' }}">
+                                                value="{{ !empty($review->reviewer_image) ? public_storage_url($review->reviewer_image) : '' }}">
                                             <input type="hidden"
                                                 name="remove_reviewer_image"
                                                 id="remove_reviewer_image"

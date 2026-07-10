@@ -17,11 +17,44 @@ function initContentEditor(editorEl) {
         },
     });
 
-    if (editorEl.dataset.content) {
-        quill.root.innerHTML = editorEl.dataset.content;
+    const initialContent = getInitialEditorContent(editorEl);
+
+    if (initialContent) {
+        quill.clipboard.dangerouslyPasteHTML(decodeEditorContent(initialContent));
     }
 
     return quill;
+}
+
+function getInitialEditorContent(editorEl) {
+    const contentJson = document.getElementById(`${editorEl.id.replace("_editor", "")}_content_json`);
+    const value = contentJson?.textContent?.trim() || editorEl.dataset.content || "";
+
+    try {
+        const parsed = JSON.parse(value);
+
+        return typeof parsed === "string" ? parsed : value;
+    } catch (error) {
+        return value;
+    }
+}
+
+function decodeEditorContent(value) {
+    const textarea = document.createElement("textarea");
+    let decoded = value || "";
+
+    for (let i = 0; i < 3; i++) {
+        textarea.innerHTML = decoded;
+        const next = textarea.value;
+
+        if (next === decoded) {
+            break;
+        }
+
+        decoded = next;
+    }
+
+    return decoded;
 }
 
 function editorContent(quill) {
@@ -64,7 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (!savedPage) return;
 
                 editor.hidden.value = savedPage.content || "";
-                editor.hidden.previousElementSibling.dataset.content = savedPage.content || "";
+                const contentJson = document.getElementById(`${slug}_content_json`);
+
+                if (contentJson) {
+                    contentJson.textContent = JSON.stringify(savedPage.content || "");
+                }
             });
         },
         onError: function (res) {

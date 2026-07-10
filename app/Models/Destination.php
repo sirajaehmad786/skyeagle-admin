@@ -57,7 +57,7 @@ class Destination extends Model
             return null;
         }
 
-        return asset('storage/' . ltrim($this->banner_image, '/'));
+        return public_storage_url($this->banner_image);
     }
 
     public static function uniqueSlug(string $name, ?int $ignoreId = null): string

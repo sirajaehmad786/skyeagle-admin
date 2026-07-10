@@ -187,12 +187,12 @@
                             @foreach($package->images as $image)
                                 <div class="col-6 col-md-4 col-lg-3">
                                     <div class="image-card">
-                                        <img src="{{ asset('storage/' . $image->image) }}" 
+                                        <img src="{{ $image->image_url }}" 
                                             class="package-img"
                                             alt="package-image">
                                         
                                         <div class="overlay">
-                                            <a href="{{ asset('storage/' . $image->image) }}" 
+                                            <a href="{{ $image->image_url }}" 
                                             target="_blank" 
                                             class="view-btn">
                                                 <i class="ri-eye-line"></i>

@@ -59,7 +59,7 @@
                 <a class="nav-link dropdown-toggle arrow-none nav-user px-2" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
                     <span class="account-user-avatar">
                         <img  src="{{ auth()->user()->profile_image 
-                        ? asset('storage/profileImage/' . auth()->user()->profile_image) 
+                        ? public_storage_url('profileImage/' . auth()->user()->profile_image) 
                         : asset('images/users/istockphoto-1337144146-612x612.jpg') }}"  alt="user-image" width="32" height="32" class="rounded-circle" style="object-fit: cover; display: block;">
                     </span>
                     <span class="d-lg-flex flex-column gap-1 d-none">

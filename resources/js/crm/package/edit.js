@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (existingImages && existingImages.value) {
                     let images = JSON.parse(existingImages.value);
                     images.forEach(function (img) {
+                        const imageUrl = img.image_url || `/storage/${img.image}`;
                         let mockFile = {
                             name: img.image.split('/').pop(),
                             size: 12345,
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             status: Dropzone.SUCCESS
                         };
                         dz.emit("addedfile", mockFile);
-                        dz.emit("thumbnail", mockFile, `/storage/${img.image}`);
+                        dz.emit("thumbnail", mockFile, imageUrl);
                         dz.emit("complete", mockFile);
                         mockFile.previewElement.classList.add('dz-success', 'dz-complete');
                         dz.files.push(mockFile);

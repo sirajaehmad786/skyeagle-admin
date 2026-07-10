@@ -10,6 +10,7 @@ class MediaImage extends Model
     use HasFactory;
 
     protected $table = 'media_images';
+    protected $appends = ['image_url'];
 
     protected $fillable = [
         'media_id',
@@ -27,6 +28,6 @@ class MediaImage extends Model
 
     public function getImageUrlAttribute()
     {
-        return asset('storage/' . $this->file_path);
+        return public_storage_url($this->file_path);
     }
 }

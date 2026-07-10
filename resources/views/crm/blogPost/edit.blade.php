@@ -124,7 +124,7 @@
                                     <label class="author-image-box {{ $post->author_image ? 'has-image' : '' }}" for="author_image">
                                         <input type="file" name="author_image" id="author_image" class="d-none author-image-input" accept="image/jpeg,image/png,image/jpg,image/webp">
                                         <input type="hidden" name="remove_author_image" id="remove_author_image" value="0">
-                                        <img src="{{ $post->author_image ? asset('storage/' . $post->author_image) : '' }}" alt="Author preview" class="author-image-preview" id="authorImagePreview">
+                                        <img src="{{ $post->author_image ? public_storage_url($post->author_image) : '' }}" alt="Author preview" class="author-image-preview" id="authorImagePreview">
                                         <span class="author-upload-icon"><i class="ri-user-add-line"></i></span>
                                         <strong>{{ $post->author_image ? 'Change Author Image' : 'Upload Author Image' }}</strong>
                                         <small>JPG, PNG or WEBP up to 2 MB</small>

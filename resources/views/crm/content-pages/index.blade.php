@@ -59,9 +59,11 @@
 
                                     <div class="mb-3">
                                         <div id="{{ $slug }}_editor"
-                                            class="snow-editor-cls content-page-editor"
-                                            data-content="{{ e(old("pages.$slug.content", $page->content ?? '')) }}">
+                                            class="snow-editor-cls content-page-editor">
                                         </div>
+                                        <script type="application/json" id="{{ $slug }}_content_json">
+                                            @json(old("pages.$slug.content", $page->content ?? ''))
+                                        </script>
                                         <input type="hidden"
                                             name="pages[{{ $slug }}][content]"
                                             id="{{ $slug }}_content"
