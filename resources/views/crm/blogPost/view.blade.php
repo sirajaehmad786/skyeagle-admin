@@ -97,7 +97,7 @@
                         <div class="d-flex flex-column flex-md-row gap-3 align-items-start">
                             <div class="author-view-avatar">
                                 @if($post->author_image)
-                                    <img src="{{ asset('storage/' . $post->author_image) }}" alt="{{ $post->author_name ?? 'Author' }}">
+                                    <img src="{{ public_storage_url($post->author_image) }}" alt="{{ $post->author_name ?? 'Author' }}">
                                 @else
                                     <span>{{ strtoupper(substr($post->author_name ?? 'A', 0, 1)) }}</span>
                                 @endif
@@ -117,9 +117,9 @@
                         @foreach($post->images as $image)
                             <div class="col-6 col-md-4 col-lg-3">
                                 <div class="image-card">
-                                    <img src="{{ asset('storage/' . $image->image) }}" class="package-img" alt="blog-image">
+                                    <img src="{{ $image->image_url }}" class="package-img" alt="blog-image">
                                     <div class="overlay">
-                                        <a href="{{ asset('storage/' . $image->image) }}" target="_blank" class="view-btn">
+                                        <a href="{{ $image->image_url }}" target="_blank" class="view-btn">
                                             <i class="ri-eye-line"></i>
                                         </a>
                                     </div>

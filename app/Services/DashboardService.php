@@ -215,7 +215,7 @@ class DashboardService
                     'reviews_count' => $reviewsCount,
                     'score' => $score,
                     'image_url' => $package->images->first()
-                        ? asset('storage/' . ltrim($package->images->first()->image, '/'))
+                        ? public_storage_url($package->images->first()->image)
                         : asset('images/users/No_Image_Available.jpg'),
                     'url' => route('package.show', $package->id),
                 ];

@@ -78,7 +78,7 @@
                                     <div id="image_preview_container" style="margin-top: 10px; display: {{ $user->profile_image ? 'block' : 'none' }};">
                                         <img 
                                             id="image_preview"
-                                            src="{{ $user->profile_image ? asset('storage/profileImage/'.$user->profile_image) : '' }}"
+                                            src="{{ $user->profile_image ? public_storage_url('profileImage/'.$user->profile_image) : '' }}"
                                             class="img-thumbnail"
                                             style="width:200px; height:150px; object-fit:cover;"
                                         >
@@ -422,5 +422,4 @@
         })
     </script>
 @endsection
-
 

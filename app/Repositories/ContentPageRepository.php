@@ -62,10 +62,25 @@ class ContentPageRepository
 
     private function sanitizeContent(?string $value): ?string
     {
-        $value = trim((string) $value);
+        $value = trim($this->normalizeStoredHtml((string) $value));
 
         if ($value === '' || $value === '<p><br></p>') {
             return null;
+        }
+
+        return $value;
+    }
+
+    private function normalizeStoredHtml(string $value): string
+    {
+        for ($i = 0; $i < 3; $i++) {
+            $decoded = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+
+            if ($decoded === $value) {
+                break;
+            }
+
+            $value = $decoded;
         }
 
         return $value;

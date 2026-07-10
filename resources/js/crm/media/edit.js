@@ -70,6 +70,7 @@ if (dropzoneElement) {
             if (existingImages && existingImages.value) {
                 let images = JSON.parse(existingImages.value);
                 images.forEach(function (img) {
+                    const imageUrl = img.image_url || `/storage/${img.file_path}`;
                     let mockFile = {
                         name: img.file_name ?? 'image',
                         size: 12345,
@@ -77,7 +78,7 @@ if (dropzoneElement) {
                         status: Dropzone.SUCCESS
                     };
                     dz.emit("addedfile", mockFile);
-                    dz.emit("thumbnail", mockFile, `/storage/${img.file_path}`);
+                    dz.emit("thumbnail", mockFile, imageUrl);
                     dz.emit("complete", mockFile);
                     mockFile.previewElement.classList.add('dz-success', 'dz-complete');
                     dz.files.push(mockFile);
